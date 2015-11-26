@@ -6,6 +6,7 @@ import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -16,11 +17,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.TextView;
+
+import com.fornax.bought.activity.ScanActivity;
+
+import butterknife.InjectView;
 
 public class InitialActivity extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
+    static final String ACTION_SCAN = "com.google.zxing.client.android.SCAN";
+
+    private Button _btn_iniciar;
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -35,6 +44,15 @@ public class InitialActivity extends Activity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initial);
+
+        _btn_iniciar = (Button) findViewById(R.id.btn_iniciar);
+        _btn_iniciar.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                iniciarScan();
+            }
+        });
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -76,6 +94,11 @@ public class InitialActivity extends Activity
         actionBar.setTitle(mTitle);
     }
 
+    public void iniciarScan(){
+        Intent intent = new Intent(getApplicationContext(), ScanActivity.class);
+        startActivity(intent);
+    }
+
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -115,5 +138,6 @@ public class InitialActivity extends Activity
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }
+
 
 }

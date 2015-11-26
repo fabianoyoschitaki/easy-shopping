@@ -7,7 +7,62 @@
     <!-- As the main content view, the view below consumes the entire
          space available using match_parent in both dimensions. -->
     <FrameLayout android:id="@+id/container" android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent" >
+
+        <Button
+            android:layout_width="259dp"
+            android:layout_height="70dp"
+            android:text="Vamos Lá!"
+            android:id="@+id/btn_iniciar"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="15dp" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="264dp"
+            android:layout_gravity="center"
+            android:weightSum="1"
+            android:gravity="center_vertical|center_horizontal|bottom"
+            android:textAlignment="center">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="37dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Bem Vindo ao"
+                android:id="@+id/txtBemVindo"
+                android:textColor="#fffdfd"
+                android:layout_weight="0.32"
+                android:textAlignment="center"
+                android:gravity="center_vertical"
+                android:textIsSelectable="false"
+                android:paddingLeft="20dp"
+                android:textStyle="bold"
+                android:textSize="20dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="PÃO DE AÇUCAR"
+                android:id="@+id/txtNomeMercado"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="0.90"
+                android:gravity="center_vertical|center_horizontal"
+                android:textSize="30dp"
+                android:textIsSelectable="true"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <ImageView android:src="@drawable/logo"
+            android:layout_width="517dp"
+            android:layout_height="97dp"
+            android:layout_marginBottom="24dp"
+            android:layout_gravity="center_horizontal" />
+
+    </FrameLayout>
 
     <!-- The drawer is given a fixed width in dp and extends the full height of
          the container. -->

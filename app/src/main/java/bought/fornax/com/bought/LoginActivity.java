@@ -34,10 +34,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-               // login();
-
-                Intent intent = new Intent(getApplicationContext(), InitialActivity.class);
-                startActivityForResult(intent, REQUEST_SIGNUP);
+               login();
             }
         });
 
@@ -78,6 +75,9 @@ public class LoginActivity extends AppCompatActivity {
                         onLoginSuccess();
                         // onLoginFailed();
                         progressDialog.dismiss();
+
+                        Intent intent = new Intent(getApplicationContext(), InitialActivity.class);
+                        startActivity(intent);
                     }
                 }, 3000);
     }
