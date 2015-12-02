@@ -1,4 +1,4 @@
-package bought.fornax.com.bought;
+package com.fornax.bought.activity;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import bought.fornax.com.bought.R;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 

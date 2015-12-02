@@ -1,4 +1,4 @@
-package bought.fornax.com.bought;
+package com.fornax.bought.activity;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -12,12 +12,27 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fornax.bought.common.ProdutoVO;
+
+import java.util.List;
+
+import bought.fornax.com.bought.R;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
+
+    public static List<ProdutoVO> getCodigosEscaneados() {
+        return codigosEscaneados;
+    }
+
+    public static void setCodigosEscaneados(List<ProdutoVO> codigosEscaneados) {
+        LoginActivity.codigosEscaneados = codigosEscaneados;
+    }
+
+    public static List<ProdutoVO> codigosEscaneados;
 
     @InjectView(R.id.input_email) EditText _emailText;
     @InjectView(R.id.input_password) EditText _passwordText;

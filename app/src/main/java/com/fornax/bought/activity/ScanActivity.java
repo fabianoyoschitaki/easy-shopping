@@ -9,23 +9,29 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.fornax.bought.adapter.ProdutoAdapter;
+import com.fornax.bought.common.ProdutoVO;
+import com.fornax.bought.utils.Utils;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import bought.fornax.com.bought.R;
 
 public class ScanActivity extends AppCompatActivity {
     static final String ACTION_SCAN = "com.google.zxing.client.android.SCAN";
 
-    private List<String> codigosEscaneados;
+    ListView list;
+    ProdutoAdapter adapter;
+
     private Button _btn_scan;
     private Button _btn_finalizar;
+
+    private Double valorTotal;
 
     public void abrirTelaScan(){
         try {
@@ -40,7 +46,9 @@ public class ScanActivity extends AppCompatActivity {
     }
 
     public void abrirTelaConfirmarFinalizar(){
-
+        Intent intent = new Intent(getApplicationContext(), ConfirmacaoActivity.class);
+        intent.putExtra("valorTotal", valorTotal);
+        startActivity(intent);
     }
 
     @Override
@@ -103,17 +111,35 @@ public class ScanActivity extends AppCompatActivity {
                 String contents = intent.getStringExtra("SCAN_RESULT");
                 String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
 
-                if(codigosEscaneados == null){
-                    codigosEscaneados = new ArrayList<String>();
-                }
-                codigosEscaneados.add(contents);
+                ProdutoVO produto = new ProdutoVO(contents, 15.05);
 
-                int i = 0;
-                while(i < codigosEscaneados.size()){
-                    Toast toast = Toast.makeText(this, "Content:" + codigosEscaneados.get(i) + " Format:" + format, Toast.LENGTH_LONG);
-                    toast.show();
-                    i++;
+                if(LoginActivity.codigosEscaneados == null){
+                    LoginActivity.codigosEscaneados = new ArrayList<ProdutoVO>();
                 }
+                LoginActivity.codigosEscaneados.add(produto);
+
+                valorTotal = 0.0;
+                for (ProdutoVO prod: LoginActivity.codigosEscaneados) {
+                    valorTotal += prod.getPreco();
+                }
+
+                TextView txtValorTotal = (TextView) findViewById(R.id.txtValorTotal);
+                txtValorTotal.setText("R$ " + Utils.getValorFormatado(valorTotal));
+                list = (ListView) findViewById(R.id.listCodigos);
+
+                // Getting adapter by passing xml data ArrayList
+                adapter = new ProdutoAdapter(this, LoginActivity.codigosEscaneados);
+                list.setAdapter(adapter);
+
+                // Click event for single list row
+                list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view,
+                                            int position, long id) {
+
+                    }
+                });
             }
         }
     }

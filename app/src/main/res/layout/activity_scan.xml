@@ -9,12 +9,48 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="471dp">
+        android:layout_height="404dp">
 
         <ListView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/listCodigos" />
+            android:id="@+id/listCodigos"
+            android:layout_width="fill_parent"
+            android:layout_height="404dp"
+            android:divider="#b5b5b5"
+            android:dividerHeight="1dp"
+            android:listSelector="@drawable/list_selector" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:weightSum="1"
+        android:gravity="right">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="52dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.82"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Total: "
+                android:id="@+id/txtDescricaoTotal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/txtValorTotal"
+                android:padding="5dip"
+                android:gravity="right" />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
