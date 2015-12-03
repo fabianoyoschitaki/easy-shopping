@@ -1,6 +1,7 @@
 package com.fornax.bought.activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,25 +14,34 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fornax.bought.adapter.ProdutoAdapter;
 import com.fornax.bought.common.ProdutoVO;
+import com.fornax.bought.rest.RestClient;
 import com.fornax.bought.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import bought.fornax.com.bought.R;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class ScanActivity extends AppCompatActivity {
     static final String ACTION_SCAN = "com.google.zxing.client.android.SCAN";
 
-    ListView list;
-    ProdutoAdapter adapter;
+    private List<ProdutoVO> produtos = new ArrayList<ProdutoVO>();
 
-    private Button _btn_scan;
-    private Button _btn_finalizar;
+    private ListView produtoListView;
+    private ProdutoAdapter produtoAdapter;
+    private Button btnScan;
+    private Button btnFinalizar;
+    private TextView txtValorTotal;
 
-    private Double valorTotal;
+    private Double valorTotal = 0.0;
+    private ProgressDialog dialog;
 
     public void abrirTelaScan(){
         try {
@@ -57,8 +67,10 @@ public class ScanActivity extends AppCompatActivity {
         //set the main content layout of the Activity
         setContentView(R.layout.activity_scan);
 
-        _btn_scan = (Button) findViewById(R.id.btn_scan);
-        _btn_scan.setOnClickListener(new View.OnClickListener() {
+        produtoListView = (ListView) findViewById(R.id.listCodigos);
+
+        btnScan = (Button) findViewById(R.id.btn_scan);
+        btnScan.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -66,9 +78,8 @@ public class ScanActivity extends AppCompatActivity {
             }
         });
 
-
-        _btn_finalizar = (Button) findViewById(R.id.btn_finalizar);
-        _btn_finalizar.setOnClickListener(new View.OnClickListener() {
+        btnFinalizar = (Button) findViewById(R.id.btn_finalizar);
+        btnFinalizar.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -76,6 +87,7 @@ public class ScanActivity extends AppCompatActivity {
             }
         });
 
+        txtValorTotal = (TextView) findViewById(R.id.txtValorTotal);
 
         abrirTelaScan();
     }
@@ -108,39 +120,57 @@ public class ScanActivity extends AppCompatActivity {
         if (requestCode == 0) {
             if (resultCode == RESULT_OK) {
                 //get the extras that are returned from the intent
-                String contents = intent.getStringExtra("SCAN_RESULT");
-                String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
+                final String codigoBarras = intent.getStringExtra("SCAN_RESULT");
+                //String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
 
-                ProdutoVO produto = new ProdutoVO(contents, 15.05);
+                if (codigoBarras != null){
+                    dialog = new ProgressDialog(this);
+                    dialog.setMessage("Buscando produto");
+                    dialog.show();
 
-                if(LoginActivity.codigosEscaneados == null){
-                    LoginActivity.codigosEscaneados = new ArrayList<ProdutoVO>();
+                    RestClient restClient = new RestClient();
+                    restClient.getRestAPI().obterProduto(codigoBarras, new Callback<ProdutoVO>() {
+                        @Override
+                        public void success(ProdutoVO produtoResponse, Response response) {
+                            dialog.dismiss();
+                            if (produtoResponse != null) {
+                                atualizaListaProdutos(produtoResponse);
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Produto " + codigoBarras + " nao encontrado!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void failure(RetrofitError error) {
+                            dialog.dismiss();
+                            Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+
+                    });
                 }
-                LoginActivity.codigosEscaneados.add(produto);
-
-                valorTotal = 0.0;
-                for (ProdutoVO prod: LoginActivity.codigosEscaneados) {
-                    valorTotal += prod.getPreco();
-                }
-
-                TextView txtValorTotal = (TextView) findViewById(R.id.txtValorTotal);
-                txtValorTotal.setText("R$ " + Utils.getValorFormatado(valorTotal));
-                list = (ListView) findViewById(R.id.listCodigos);
-
-                // Getting adapter by passing xml data ArrayList
-                adapter = new ProdutoAdapter(this, LoginActivity.codigosEscaneados);
-                list.setAdapter(adapter);
-
-                // Click event for single list row
-                list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view,
-                                            int position, long id) {
-
-                    }
-                });
             }
         }
+    }
+
+    /**
+     * Método que atualiza lista com novo produto escaneado
+     * @param novoProduto
+     */
+    private void atualizaListaProdutos(ProdutoVO novoProduto) {
+        produtos.add(novoProduto);
+        valorTotal += novoProduto.getPreco();
+        txtValorTotal.setText(Utils.getValorFormatado(valorTotal));
+
+        // Getting adapter by passing xml data ArrayList
+        produtoAdapter = new ProdutoAdapter(this, produtos);
+        produtoListView.setAdapter(produtoAdapter);
+
+        // Click event for single list row
+        produtoListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //TODO remover? editar quantidade?
+            }
+        });
     }
 }

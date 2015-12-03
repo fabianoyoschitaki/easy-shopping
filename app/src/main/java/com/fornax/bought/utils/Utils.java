@@ -24,7 +24,7 @@ public class Utils {
 
 
     public static String getValorFormatado(Double valor){
-        DecimalFormat format = new DecimalFormat("########.##");
+        DecimalFormat format = new DecimalFormat("R$ ########.##");
         format.setGroupingUsed(true);
         format.setMaximumIntegerDigits(8);
         format.setMaximumFractionDigits(2);
