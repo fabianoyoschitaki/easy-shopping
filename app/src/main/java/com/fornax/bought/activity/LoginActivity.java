@@ -91,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
                         // onLoginFailed();
                         progressDialog.dismiss();
 
-                        Intent intent = new Intent(getApplicationContext(), InitialActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), TelaPrincipalActivity.class);
                         startActivity(intent);
                     }
                 }, 3000);

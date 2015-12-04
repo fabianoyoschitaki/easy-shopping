@@ -31,8 +31,7 @@ public class SucessoActivity extends AppCompatActivity {
         Button btn = (Button) findViewById(R.id.btn_voltar);
         btn.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), InitialActivity.class);
-                startActivity(intent);
+
             }
         });
     }

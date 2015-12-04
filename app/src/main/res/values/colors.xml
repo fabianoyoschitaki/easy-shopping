@@ -14,4 +14,17 @@
   <color name="base">#AAAAAA</color>
   <color name="iron">#CCCCCC</color>
   <color name="white">#FFFFFF</color>
+  <color name="list_divider">#272727</color>
+
+  <color name="list_item_title">#fff</color>
+  <color name="list_background">#303030</color>
+  <color name="list_fundo">#005b96</color>
+  <color name="list_background_pressed">#5694d2</color>
+  <color name="counter_text_bg">#626262</color>
+  <color name="counter_text_color">#c5c4c4</color>
+
+  <color name="button_orange">#cff2742b</color>
+  <color name="button_orange_pressed">#c14701</color>
+
+  <color name="event_item_background">#ededed</color>
 </resources>
