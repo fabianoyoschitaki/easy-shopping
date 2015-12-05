@@ -50,17 +50,17 @@ public class MinhasComprasAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 0;
+        return compras.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return compras.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return compras.indexOf(getItem(position));
     }
 
     @Override

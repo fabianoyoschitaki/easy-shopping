@@ -54,7 +54,8 @@ public class MeusCartoesFragment extends android.app.Fragment implements Adapter
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        View rView = inflater.inflate(R.layout.fragment_minhas_compras, container, false);
+        /**
         listCompras = ComprasMock.getCompras();
         minhasComprasAdapter = new MinhasComprasAdapter(container.getContext(), listCompras);
 
@@ -63,7 +64,7 @@ public class MeusCartoesFragment extends android.app.Fragment implements Adapter
         listMinhasCompras = (ListView) rView.findViewById(R.id.listMinhasCompras);
         listMinhasCompras.setAdapter(minhasComprasAdapter);
 
-        // Inflate the layout for this fragment
+        // Inflate the layout for this fragment**/
         return rView;
     }
 

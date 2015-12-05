@@ -1,5 +1,6 @@
 package com.fornax.bought.fragment;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,53 +22,30 @@ import bought.fornax.com.bought.R;
 public class MinhasComprasFragment extends android.app.Fragment implements AdapterView.OnItemClickListener {
 
     private ListView listMinhasCompras;
-    private MinhasComprasAdapter minhasComprasAdapter;
-
-    public ListView getListMinhasCompras() {
-        return listMinhasCompras;
-    }
-
-    public void setListMinhasCompras(ListView listMinhasCompras) {
-        this.listMinhasCompras = listMinhasCompras;
-    }
-
-    public List<CompraVO> getListCompras() {
-        return listCompras;
-    }
-
-    public void setListCompras(List<CompraVO> listCompras) {
-        this.listCompras = listCompras;
-    }
-
-    public MinhasComprasAdapter getMinhasComprasAdapter() {
-        return minhasComprasAdapter;
-    }
-
-    public void setMinhasComprasAdapter(MinhasComprasAdapter minhasComprasAdapter) {
-        this.minhasComprasAdapter = minhasComprasAdapter;
-    }
-
     private List<CompraVO> listCompras;
-
-    public MinhasComprasFragment() {
-        // Required empty public constructor
-    }
-
+    private ProgressDialog dialog;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_minhas_compras, container, false);
+        listMinhasCompras = (ListView) rootView.findViewById(R.id.compras_list_view);
+        if (listCompras == null) {
+            dialog = new ProgressDialog(getActivity());
+            dialog.setMessage("Carregando compras");
+            dialog.show();
+            listCompras = ComprasMock.getCompras();
+            dialog.dismiss();
+        }
 
-        listCompras = ComprasMock.getCompras();
-        minhasComprasAdapter = new MinhasComprasAdapter(container.getContext(), listCompras);
-
-        View rView = inflater.inflate(R.layout.fragment_minhas_compras, container, false);
-
-        listMinhasCompras = (ListView) rView.findViewById(R.id.listMinhasCompras);
-        listMinhasCompras.setAdapter(minhasComprasAdapter);
+        populateComprasListView();
 
         // Inflate the layout for this fragment
-        return rView;
+        return rootView;
+    }
+
+    private void populateComprasListView() {
+        MinhasComprasAdapter minhasComprasAdapter = new MinhasComprasAdapter(getActivity(), listCompras);
+        listMinhasCompras.setAdapter(minhasComprasAdapter);
     }
 
 

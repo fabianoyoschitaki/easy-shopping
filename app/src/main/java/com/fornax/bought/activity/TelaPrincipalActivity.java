@@ -20,7 +20,10 @@ import android.widget.ListView;
 
 import com.fornax.bought.adapter.DrawerItemListAdapter;
 import com.fornax.bought.common.DrawerItem;
+import com.fornax.bought.fragment.ConfiguracoesFragment;
 import com.fornax.bought.fragment.InicioFragment;
+import com.fornax.bought.fragment.MercadosFragment;
+import com.fornax.bought.fragment.MeusCartoesFragment;
 import com.fornax.bought.fragment.MinhasComprasFragment;
 import com.fornax.bought.utils.SharedPreferencesUtil;
 
@@ -31,7 +34,6 @@ import bought.fornax.com.bought.R;
 
 public class TelaPrincipalActivity extends AppCompatActivity {
     private static final String TAG = TelaPrincipalActivity.class.getName();
-
 
     /** lista que contem os itens da gaveta **/
     private ListView drawerListView;
@@ -60,12 +62,12 @@ public class TelaPrincipalActivity extends AppCompatActivity {
     private SharedPreferencesUtil sharedPreferencesUtil;
 
     /** posicao dos itens de fragmento da Tela Principal **/
-    private static int INICIO_FRAGMENT_POSITION = 0;
-    private static int ONDE_COMPRAR_FRAGMENT_POSITION = 1;
-    private static int MINHAS_COMPRAS_FRAGMENT_POSITION = 2;
-    private static int MEUS_CARTOES_FRAGMENT_POSITION = 3;
-    private static int CONFIGURACOES_FRAGMENT_POSITION = 4;
-    private static int LOGOUT_FRAGMENT_POSITION = 5;
+    private static final int INICIO_FRAGMENT_POSITION = 0;
+    private static final int ONDE_COMPRAR_FRAGMENT_POSITION = 1;
+    private static final int MINHAS_COMPRAS_FRAGMENT_POSITION = 2;
+    private static final int MEUS_CARTOES_FRAGMENT_POSITION = 3;
+    private static final int CONFIGURACOES_FRAGMENT_POSITION = 4;
+    private static final int LOGOUT_FRAGMENT_POSITION = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,11 +140,9 @@ public class TelaPrincipalActivity extends AppCompatActivity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position,
                                 long id) {
-            if(position == 2)
-            {
+            if (position == LOGOUT_FRAGMENT_POSITION) {
                 logout();
-            }
-            else {
+            } else {
                 atualizaFragmento(position);
             }
         }
@@ -187,13 +187,22 @@ public class TelaPrincipalActivity extends AppCompatActivity {
     private void atualizaFragmento(int position) {
         // update the main content by replacing fragments
         Fragment fragmento = new InicioFragment();
-        switch (position){
-            case 0: fragmento = new InicioFragment();
-            break;
-
-            case 1: fragmento = new MinhasComprasFragment();
+        switch (position) {
+            case INICIO_FRAGMENT_POSITION:
+                fragmento = new InicioFragment();
                 break;
-
+            case ONDE_COMPRAR_FRAGMENT_POSITION:
+                fragmento = new MercadosFragment();
+                break;
+            case MINHAS_COMPRAS_FRAGMENT_POSITION:
+                fragmento = new MinhasComprasFragment();
+                break;
+            case MEUS_CARTOES_FRAGMENT_POSITION:
+                fragmento = new MeusCartoesFragment();
+                break;
+            case CONFIGURACOES_FRAGMENT_POSITION:
+                fragmento = new ConfiguracoesFragment();
+                break;
             default:
                 break;
         }

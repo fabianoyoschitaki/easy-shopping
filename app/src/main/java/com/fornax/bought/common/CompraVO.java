@@ -11,7 +11,8 @@ public class CompraVO {
     private BigDecimal valorTotal;
     private Boolean finalizada;
 
-    public CompraVO(BigDecimal valorTotal, Boolean finalizada){
+    public CompraVO(String codigo, BigDecimal valorTotal, Boolean finalizada){
+        this.codigo = codigo;
         this.valorTotal = valorTotal;
         this.finalizada = finalizada;
     }
