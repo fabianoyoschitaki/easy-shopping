@@ -22,7 +22,7 @@ import com.fornax.bought.adapter.DrawerItemListAdapter;
 import com.fornax.bought.common.DrawerItem;
 import com.fornax.bought.fragment.ConfiguracoesFragment;
 import com.fornax.bought.fragment.InicioFragment;
-import com.fornax.bought.fragment.MercadosFragment;
+import com.fornax.bought.fragment.OndeComprarFragment;
 import com.fornax.bought.fragment.MeusCartoesFragment;
 import com.fornax.bought.fragment.MinhasComprasFragment;
 import com.fornax.bought.fragment.PayPalFragment;
@@ -196,7 +196,7 @@ public class TelaPrincipalActivity extends AppCompatActivity {
                 fragmento = new InicioFragment();
                 break;
             case ONDE_COMPRAR_FRAGMENT_POSITION:
-                fragmento = new MercadosFragment();
+                fragmento = new OndeComprarFragment();
                 break;
             case MINHAS_COMPRAS_FRAGMENT_POSITION:
                 fragmento = new MinhasComprasFragment();

@@ -67,7 +67,7 @@ public class MercadoListAdapter extends BaseAdapter {
         LayoutInflater mInflater = (LayoutInflater) context
                 .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.mercado_list_item, null);
+            convertView = mInflater.inflate(R.layout.row_mercado, null);
             holder = new ViewHolder();
             holder.imgViewMercado = (ImageView) convertView.findViewById(R.id.imgViewMercado);
             holder.tvNome = (TextView) convertView.findViewById(R.id.tvNome);

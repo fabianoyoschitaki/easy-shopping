@@ -1,11 +1,12 @@
 package com.fornax.bought.common;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
  * Created by Hallan on 04/12/2015.
  */
-public class MercadoVO {
+public class MercadoVO implements Serializable {
 
     private Integer id;
     private String nome;
