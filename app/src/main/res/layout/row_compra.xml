@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/list_selector_minhas_compras"
+    android:padding="2dp" >
+
+    <ImageView
+        android:id="@+id/imgViewFoto_compra"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:contentDescription="desc"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" />
+
+    <TextView
+        android:id="@+id/txtNome_compra"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/imgViewFoto_compra"
+        android:paddingBottom="10dp"
+        android:textColor="#514141"
+        android:text="txt"
+        android:textSize="20dip" />
+
+    <TextView
+        android:id="@+id/txtPreco_compra"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/txtNome_compra"
+        android:layout_toRightOf="@+id/imgViewFoto_compra"
+        android:layout_alignBottom="@+id/imgViewFoto_compra"
+        android:textSize="25dip" />
+
+
+</RelativeLayout>

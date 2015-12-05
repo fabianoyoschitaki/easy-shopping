@@ -30,74 +30,17 @@
     <!-- Títulos dos itens do menu -->
     <string-array name="drawer_item_titles">
         <item>Início</item>
+        <item>Minhas Compras</item>
         <item>Sair</item>
     </string-array>
 
     <!-- Ícones dos itens do menu (mesma ordem dos títulos) -->
     <array name="drawer_item_icons">
-        <item>@mipmap/ic_interests</item>
+        <item>@mipmap/ic_inicio</item>
+        <item>@mipmap/ic_minhas_compras</item>
         <item>@mipmap/ic_logout</item>
     </array>
 
     <!-- Content Description -->
     <string name="desc_list_item_icon">Item Icon</string>
-
-
-    <!-- Contatos MOCK -->
-    <string-array name="contatos_nome">
-        <item>Pegador</item>
-        <item>Peido na Boca</item>
-        <item>Como mesmo</item>
-        <item>Cleidson</item>
-        <item>Sentadson</item>
-        <item>Irmão do Sentadson</item>
-        <item>Pegador</item>
-        <item>Peido na Boca</item>
-        <item>Como mesmo</item>
-        <item>Cleidson</item>
-        <item>Sentadson</item>
-        <item>Irmão do Sentadson</item>
-    </string-array>
-    <array name="contatos_imagem">
-        <item>@drawable/pavand_pic</item>
-        <item>@drawable/daya_pic</item>
-        <item>@drawable/pavanb_pic</item>
-        <item>@drawable/maddy_pic</item>
-        <item>@drawable/pavanh_pic</item>
-        <item>@drawable/nikhil_pic</item>
-        <item>@drawable/pavand_pic</item>
-        <item>@drawable/daya_pic</item>
-        <item>@drawable/pavanb_pic</item>
-        <item>@drawable/maddy_pic</item>
-        <item>@drawable/pavanh_pic</item>
-        <item>@drawable/nikhil_pic</item>
-    </array>
-    <string-array name="contatos_status">
-        <item>Disponivel</item>
-        <item>Ocupado</item>
-        <item>Disponivel</item>
-        <item>Reuniao</item>
-        <item>Trabalho</item>
-        <item>Morreu</item>
-        <item>Disponivel</item>
-        <item>Ocupado</item>
-        <item>Disponivel</item>
-        <item>Reuniao</item>
-        <item>Trabalho</item>
-        <item>Morreu</item>
-    </string-array>
-    <string-array name="contatos_tipo">
-        <item>#startup</item>
-        <item>#android</item>
-        <item>#violao</item>
-        <item>#peidonaboca</item>
-        <item>#cagueinaolimpei</item>
-        <item>#unhagrande</item>
-        <item>#startup</item>
-        <item>#android</item>
-        <item>#violao</item>
-        <item>#peidonaboca</item>
-        <item>#cagueinaolimpei</item>
-        <item>#unhagrande</item>
-    </string-array>
 </resources>

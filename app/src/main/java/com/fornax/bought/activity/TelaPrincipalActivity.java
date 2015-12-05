@@ -21,6 +21,7 @@ import android.widget.ListView;
 import com.fornax.bought.adapter.DrawerItemListAdapter;
 import com.fornax.bought.common.DrawerItem;
 import com.fornax.bought.fragment.InicioFragment;
+import com.fornax.bought.fragment.MinhasComprasFragment;
 import com.fornax.bought.utils.SharedPreferencesUtil;
 
 import java.util.ArrayList;
@@ -60,7 +61,10 @@ public class TelaPrincipalActivity extends AppCompatActivity {
 
     /** posicao dos itens de fragmento da Tela Principal **/
     private static int INICIO_FRAGMENT_POSITION = 0;
-    private static int LOGOUT_FRAGMENT_POSITION = 1;
+    private static int MINHAS_COMPRAS_FRAGMENT_POSITION = 1;
+    private static int LOGOUT_FRAGMENT_POSITION = 2;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +73,7 @@ public class TelaPrincipalActivity extends AppCompatActivity {
         sharedPreferencesUtil = new SharedPreferencesUtil(this);
 
         //getActionBar().setTitle("Ola Teste"); // dá nullpointer a não ser que coloca minSDKVersion = 11
-        getSupportActionBar().setTitle("Ola, ");
+        getSupportActionBar().setTitle("Ibought");
         setContentView(R.layout.activity_tela_principal);
 
         drawerLayout = (DrawerLayout) findViewById(R.id.layout_drawer);
@@ -81,6 +85,7 @@ public class TelaPrincipalActivity extends AppCompatActivity {
         /** inicializando os itens da gaveta com os títulos e ícones **/
         drawerItens = new ArrayList<DrawerItem>();
         drawerItens.add(new DrawerItem(drawerItemTitles[INICIO_FRAGMENT_POSITION], drawerItemIcons.getResourceId(INICIO_FRAGMENT_POSITION, -1)));
+        drawerItens.add(new DrawerItem(drawerItemTitles[MINHAS_COMPRAS_FRAGMENT_POSITION], drawerItemIcons.getResourceId(MINHAS_COMPRAS_FRAGMENT_POSITION, -1)));
         drawerItens.add(new DrawerItem(drawerItemTitles[LOGOUT_FRAGMENT_POSITION], drawerItemIcons.getResourceId(LOGOUT_FRAGMENT_POSITION, -1)));
         // Recycle the typed arrayg
         drawerItemIcons.recycle();
@@ -128,7 +133,7 @@ public class TelaPrincipalActivity extends AppCompatActivity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position,
                                 long id) {
-            if(position == 1)
+            if(position == 2)
             {
                 logout();
             }
@@ -180,6 +185,9 @@ public class TelaPrincipalActivity extends AppCompatActivity {
         switch (position){
             case 0: fragmento = new InicioFragment();
             break;
+
+            case 1: fragmento = new MinhasComprasFragment();
+                break;
 
             default:
                 break;
