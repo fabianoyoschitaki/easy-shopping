@@ -2,11 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/list_selector_minhas_compras"
+    android:background="@color/white"
     android:padding="2dp" >
 
     <ImageView
-        android:id="@+id/imgViewFoto_compra"
+        android:id="@+id/imgViewFoto"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:contentDescription="desc"
@@ -14,24 +14,22 @@
         android:paddingRight="10dp" />
 
     <TextView
-        android:id="@+id/txtNome_compra"
+        android:id="@+id/txtCodigo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_toRightOf="@+id/imgViewFoto_compra"
+        android:layout_toRightOf="@+id/imgViewFoto"
         android:paddingBottom="10dp"
-        android:textColor="#514141"
-        android:text="txt"
+        android:textColor="#110404"
         android:textSize="20dip" />
 
     <TextView
-        android:id="@+id/txtPreco_compra"
+        android:id="@+id/txtValorCompra"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/txtNome_compra"
-        android:layout_toRightOf="@+id/imgViewFoto_compra"
-        android:layout_alignBottom="@+id/imgViewFoto_compra"
-        android:textSize="25dip" />
+        android:layout_toEndOf="@+id/txtCodigo"
+        android:layout_toRightOf="@+id/imgViewFoto"
+        android:layout_alignBottom="@+id/imgViewFoto" />
 
 
 </RelativeLayout>

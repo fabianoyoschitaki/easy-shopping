@@ -31,10 +31,9 @@ public class MinhasComprasAdapter extends BaseAdapter {
 
     /* private view holder class */
     private class ViewHolder {
-        ImageView imgViewFoto_compra;
-        //TextView txtCodigoBarra;
-        TextView txtNome_compra;
-        TextView txtPreco_compra;
+        ImageView imgViewFoto;
+        TextView txtCodigo;
+        TextView txtValorCompra;
     }
     public MinhasComprasAdapter(Context context, List<CompraVO> compras) {
         this.context = context;
@@ -76,10 +75,9 @@ public class MinhasComprasAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.row_compra, null);
             holder = new ViewHolder();
-            holder.txtNome_compra = (TextView) convertView.findViewById(R.id.txtNome_compra);
-            holder.imgViewFoto_compra = (ImageView) convertView.findViewById(R.id.imgViewFoto_compra);
-            holder.txtPreco_compra = (TextView) convertView.findViewById(R.id.txtPreco_compra);
-
+            holder.imgViewFoto = (ImageView) convertView.findViewById(R.id.imgViewFoto);
+            holder.txtCodigo = (TextView) convertView.findViewById(R.id.txtCodigo);
+            holder.txtValorCompra = (TextView) convertView.findViewById(R.id.txtValorCompra);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -87,13 +85,13 @@ public class MinhasComprasAdapter extends BaseAdapter {
 
         CompraVO row_pos = compras.get(position);
 
-        //Picasso.with(parent.getContext())
-        //        .load("")
-        //        .placeholder(android.R.drawable.star_big_on) //
-        //        .error(android.R.drawable.star_big_on)
-        //        .into(holder.imgViewFoto_compra);
-        holder.txtNome_compra.setText("teste");
-        holder.txtPreco_compra.setText(Utils.getValorFormatado(row_pos.getValorTotal().doubleValue()));
+        Picasso.with(parent.getContext())
+                .load(row_pos.getUrlFoto())
+                .placeholder(android.R.drawable.star_big_on)
+                .error(android.R.drawable.star_big_on)
+                .into(holder.imgViewFoto);
+        holder.txtCodigo.setText(row_pos.getCodigo());
+        holder.txtValorCompra.setText(Utils.getValorFormatado(row_pos.getValorTotal().doubleValue()));
         return convertView;
     }
 }
