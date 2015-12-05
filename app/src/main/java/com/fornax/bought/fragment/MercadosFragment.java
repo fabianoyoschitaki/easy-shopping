@@ -2,50 +2,53 @@ package com.fornax.bought.fragment;
 
 import android.app.Fragment;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 
-import com.fornax.bought.activity.ScanActivity;
+import com.fornax.bought.adapter.MercadoListAdapter;
+import com.fornax.bought.common.MercadoVO;
+import com.fornax.bought.mock.ComprasMock;
+
+import java.util.List;
 
 import bought.fornax.com.bought.R;
 
 /**
  * Created by Rodrigo on 21/11/15.
  */
-public class MercadosFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class MercadosFragment extends Fragment {
 
     private static final String TAG = MercadosFragment.class.getName();
 
-    private ListView categoriasListView;
+    private List<MercadoVO> mercados;
+    private ListView mercadosListView;
     private ProgressDialog dialog;
 
-    private Button btn_iniciar;
-
     @Override
-    public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.inicio_fragment, container, false);
-        btn_iniciar = (Button) rootView.findViewById(R.id.btn_iniciar);
-        btn_iniciar.setOnClickListener(new View.OnClickListener()
-        {
-                @Override
-                public void onClick(View v)
-                {
-                 Intent intent = new Intent(container.getContext(), ScanActivity.class);
-                 startActivity(intent);
-            }
-        });
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_mercados, container, false);
+        mercadosListView = (ListView) rootView.findViewById(R.id.mercado_list_view);
+        if (mercados == null) {
+            dialog = new ProgressDialog(getActivity());
+            dialog.setMessage("Carregando Mercados");
+            dialog.show();
+            mercados = ComprasMock.getMercados();
+            dialog.dismiss();
+        }
+
+        populateMercadosListView();
+
+        // Inflate the layout for this fragment
         return rootView;
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    protected void populateMercadosListView() {
+        MercadoListAdapter adapter = new MercadoListAdapter(getActivity(), mercados);
+        mercadosListView.setAdapter(adapter);
 
     }
-
 }
