@@ -18,9 +18,9 @@ public class SucessoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sucesso);
 
-        if(LoginActivity.codigosEscaneados != null) {
+        /**if(LoginActivity.codigosEscaneados != null) {
             LoginActivity.codigosEscaneados.clear();
-        }
+        }**/
 
         final Random numRandomico = new Random();
 

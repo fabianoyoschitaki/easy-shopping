@@ -8,13 +8,12 @@ import android.util.Log;
 import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.fornax.bought.common.ProdutoVO;
-
-import java.util.List;
+import com.fornax.bought.utils.SharedPreferencesUtil;
 
 import bought.fornax.com.bought.R;
 import butterknife.ButterKnife;
@@ -24,20 +23,13 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
 
-    public static List<ProdutoVO> getCodigosEscaneados() {
-        return codigosEscaneados;
-    }
+    @InjectView(R.id.input_email) EditText emailText;
+    @InjectView(R.id.input_password) EditText senhaText;
+    @InjectView(R.id.btn_login) Button loginButton;
+    @InjectView(R.id.link_signup) TextView signupLink;
+    @InjectView(R.id.ckbManterLogado) CheckBox ckbManterLogado;
 
-    public static void setCodigosEscaneados(List<ProdutoVO> codigosEscaneados) {
-        LoginActivity.codigosEscaneados = codigosEscaneados;
-    }
-
-    public static List<ProdutoVO> codigosEscaneados;
-
-    @InjectView(R.id.input_email) EditText _emailText;
-    @InjectView(R.id.input_password) EditText _passwordText;
-    @InjectView(R.id.btn_login) Button _loginButton;
-    @InjectView(R.id.link_signup) TextView _signupLink;
+    private SharedPreferencesUtil sharedPreferencesUtil;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,16 +37,25 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.inject(this);
 
-        _loginButton.setOnClickListener(new View.OnClickListener() {
+        /** resgatando dados do email e senha caso tenha **/
+        sharedPreferencesUtil = new SharedPreferencesUtil(this);
+        if (sharedPreferencesUtil.contains("Email") && sharedPreferencesUtil.contains("Senha")) {
+            //SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+            emailText.setText(sharedPreferencesUtil.getString("Email"));
+            senhaText.setText(sharedPreferencesUtil.getString("Senha"));
+            ckbManterLogado.setChecked(true);
+        }
 
+        /** action para botao login **/
+        loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               login();
+                login();
             }
         });
 
-        _signupLink.setOnClickListener(new View.OnClickListener() {
-
+        /** action para botao de cadastro **/
+        signupLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
@@ -71,30 +72,29 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        _loginButton.setEnabled(false);
+        loginButton.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
-                R.style.AppTheme_Dark_Dialog);
+        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this, R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Autenticando...");
         progressDialog.show();
 
-        String email = _emailText.getText().toString();
-        String password = _passwordText.getText().toString();
+        String email = emailText.getText().toString();
+        String password = senhaText.getText().toString();
 
         // TODO: Implement your own authentication logic here.
          new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onLoginSuccess or onLoginFailed
-                        onLoginSuccess();
-                        // onLoginFailed();
-                        progressDialog.dismiss();
+             new Runnable() {
+                 public void run() {
+                     // On complete call either onLoginSuccess or onLoginFailed
+                     onLoginSuccess();
+                     // onLoginFailed();
+                     progressDialog.dismiss();
 
-                        Intent intent = new Intent(getApplicationContext(), TelaPrincipalActivity.class);
-                        startActivity(intent);
-                    }
-                }, 3000);
+                     Intent intent = new Intent(getApplicationContext(), TelaPrincipalActivity.class);
+                     startActivity(intent);
+                 }
+             }, 1000);
     }
 
 
@@ -113,33 +113,47 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onLoginSuccess() {
-        _loginButton.setEnabled(true);
+        salvarLogin();
+        loginButton.setEnabled(true);
+    }
+
+    /**
+     * Salva dados do login
+     */
+    private void salvarLogin() {
+        if (ckbManterLogado.isChecked()){
+            sharedPreferencesUtil.putString("Email", emailText.getText().toString());
+            sharedPreferencesUtil.putString("Senha", senhaText.getText().toString());
+        } else {
+            sharedPreferencesUtil.remove("Email");
+            sharedPreferencesUtil.remove("Senha");
+        }
     }
 
     public void onLoginFailed() {
         Toast.makeText(getBaseContext(), "Falha ao efetuar login", Toast.LENGTH_LONG).show();
-        _loginButton.setEnabled(true);
+        loginButton.setEnabled(true);
     }
 
     public boolean validate() {
         boolean valid = true;
 
-        String email = _emailText.getText().toString();
-        String password = _passwordText.getText().toString();
+        String email = emailText.getText().toString();
+        String password = senhaText.getText().toString();
 
        // if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
         if (email.isEmpty()) {
-            _emailText.setError("Entre com um e-mail válido.");
+            emailText.setError("Entre com um e-mail válido.");
             valid = false;
         } else {
-            _emailText.setError(null);
+            emailText.setError(null);
         }
 
         if (password.isEmpty() || password.length() < 3 || password.length() > 10) {
-            _passwordText.setError("A senha deve conter no mínimo 3 caracteres.");
+            senhaText.setError("A senha deve conter no mínimo 3 caracteres.");
             valid = false;
         } else {
-            _passwordText.setError(null);
+            senhaText.setError(null);
         }
 
         return valid;

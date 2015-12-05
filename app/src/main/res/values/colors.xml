@@ -23,8 +23,8 @@
   <color name="counter_text_bg">#626262</color>
   <color name="counter_text_color">#c5c4c4</color>
 
-  <color name="button_orange">#cff2742b</color>
-  <color name="button_orange_pressed">#c14701</color>
+  <color name="dark_green">#cf024d00</color>
+  <color name="medium_green">#cf078c02</color>
 
   <color name="event_item_background">#ededed</color>
 </resources>

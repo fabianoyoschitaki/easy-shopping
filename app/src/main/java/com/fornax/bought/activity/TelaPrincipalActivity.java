@@ -61,9 +61,11 @@ public class TelaPrincipalActivity extends AppCompatActivity {
 
     /** posicao dos itens de fragmento da Tela Principal **/
     private static int INICIO_FRAGMENT_POSITION = 0;
-    private static int MINHAS_COMPRAS_FRAGMENT_POSITION = 1;
-    private static int LOGOUT_FRAGMENT_POSITION = 2;
-
+    private static int ONDE_COMPRAR_FRAGMENT_POSITION = 1;
+    private static int MINHAS_COMPRAS_FRAGMENT_POSITION = 2;
+    private static int MEUS_CARTOES_FRAGMENT_POSITION = 3;
+    private static int CONFIGURACOES_FRAGMENT_POSITION = 4;
+    private static int LOGOUT_FRAGMENT_POSITION = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +87,10 @@ public class TelaPrincipalActivity extends AppCompatActivity {
         /** inicializando os itens da gaveta com os títulos e ícones **/
         drawerItens = new ArrayList<DrawerItem>();
         drawerItens.add(new DrawerItem(drawerItemTitles[INICIO_FRAGMENT_POSITION], drawerItemIcons.getResourceId(INICIO_FRAGMENT_POSITION, -1)));
+        drawerItens.add(new DrawerItem(drawerItemTitles[ONDE_COMPRAR_FRAGMENT_POSITION], drawerItemIcons.getResourceId(ONDE_COMPRAR_FRAGMENT_POSITION, -1)));
         drawerItens.add(new DrawerItem(drawerItemTitles[MINHAS_COMPRAS_FRAGMENT_POSITION], drawerItemIcons.getResourceId(MINHAS_COMPRAS_FRAGMENT_POSITION, -1)));
+        drawerItens.add(new DrawerItem(drawerItemTitles[MEUS_CARTOES_FRAGMENT_POSITION], drawerItemIcons.getResourceId(MEUS_CARTOES_FRAGMENT_POSITION, -1)));
+        drawerItens.add(new DrawerItem(drawerItemTitles[CONFIGURACOES_FRAGMENT_POSITION], drawerItemIcons.getResourceId(CONFIGURACOES_FRAGMENT_POSITION, -1)));
         drawerItens.add(new DrawerItem(drawerItemTitles[LOGOUT_FRAGMENT_POSITION], drawerItemIcons.getResourceId(LOGOUT_FRAGMENT_POSITION, -1)));
         // Recycle the typed arrayg
         drawerItemIcons.recycle();

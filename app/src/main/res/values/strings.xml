@@ -30,14 +30,20 @@
     <!-- Títulos dos itens do menu -->
     <string-array name="drawer_item_titles">
         <item>Início</item>
+        <item>Onde Comprar?</item>
         <item>Minhas Compras</item>
+        <item>Meus Cartões</item>
+        <item>Configurações</item>
         <item>Sair</item>
     </string-array>
 
     <!-- Ícones dos itens do menu (mesma ordem dos títulos) -->
     <array name="drawer_item_icons">
         <item>@mipmap/ic_inicio</item>
+        <item>@mipmap/ic_onde_comprar</item>
         <item>@mipmap/ic_minhas_compras</item>
+        <item>@mipmap/ic_cartoes</item>
+        <item>@mipmap/ic_configuracoes</item>
         <item>@mipmap/ic_logout</item>
     </array>
 
