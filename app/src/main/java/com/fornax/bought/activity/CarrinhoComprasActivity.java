@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fornax.bought.adapter.ProdutoAdapter;
+import com.fornax.bought.common.MercadoVO;
 import com.fornax.bought.common.ProdutoVO;
 import com.fornax.bought.rest.RestClient;
 import com.fornax.bought.utils.Utils;
@@ -25,23 +26,57 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bought.fornax.com.bought.R;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class ScanActivity extends AppCompatActivity {
+public class CarrinhoComprasActivity extends AppCompatActivity {
     static final String ACTION_SCAN = "com.google.zxing.client.android.SCAN";
 
+    /** lista que representa o carrinho de compras **/
     private List<ProdutoVO> produtos = new ArrayList<ProdutoVO>();
 
-    private ListView produtoListView;
-    private ProdutoAdapter produtoAdapter;
-    private Button btnScan;
-    private Button btnFinalizar;
-    private TextView txtValorTotal;
-
+    /** valor total das compras **/
     private Double valorTotal = 0.0;
+
+    /** mercado escolhido anteriormente **/
+    private MercadoVO mercadoEscolhido;
+
+    private ProdutoAdapter produtoAdapter;
+
+    @InjectView(R.id.produtos_list_view) ListView produtoListView;
+    @InjectView(R.id.btn_scan) Button btnScan;
+    @InjectView(R.id.btn_finalizar) Button btnFinalizar;
+    @InjectView(R.id.txtValorTotal) TextView txtValorTotal;
+
     private ProgressDialog dialog;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_carrinho_compras);
+        ButterKnife.inject(this);
+
+        if (getIntent().getExtras().getSerializable("mercadoEscolhido") != null){
+            mercadoEscolhido = (MercadoVO) getIntent().getExtras().getSerializable("mercadoEscolhido");
+            Toast.makeText(getApplicationContext(), mercadoEscolhido.getNome(), Toast.LENGTH_SHORT).show();
+        }
+
+        btnScan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                abrirTelaScan();
+            }
+        });
+        btnFinalizar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                abrirTelaConfirmarFinalizar();
+            }
+        });
+    }
 
     public void abrirTelaScan(){
         try {
@@ -51,7 +86,7 @@ public class ScanActivity extends AppCompatActivity {
             startActivityForResult(intent, 0);
         } catch (ActivityNotFoundException anfe) {
             //on catch, show the download dialog
-            showDialog(ScanActivity.this, "No Scanner Found", "Download a scanner code activity?", "Yes", "No").show();
+            showDialog(CarrinhoComprasActivity.this, "No Scanner Found", "Download a scanner code activity?", "Yes", "No").show();
         }
     }
 
@@ -59,37 +94,6 @@ public class ScanActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), ConfirmacaoActivity.class);
         intent.putExtra("valorTotal", valorTotal);
         startActivity(intent);
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //set the main content layout of the Activity
-        setContentView(R.layout.activity_scan);
-
-        produtoListView = (ListView) findViewById(R.id.listCodigos);
-
-        btnScan = (Button) findViewById(R.id.btn_scan);
-        btnScan.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                abrirTelaScan();
-            }
-        });
-
-        btnFinalizar = (Button) findViewById(R.id.btn_finalizar);
-        btnFinalizar.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                abrirTelaConfirmarFinalizar();
-            }
-        });
-
-        txtValorTotal = (TextView) findViewById(R.id.txtValorTotal);
-
-        abrirTelaScan();
     }
 
     //alert dialog for downloadDialog

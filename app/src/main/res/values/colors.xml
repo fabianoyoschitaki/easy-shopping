@@ -27,4 +27,5 @@
   <color name="medium_green">#cf13760f</color>
 
   <color name="event_item_background">#ededed</color>
+  <color name="medium_gray">#ededed</color>
 </resources>

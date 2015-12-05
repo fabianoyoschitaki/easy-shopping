@@ -11,7 +11,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
-import com.fornax.bought.activity.ScanActivity;
+import com.fornax.bought.activity.CarrinhoComprasActivity;
 
 import bought.fornax.com.bought.R;
 
@@ -29,14 +29,14 @@ public class ConfiguracoesFragment extends Fragment implements AdapterView.OnIte
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.inicio_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_inicio, container, false);
         btn_iniciar = (Button) rootView.findViewById(R.id.btn_iniciar);
         btn_iniciar.setOnClickListener(new View.OnClickListener()
         {
                 @Override
                 public void onClick(View v)
                 {
-                 Intent intent = new Intent(container.getContext(), ScanActivity.class);
+                 Intent intent = new Intent(container.getContext(), CarrinhoComprasActivity.class);
                  startActivity(intent);
             }
         });
