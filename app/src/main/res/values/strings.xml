@@ -4,14 +4,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
-    <string-array name="nav_drawer_items">
-        <item>Home</item>
-        <item>Cardápio</item>
-        <item>Notícias</item>
-        <item>Eventos</item>
-        <item>Locais</item>
-        <item>Anúncios</item>
-    </string-array>
     <string name="title_activity_tela_inicial">TelaInicial</string>
 
     <string name="title_cartoes">Cartões</string>
@@ -34,6 +26,7 @@
         <item>Minhas Compras</item>
         <item>Meus Cartões</item>
         <item>Configurações</item>
+        <item>PayPal</item>
         <item>Sair</item>
     </string-array>
 
@@ -44,6 +37,7 @@
         <item>@mipmap/ic_minhas_compras</item>
         <item>@mipmap/ic_cartoes</item>
         <item>@mipmap/ic_configuracoes</item>
+        <item>@mipmap/ic_paypal</item>
         <item>@mipmap/ic_logout</item>
     </array>
 

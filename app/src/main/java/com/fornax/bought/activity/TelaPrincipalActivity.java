@@ -25,6 +25,7 @@ import com.fornax.bought.fragment.InicioFragment;
 import com.fornax.bought.fragment.MercadosFragment;
 import com.fornax.bought.fragment.MeusCartoesFragment;
 import com.fornax.bought.fragment.MinhasComprasFragment;
+import com.fornax.bought.fragment.PayPalFragment;
 import com.fornax.bought.utils.SharedPreferencesUtil;
 
 import java.util.ArrayList;
@@ -67,7 +68,9 @@ public class TelaPrincipalActivity extends AppCompatActivity {
     private static final int MINHAS_COMPRAS_FRAGMENT_POSITION = 2;
     private static final int MEUS_CARTOES_FRAGMENT_POSITION = 3;
     private static final int CONFIGURACOES_FRAGMENT_POSITION = 4;
-    private static final int LOGOUT_FRAGMENT_POSITION = 5;
+    private static final int PAYPAL_FRAGMENT_POSITION = 5;
+    private static final int LOGOUT_FRAGMENT_POSITION = 6;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +96,7 @@ public class TelaPrincipalActivity extends AppCompatActivity {
         drawerItens.add(new DrawerItem(drawerItemTitles[MINHAS_COMPRAS_FRAGMENT_POSITION], drawerItemIcons.getResourceId(MINHAS_COMPRAS_FRAGMENT_POSITION, -1)));
         drawerItens.add(new DrawerItem(drawerItemTitles[MEUS_CARTOES_FRAGMENT_POSITION], drawerItemIcons.getResourceId(MEUS_CARTOES_FRAGMENT_POSITION, -1)));
         drawerItens.add(new DrawerItem(drawerItemTitles[CONFIGURACOES_FRAGMENT_POSITION], drawerItemIcons.getResourceId(CONFIGURACOES_FRAGMENT_POSITION, -1)));
+        drawerItens.add(new DrawerItem(drawerItemTitles[PAYPAL_FRAGMENT_POSITION], drawerItemIcons.getResourceId(PAYPAL_FRAGMENT_POSITION, -1)));
         drawerItens.add(new DrawerItem(drawerItemTitles[LOGOUT_FRAGMENT_POSITION], drawerItemIcons.getResourceId(LOGOUT_FRAGMENT_POSITION, -1)));
         // Recycle the typed arrayg
         drawerItemIcons.recycle();
@@ -202,6 +206,9 @@ public class TelaPrincipalActivity extends AppCompatActivity {
                 break;
             case CONFIGURACOES_FRAGMENT_POSITION:
                 fragmento = new ConfiguracoesFragment();
+                break;
+            case PAYPAL_FRAGMENT_POSITION:
+                fragmento = new PayPalFragment();
                 break;
             default:
                 break;

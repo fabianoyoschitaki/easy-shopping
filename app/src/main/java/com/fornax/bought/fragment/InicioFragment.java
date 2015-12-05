@@ -14,6 +14,7 @@ import android.widget.ListView;
 
 
 import com.fornax.bought.activity.ScanActivity;
+import com.fornax.bought.paypal.SampleActivity;
 
 import bought.fornax.com.bought.R;
 
