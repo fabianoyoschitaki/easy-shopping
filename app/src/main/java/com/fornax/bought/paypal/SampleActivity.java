@@ -50,7 +50,7 @@ public class SampleActivity extends Activity {
     private static final String CONFIG_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_NO_NETWORK;
 
     // note that these credentials will differ between live & sandbox environments.
-    private static final String CONFIG_CLIENT_ID = "credential from developer.paypal.com";
+    private static final String CONFIG_CLIENT_ID = "AaXyCTpasBmuMqYmQcGeaI7kyPpCPNEP3gJD1XHj5qPDHcRjgkNxNfwcXAksZ1fz-9ZMtEenB6JQJGyO";
 
     private static final int REQUEST_CODE_PAYMENT = 1;
     private static final int REQUEST_CODE_FUTURE_PAYMENT = 2;
@@ -101,7 +101,7 @@ public class SampleActivity extends Activity {
     }
     
     private PayPalPayment getThingToBuy(String paymentIntent) {
-        return new PayPalPayment(new BigDecimal("1.75"), "USD", "sample item",
+        return new PayPalPayment(new BigDecimal("5.75"), "USD", "TESTE HALLAN",
                 paymentIntent);
     }
     
