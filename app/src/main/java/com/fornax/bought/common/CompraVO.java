@@ -10,11 +10,21 @@ public class CompraVO {
     private String codigo;
     private BigDecimal valorTotal;
     private Boolean finalizada;
+    private String urlFoto;
 
-    public CompraVO(String codigo, BigDecimal valorTotal, Boolean finalizada){
+    public String getUrlFoto() {
+        return urlFoto;
+    }
+
+    public void setUrlFoto(String urlFoto) {
+        this.urlFoto = urlFoto;
+    }
+
+    public CompraVO(String codigo, BigDecimal valorTotal, Boolean finalizada, String urlFoto){
         this.codigo = codigo;
         this.valorTotal = valorTotal;
         this.finalizada = finalizada;
+        this.urlFoto = urlFoto;
     }
 
     public String getCodigo() {

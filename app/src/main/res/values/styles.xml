@@ -9,7 +9,7 @@
     <style name="AppTheme.Dark" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/list_background</item>
         <item name="colorPrimaryDark">@color/list_background</item>
-        <item name="colorAccent">@color/accent</item>
+        <item name="colorAccent">@color/primary</item>
 
         <item name="android:windowBackground">@color/primary</item>
 
