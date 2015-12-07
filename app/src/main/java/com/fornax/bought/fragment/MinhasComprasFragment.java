@@ -7,13 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.fornax.bought.adapter.MinhasComprasAdapter;
-import com.fornax.bought.common.CompraVO;
+import com.fornax.bought.common.MinhaCompraVO;
 import com.fornax.bought.mock.ComprasMock;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -22,7 +19,7 @@ import bought.fornax.com.bought.R;
 public class MinhasComprasFragment extends android.app.Fragment implements AdapterView.OnItemClickListener {
 
     private ListView listMinhasCompras;
-    private List<CompraVO> listCompras;
+    private List<MinhaCompraVO> listCompras;
     private ProgressDialog dialog;
 
     @Override

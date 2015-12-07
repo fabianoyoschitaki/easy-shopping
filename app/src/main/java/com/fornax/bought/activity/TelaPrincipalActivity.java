@@ -23,7 +23,6 @@ import com.fornax.bought.common.DrawerItem;
 import com.fornax.bought.fragment.ConfiguracoesFragment;
 import com.fornax.bought.fragment.InicioFragment;
 import com.fornax.bought.fragment.OndeComprarFragment;
-import com.fornax.bought.fragment.MeusCartoesFragment;
 import com.fornax.bought.fragment.MinhasComprasFragment;
 import com.fornax.bought.fragment.PayPalFragment;
 import com.fornax.bought.utils.SharedPreferencesUtil;
@@ -66,10 +65,9 @@ public class TelaPrincipalActivity extends AppCompatActivity {
     private static final int INICIO_FRAGMENT_POSITION = 0;
     private static final int ONDE_COMPRAR_FRAGMENT_POSITION = 1;
     private static final int MINHAS_COMPRAS_FRAGMENT_POSITION = 2;
-    private static final int MEUS_CARTOES_FRAGMENT_POSITION = 3;
-    private static final int CONFIGURACOES_FRAGMENT_POSITION = 4;
-    private static final int PAYPAL_FRAGMENT_POSITION = 5;
-    private static final int LOGOUT_FRAGMENT_POSITION = 6;
+    private static final int CONFIGURACOES_FRAGMENT_POSITION = 3;
+    private static final int PAYPAL_FRAGMENT_POSITION = 4;
+    private static final int LOGOUT_FRAGMENT_POSITION = 5;
 
 
     @Override
@@ -94,7 +92,6 @@ public class TelaPrincipalActivity extends AppCompatActivity {
         drawerItens.add(new DrawerItem(drawerItemTitles[INICIO_FRAGMENT_POSITION], drawerItemIcons.getResourceId(INICIO_FRAGMENT_POSITION, -1)));
         drawerItens.add(new DrawerItem(drawerItemTitles[ONDE_COMPRAR_FRAGMENT_POSITION], drawerItemIcons.getResourceId(ONDE_COMPRAR_FRAGMENT_POSITION, -1)));
         drawerItens.add(new DrawerItem(drawerItemTitles[MINHAS_COMPRAS_FRAGMENT_POSITION], drawerItemIcons.getResourceId(MINHAS_COMPRAS_FRAGMENT_POSITION, -1)));
-        drawerItens.add(new DrawerItem(drawerItemTitles[MEUS_CARTOES_FRAGMENT_POSITION], drawerItemIcons.getResourceId(MEUS_CARTOES_FRAGMENT_POSITION, -1)));
         drawerItens.add(new DrawerItem(drawerItemTitles[CONFIGURACOES_FRAGMENT_POSITION], drawerItemIcons.getResourceId(CONFIGURACOES_FRAGMENT_POSITION, -1)));
         drawerItens.add(new DrawerItem(drawerItemTitles[PAYPAL_FRAGMENT_POSITION], drawerItemIcons.getResourceId(PAYPAL_FRAGMENT_POSITION, -1)));
         drawerItens.add(new DrawerItem(drawerItemTitles[LOGOUT_FRAGMENT_POSITION], drawerItemIcons.getResourceId(LOGOUT_FRAGMENT_POSITION, -1)));
@@ -200,9 +197,6 @@ public class TelaPrincipalActivity extends AppCompatActivity {
                 break;
             case MINHAS_COMPRAS_FRAGMENT_POSITION:
                 fragmento = new MinhasComprasFragment();
-                break;
-            case MEUS_CARTOES_FRAGMENT_POSITION:
-                fragmento = new MeusCartoesFragment();
                 break;
             case CONFIGURACOES_FRAGMENT_POSITION:
                 fragmento = new ConfiguracoesFragment();

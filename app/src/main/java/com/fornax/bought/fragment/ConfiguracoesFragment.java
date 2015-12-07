@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.fornax.bought.activity.CarrinhoComprasActivity;
+import com.fornax.bought.adapter.ConfiguracoesAdapter;
+import com.fornax.bought.mock.ComprasMock;
 
 import bought.fornax.com.bought.R;
 
@@ -22,25 +24,23 @@ public class ConfiguracoesFragment extends Fragment implements AdapterView.OnIte
 
     private static final String TAG = ConfiguracoesFragment.class.getName();
 
-    private ListView categoriasListView;
-    private ProgressDialog dialog;
-
-    private Button btn_iniciar;
+    private ListView listConfiguracoes;
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_inicio, container, false);
-        btn_iniciar = (Button) rootView.findViewById(R.id.btn_iniciar);
-        btn_iniciar.setOnClickListener(new View.OnClickListener()
-        {
-                @Override
-                public void onClick(View v)
-                {
-                 Intent intent = new Intent(container.getContext(), CarrinhoComprasActivity.class);
-                 startActivity(intent);
-            }
-        });
+        View rootView = inflater.inflate(R.layout.fragment_configuracoes, container, false);
+
+        listConfiguracoes = (ListView) rootView.findViewById(R.id.listConfiguracoes);
+        listConfiguracoes.setOnItemClickListener(this);
+
+        popularItensConfiguracoes();
+
         return rootView;
+    }
+
+    public void popularItensConfiguracoes(){
+        ConfiguracoesAdapter adapter = new ConfiguracoesAdapter(getActivity());
+        listConfiguracoes.setAdapter(adapter);
     }
 
     @Override

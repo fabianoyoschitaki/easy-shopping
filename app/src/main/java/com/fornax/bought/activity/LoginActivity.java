@@ -1,6 +1,7 @@
 package com.fornax.bought.activity;
 
 import android.app.ProgressDialog;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -15,11 +16,13 @@ import android.widget.Toast;
 
 import com.fornax.bought.utils.SharedPreferencesUtil;
 
+
 import bought.fornax.com.bought.R;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity{
+
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
 
@@ -31,11 +34,16 @@ public class LoginActivity extends AppCompatActivity {
 
     private SharedPreferencesUtil sharedPreferencesUtil;
 
+    //private GoogleApiClient mGoogleApiClient;
+
+    private Location location;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.inject(this);
+
 
         /** resgatando dados do email e senha caso tenha **/
         sharedPreferencesUtil = new SharedPreferencesUtil(this);
@@ -84,17 +92,18 @@ public class LoginActivity extends AppCompatActivity {
 
         // TODO: Implement your own authentication logic here.
          new android.os.Handler().postDelayed(
-             new Runnable() {
-                 public void run() {
-                     // On complete call either onLoginSuccess or onLoginFailed
-                     onLoginSuccess();
-                     // onLoginFailed();
-                     progressDialog.dismiss();
+                 new Runnable() {
+                     public void run() {
+                         // On complete call either onLoginSuccess or onLoginFailed
+                         onLoginSuccess();
+                         // onLoginFailed();
+                         progressDialog.dismiss();
 
-                     Intent intent = new Intent(getApplicationContext(), TelaPrincipalActivity.class);
-                     startActivity(intent);
-                 }
-             }, 1000);
+
+                         Intent intent = new Intent(getApplicationContext(), TelaPrincipalActivity.class);
+                         startActivity(intent);
+                     }
+                 }, 1000);
     }
 
 

@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/list_selector_produto"
+    android:background="@drawable/fundo_telas_gradient_bg"
     android:padding="2dp" >
 
     <ImageView
@@ -11,7 +11,8 @@
         android:layout_height="80dp"
         android:contentDescription="desc"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp" />
+        android:paddingRight="10dp"
+        android:background="@drawable/fundo_telas_gradient_bg"/>
 
     <TextView
         android:id="@+id/txtNome"

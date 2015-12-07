@@ -9,10 +9,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.fornax.bought.common.CompraVO;
-import com.fornax.bought.common.ProdutoVO;
+import com.fornax.bought.common.MinhaCompraVO;
+import com.fornax.bought.enums.StatusCompraEnum;
 import com.fornax.bought.utils.Utils;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -27,7 +26,7 @@ public class MinhasComprasAdapter extends BaseAdapter {
     private int position;
     private View convertView;
     private ViewGroup parent;
-    private List<CompraVO> compras;
+    private List<MinhaCompraVO> compras;
 
     /* private view holder class */
     private class ViewHolder {
@@ -35,15 +34,15 @@ public class MinhasComprasAdapter extends BaseAdapter {
         TextView txtCodigo;
         TextView txtValorCompra;
     }
-    public MinhasComprasAdapter(Context context, List<CompraVO> compras) {
+    public MinhasComprasAdapter(Context context, List<MinhaCompraVO> compras) {
         this.context = context;
         this.compras = compras;
     }
-    public List<CompraVO> getCompras() {
+    public List<MinhaCompraVO> getCompras() {
         return compras;
     }
 
-    public void setCompras(List<CompraVO> compras) {
+    public void setCompras(List<MinhaCompraVO> compras) {
         this.compras = compras;
     }
 
@@ -83,15 +82,19 @@ public class MinhasComprasAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        CompraVO row_pos = compras.get(position);
+        MinhaCompraVO row_pos = compras.get(position);
 
-        Picasso.with(parent.getContext())
-                .load(row_pos.getUrlFoto())
-                .placeholder(android.R.drawable.star_big_on)
-                .error(android.R.drawable.star_big_on)
-                .into(holder.imgViewFoto);
-        holder.txtCodigo.setText(row_pos.getCodigo());
-        holder.txtValorCompra.setText(Utils.getValorFormatado(row_pos.getValorTotal().doubleValue()));
+        if(row_pos != null){
+            if(row_pos.getStatus().equals(StatusCompraEnum.PAGO)){
+                holder.imgViewFoto.setImageResource(R.mipmap.ic_pago);
+            }else if(row_pos.getStatus().equals(StatusCompraEnum.AGUARDANDO_PAGAMENTO)){
+                holder.imgViewFoto.setImageResource(R.mipmap.ic_aguardando);
+            }else{
+                holder.imgViewFoto.setImageResource(R.mipmap.ic_cancelado);
+            }
+            holder.txtCodigo.setText(row_pos.getCodigo());
+            holder.txtValorCompra.setText(Utils.getValorFormatado(row_pos.getValorTotal().doubleValue()));
+        }
         return convertView;
     }
 }

@@ -1,7 +1,8 @@
 package com.fornax.bought.mock;
 
-import com.fornax.bought.common.CompraVO;
+import com.fornax.bought.common.MinhaCompraVO;
 import com.fornax.bought.common.MercadoVO;
+import com.fornax.bought.enums.StatusCompraEnum;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -13,11 +14,11 @@ import java.util.List;
 public class ComprasMock {
 
 
-    public static List<CompraVO> getCompras(){
-        List<CompraVO> retorno = new ArrayList<CompraVO>();
-        retorno.add(new CompraVO("6516D5FGXAVASCA", BigDecimal.valueOf(56.35), Boolean.TRUE, "http://res.cloudinary.com/networkmi/image/upload/v1449290439/139881916514_fnrky7.jpg"));
-        retorno.add(new CompraVO("65GA1SXAXAVASCA",BigDecimal.valueOf(53.35), Boolean.TRUE, "http://res.cloudinary.com/networkmi/image/upload/v1449290439/139881916514_fnrky7.jpg"));
-        retorno.add(new CompraVO("651SDAFSXAVASCA",BigDecimal.valueOf(82.35), Boolean.FALSE, "http://res.cloudinary.com/networkmi/image/upload/v1449290439/139881916514_fnrky7.jpg"));
+    public static List<MinhaCompraVO> getCompras(){
+        List<MinhaCompraVO> retorno = new ArrayList<MinhaCompraVO>();
+        retorno.add(new MinhaCompraVO("6516D5FGXAVASCA", BigDecimal.valueOf(56.35), StatusCompraEnum.PAGO, "http://res.cloudinary.com/networkmi/image/upload/v1449290439/139881916514_fnrky7.jpg"));
+        retorno.add(new MinhaCompraVO("65GA1SXAXAVASCA",BigDecimal.valueOf(53.35), StatusCompraEnum.AGUARDANDO_PAGAMENTO, "http://res.cloudinary.com/networkmi/image/upload/v1449290439/139881916514_fnrky7.jpg"));
+        retorno.add(new MinhaCompraVO("651SDAFSXAVASCA",BigDecimal.valueOf(82.35), StatusCompraEnum.CANCELADO, "http://res.cloudinary.com/networkmi/image/upload/v1449290439/139881916514_fnrky7.jpg"));
         return retorno;
     }
 

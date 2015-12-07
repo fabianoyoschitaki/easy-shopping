@@ -16,7 +16,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.fornax.bought.adapter.ProdutoAdapter;
+import com.fornax.bought.adapter.ItemCompraAdapter;
+import com.fornax.bought.common.ItemCompraVO;
 import com.fornax.bought.common.MercadoVO;
 import com.fornax.bought.common.ProdutoVO;
 import com.fornax.bought.rest.RestClient;
@@ -36,7 +37,7 @@ public class CarrinhoComprasActivity extends AppCompatActivity {
     static final String ACTION_SCAN = "com.google.zxing.client.android.SCAN";
 
     /** lista que representa o carrinho de compras **/
-    private List<ProdutoVO> produtos = new ArrayList<ProdutoVO>();
+    private List<ItemCompraVO> itens = new ArrayList<ItemCompraVO>();
 
     /** valor total das compras **/
     private Double valorTotal = 0.0;
@@ -44,9 +45,9 @@ public class CarrinhoComprasActivity extends AppCompatActivity {
     /** mercado escolhido anteriormente **/
     private MercadoVO mercadoEscolhido;
 
-    private ProdutoAdapter produtoAdapter;
+    private ItemCompraAdapter itemCompraAdapter;
 
-    @InjectView(R.id.produtos_list_view) ListView produtoListView;
+    @InjectView(R.id.itemListView) ListView itemListView;
     @InjectView(R.id.btn_scan) Button btnScan;
     @InjectView(R.id.btn_finalizar) Button btnFinalizar;
     @InjectView(R.id.txtValorTotal) TextView txtValorTotal;
@@ -58,6 +59,10 @@ public class CarrinhoComprasActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carrinho_compras);
         ButterKnife.inject(this);
+
+        if (getIntent().getExtras().getSerializable("itens") != null){
+            itens = (ArrayList<ItemCompraVO>) getIntent().getExtras().getSerializable("itens");
+        }
 
         if (getIntent().getExtras().getSerializable("mercadoEscolhido") != null){
             mercadoEscolhido = (MercadoVO) getIntent().getExtras().getSerializable("mercadoEscolhido");
@@ -93,6 +98,7 @@ public class CarrinhoComprasActivity extends AppCompatActivity {
     public void abrirTelaConfirmarFinalizar(){
         Intent intent = new Intent(getApplicationContext(), ConfirmacaoActivity.class);
         intent.putExtra("valorTotal", valorTotal);
+        intent.putExtra("mercadoEscolhido", mercadoEscolhido);
         startActivity(intent);
     }
 
@@ -161,20 +167,41 @@ public class CarrinhoComprasActivity extends AppCompatActivity {
      * @param novoProduto
      */
     private void atualizaListaProdutos(ProdutoVO novoProduto) {
-        produtos.add(novoProduto);
-        valorTotal += novoProduto.getPreco();
-        txtValorTotal.setText(Utils.getValorFormatado(valorTotal));
+        ItemCompraVO item = new ItemCompraVO(novoProduto, 1);
+        itens.add(item);
+
+        txtValorTotal.setText(Utils.getValorFormatado(getValorTotalItens()));
 
         // Getting adapter by passing xml data ArrayList
-        produtoAdapter = new ProdutoAdapter(this, produtos);
-        produtoListView.setAdapter(produtoAdapter);
+        itemCompraAdapter = new ItemCompraAdapter(this, itens);
+        itemListView.setAdapter(itemCompraAdapter);
 
         // Click event for single list row
-        produtoListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        itemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //TODO remover? editar quantidade?
             }
         });
+
+
+        itemListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                return false;
+            }
+        });
+    }
+
+    public Double getValorTotalItens(){
+        Double retorno = 0.0;
+        if(itens != null){
+            for (ItemCompraVO item:
+                 itens) {
+                retorno += item.getValorTotalItem().doubleValue();
+            }
+        }
+        return retorno;
     }
 }

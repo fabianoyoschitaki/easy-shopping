@@ -24,7 +24,6 @@
         <item>Início</item>
         <item>Onde Comprar?</item>
         <item>Minhas Compras</item>
-        <item>Meus Cartões</item>
         <item>Configurações</item>
         <item>PayPal</item>
         <item>Sair</item>
@@ -35,7 +34,6 @@
         <item>@mipmap/ic_inicio</item>
         <item>@mipmap/ic_onde_comprar</item>
         <item>@mipmap/ic_minhas_compras</item>
-        <item>@mipmap/ic_cartoes</item>
         <item>@mipmap/ic_configuracoes</item>
         <item>@mipmap/ic_paypal</item>
         <item>@mipmap/ic_logout</item>

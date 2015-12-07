@@ -1,53 +1,40 @@
 package com.fornax.bought.common;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 /**
- * Created by Hallan on 04/12/2015.
+ * Created by Hallan on 06/12/2015.
  */
 public class CompraVO {
 
-    private String codigo;
-    private BigDecimal valorTotal;
-    private Boolean finalizada;
-    private String urlFoto;
+    private List<ItemCompraVO> itens;
+    private BigDecimal valorTotalCompra;
+    private Calendar dataCompra;
 
-    public String getUrlFoto() {
-        return urlFoto;
+    public List<ItemCompraVO> getItens() {
+        return itens;
     }
 
-    public void setUrlFoto(String urlFoto) {
-        this.urlFoto = urlFoto;
+    public void setItens(List<ItemCompraVO> itens) {
+        this.itens = itens;
     }
 
-    public CompraVO(String codigo, BigDecimal valorTotal, Boolean finalizada, String urlFoto){
-        this.codigo = codigo;
-        this.valorTotal = valorTotal;
-        this.finalizada = finalizada;
-        this.urlFoto = urlFoto;
+    public BigDecimal getValorTotalCompra() {
+        return valorTotalCompra;
     }
 
-    public String getCodigo() {
-        return codigo;
+    public void setValorTotalCompra(BigDecimal valorTotalCompra) {
+        this.valorTotalCompra = valorTotalCompra;
     }
 
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
+    public Calendar getDataCompra() {
+        return dataCompra;
     }
 
-    public Boolean getFinalizada() {
-        return finalizada;
-    }
-
-    public void setFinalizada(Boolean finalizada) {
-        this.finalizada = finalizada;
-    }
-
-    public BigDecimal getValorTotal() {
-        return valorTotal;
-    }
-
-    public void setValorTotal(BigDecimal valorTotal) {
-        this.valorTotal = valorTotal;
+    public void setDataCompra(Calendar dataCompra) {
+        this.dataCompra = dataCompra;
     }
 }

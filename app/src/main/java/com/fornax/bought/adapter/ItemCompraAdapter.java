@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.fornax.bought.common.ItemCompraVO;
 import com.fornax.bought.common.ProdutoVO;
 import com.fornax.bought.utils.ImageLoader;
 import com.fornax.bought.utils.Utils;
@@ -22,45 +23,44 @@ import bought.fornax.com.bought.R;
 /**
  * Created by Hallan on 29/11/2015.
  */
-public class ProdutoAdapter extends BaseAdapter{
+public class ItemCompraAdapter extends BaseAdapter{
 
     private Context context;
-    private List<ProdutoVO> produtos;
+    private List<ItemCompraVO> itens;
     private int position;
     private View convertView;
     private ViewGroup parent;
 
-    public List<ProdutoVO> getProdutos() {
-        return produtos;
+    public List<ItemCompraVO> getProdutos() {
+        return itens;
     }
 
-    public void setProdutos(List<ProdutoVO> produtos) {
-        this.produtos = produtos;
+    public void setProdutos(List<ItemCompraVO> itens) {
+        this.itens = itens;
     }
 
 
-    public ProdutoAdapter(Context context, List<ProdutoVO> produtos) {
+    public ItemCompraAdapter(Context context, List<ItemCompraVO> itens) {
         this.context = context;
-        this.produtos = produtos;
+        this.itens = itens;
     }
 
     public int getCount() {
-        return this.produtos.size();
+        return this.itens.size();
     }
 
     public Object getItem(int position) {
-        return this.produtos.get(position);
+        return this.itens.get(position);
     }
 
     public long getItemId(int position) {
-        return this.produtos.indexOf(getItem(position));
+        return this.itens.indexOf(getItem(position));
     }
 
 
     /* private view holder class */
     private class ViewHolder {
         ImageView imgViewFoto;
-        //TextView txtCodigoBarra;
         TextView txtNome;
         TextView txtPreco;
     }
@@ -87,15 +87,19 @@ public class ProdutoAdapter extends BaseAdapter{
             holder = (ViewHolder) convertView.getTag();
         }
 
-        ProdutoVO row_pos = produtos.get(position);
+        ItemCompraVO row_pos = itens.get(position);
 
-        Picasso.with(parent.getContext())
-                .load(row_pos.getUrlImagem())
-                .placeholder(android.R.drawable.star_big_on) //
-                .error(android.R.drawable.star_big_on)
-                .into(holder.imgViewFoto);
-        holder.txtNome.setText(row_pos.getNome());
-        holder.txtPreco.setText(Utils.getValorFormatado(row_pos.getPreco()));
+        if(row_pos != null && row_pos.getProduto() != null){
+            ProdutoVO produto = row_pos.getProduto();
+            Picasso.with(parent.getContext())
+                    .load(produto.getUrlImagem())
+                    .placeholder(android.R.drawable.star_big_on) //
+                    .error(android.R.drawable.star_big_on)
+                    .into(holder.imgViewFoto);
+            holder.txtNome.setText(produto.getNome());
+            holder.txtPreco.setText(Utils.getValorFormatado(produto.getPreco()));
+        }
+
         return convertView;
     }
 
