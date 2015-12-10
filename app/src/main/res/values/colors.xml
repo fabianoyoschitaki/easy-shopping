@@ -16,8 +16,8 @@
   <color name="white">#FFFFFF</color>
   <color name="list_divider">#4AF72F</color>
 
-  <color name="list_item_title">#fff</color>
-  <color name="list_background">#303030</color>
+  <color name="list_item_title">#717171</color>
+  <color name="list_background">#ffffff</color>
   <color name="list_fundo">#005b96</color>
   <color name="list_background_pressed">#5694d2</color>
   <color name="counter_text_bg">#626262</color>
@@ -28,4 +28,7 @@
 
   <color name="event_item_background">#ededed</color>
   <color name="medium_gray">#ededed</color>
+
+  <color name="action_bar_color">#12a91d</color>
+
 </resources>
