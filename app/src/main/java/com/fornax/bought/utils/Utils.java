@@ -2,6 +2,7 @@ package com.fornax.bought.utils;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
 public class Utils {
@@ -23,7 +24,7 @@ public class Utils {
     }
 
 
-    public static String getValorFormatado(Double valor){
+    public static String getValorFormatado(Number valor){
         DecimalFormat format = new DecimalFormat("R$ ########.##");
         format.setGroupingUsed(true);
         format.setMaximumIntegerDigits(8);

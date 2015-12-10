@@ -23,6 +23,7 @@ import com.fornax.bought.common.ProdutoVO;
 import com.fornax.bought.rest.RestClient;
 import com.fornax.bought.utils.Utils;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class CarrinhoComprasActivity extends AppCompatActivity {
     private List<ItemCompraVO> itens = new ArrayList<ItemCompraVO>();
 
     /** valor total das compras **/
-    private Double valorTotal = 0.0;
+    private BigDecimal valorTotal = new BigDecimal(0);
 
     /** mercado escolhido anteriormente **/
     private MercadoVO mercadoEscolhido;
@@ -194,12 +195,11 @@ public class CarrinhoComprasActivity extends AppCompatActivity {
         });
     }
 
-    public Double getValorTotalItens(){
-        Double retorno = 0.0;
-        if(itens != null){
-            for (ItemCompraVO item:
-                 itens) {
-                retorno += item.getValorTotalItem().doubleValue();
+    public BigDecimal getValorTotalItens(){
+        BigDecimal retorno = new BigDecimal(0);
+        if (itens != null){
+            for (ItemCompraVO item:itens) {
+                retorno = retorno.add(item.getValorTotalItem());
             }
         }
         return retorno;

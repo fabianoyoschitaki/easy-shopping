@@ -93,7 +93,7 @@ public class MinhasComprasAdapter extends BaseAdapter {
                 holder.imgViewFoto.setImageResource(R.mipmap.ic_cancelado);
             }
             holder.txtCodigo.setText(row_pos.getCodigo());
-            holder.txtValorCompra.setText(Utils.getValorFormatado(row_pos.getValorTotal().doubleValue()));
+            holder.txtValorCompra.setText(Utils.getValorFormatado(row_pos.getValorTotal()));
         }
         return convertView;
     }

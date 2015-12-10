@@ -32,7 +32,7 @@ public class ItemCompraVO {
     }
 
     public BigDecimal getValorTotalItem() {
-        if(produto != null && produto.getPreco() != null && quantidade != null){
+        if (produto != null && produto.getPreco() != null && quantidade != null){
             valorTotalItem = new BigDecimal(produto.getPreco() * quantidade);
         }
         return valorTotalItem;
