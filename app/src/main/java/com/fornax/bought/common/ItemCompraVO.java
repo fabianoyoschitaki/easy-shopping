@@ -12,7 +12,9 @@ public class ItemCompraVO {
     private BigDecimal valorTotalItem;
 
     public ItemCompraVO(ProdutoVO produto, Integer quantidade){
-
+        this.produto = produto;
+        this.quantidade = quantidade;
+        this.valorTotalItem = new BigDecimal(0);
     }
 
     public ProdutoVO getProduto() {
