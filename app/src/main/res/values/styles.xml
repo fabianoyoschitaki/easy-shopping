@@ -1,17 +1,13 @@
 <resources>
+    <style name="AppTheme.Personalized" parent="Theme.AppCompat.Light">
+        <item name="colorPrimary">@color/action_bar_color</item>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:actionBarStyle">@style/AppTheme.Personalized.ActionBarStyle</item>
 
-    </style>
-
-
-    <style name="AppTheme.Dark" parent="Theme.AppCompat.NoActionBar">
-        <item name="colorPrimary">@color/list_background</item>
         <item name="colorPrimaryDark">@color/list_background</item>
         <item name="colorAccent">@color/primary</item>
 
-        <item name="android:windowBackground">@color/primary</item>
+        <item name="android:windowBackground">@color/white</item>
 
         <item name="colorControlNormal">@color/iron</item>
         <item name="colorControlActivated">@color/white</item>
@@ -21,7 +17,13 @@
         <item name="colorButtonNormal">@color/list_background</item>
     </style>
 
-    <style name="AppTheme.Dark.Dialog" parent="Theme.AppCompat.Dialog">
+    <style name="AppTheme.Personalized.ActionBarStyle" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:titleTextStyle">@style/AppTheme.Personalized.ActionBar.TitleTextStyle</item>
+        <item name="colorControlNormal">@color/white</item>
+    </style>
+
+    <style name="AppTheme.Personalized.ActionBar.TitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/white</item>
     </style>
 
 </resources>
