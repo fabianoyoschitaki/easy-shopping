@@ -3,15 +3,15 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:background="@drawable/fundo_telas_gradient_bg">
+    android:background="@color/white">
 
     <ListView
         android:id="@+id/itemListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="2"
-        android:divider="@null"
-        android:dividerHeight="0dp"/>
+        android:divider="@color/list_divider"
+        android:dividerHeight="1px"/>
 
     <LinearLayout
         android:orientation="horizontal"

@@ -38,7 +38,7 @@ public class CarrinhoComprasActivity extends AppCompatActivity {
     static final String ACTION_SCAN = "com.google.zxing.client.android.SCAN";
 
     /** lista que representa o carrinho de compras **/
-    private List<ItemCompraVO> itens = new ArrayList<ItemCompraVO>();
+    private static List<ItemCompraVO> itens = new ArrayList<ItemCompraVO>();
 
     /** valor total das compras **/
     private BigDecimal valorTotal = new BigDecimal(0);
@@ -55,15 +55,35 @@ public class CarrinhoComprasActivity extends AppCompatActivity {
 
     private ProgressDialog dialog;
 
+    static {
+        ProdutoVO produto = new ProdutoVO();
+        produto.setCategoria("Alimento");
+        produto.setCodigoBarra("123123123");
+        produto.setId(1);
+        produto.setNome("Meus Bago");
+        produto.setMarca("Galinha");
+        produto.setPreco(new Double(3.12));
+        produto.setUrlImagem("http://www.paodeacucar.com.br/img/uploads/1/354/473354x200x200.jpg");
+        ItemCompraVO itemCompra = new ItemCompraVO(produto, 2);
+        itens.add(itemCompra);
+
+        produto = new ProdutoVO();
+        produto.setCategoria("Enlatado");
+        produto.setCodigoBarra("123123123");
+        produto.setId(1);
+        produto.setNome("Ervilha Zuada");
+        produto.setMarca("CASINO");
+        produto.setPreco(new Double(1.33));
+        produto.setUrlImagem("http://www.paodeacucar.com.br/img/uploads/1/424/474424x200x200.jpg");
+        itemCompra = new ItemCompraVO(produto, 1);
+        itens.add(itemCompra);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carrinho_compras);
         ButterKnife.inject(this);
-
-        if (getIntent().getExtras().getSerializable("itens") != null){
-            itens = (ArrayList<ItemCompraVO>) getIntent().getExtras().getSerializable("itens");
-        }
 
         if (getIntent().getExtras().getSerializable("mercadoEscolhido") != null){
             mercadoEscolhido = (MercadoVO) getIntent().getExtras().getSerializable("mercadoEscolhido");
@@ -82,6 +102,7 @@ public class CarrinhoComprasActivity extends AppCompatActivity {
                 abrirTelaConfirmarFinalizar();
             }
         });
+        atualizaListaProdutos();
     }
 
     public void abrirTelaScan(){
@@ -145,7 +166,9 @@ public class CarrinhoComprasActivity extends AppCompatActivity {
                         public void success(ProdutoVO produtoResponse, Response response) {
                             dialog.dismiss();
                             if (produtoResponse != null) {
-                                atualizaListaProdutos(produtoResponse);
+                                ItemCompraVO item = new ItemCompraVO(produtoResponse, 1);
+                                itens.add(item);
+                                atualizaListaProdutos();
                             } else {
                                 Toast.makeText(getApplicationContext(), "Produto " + codigoBarras + " nao encontrado!", Toast.LENGTH_SHORT).show();
                             }
@@ -165,12 +188,8 @@ public class CarrinhoComprasActivity extends AppCompatActivity {
 
     /**
      * Método que atualiza lista com novo produto escaneado
-     * @param novoProduto
      */
-    private void atualizaListaProdutos(ProdutoVO novoProduto) {
-        ItemCompraVO item = new ItemCompraVO(novoProduto, 1);
-        itens.add(item);
-
+    private void atualizaListaProdutos() {
         txtValorTotal.setText(Utils.getValorFormatado(getValorTotalItens()));
 
         // Getting adapter by passing xml data ArrayList

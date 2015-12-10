@@ -62,6 +62,7 @@ public class ItemCompraAdapter extends BaseAdapter{
     private class ViewHolder {
         ImageView imgViewFoto;
         TextView txtNome;
+        TextView txtUnidade;
         TextView txtPreco;
     }
 
@@ -80,6 +81,7 @@ public class ItemCompraAdapter extends BaseAdapter{
             holder = new ViewHolder();
             holder.txtNome = (TextView) convertView.findViewById(R.id.txtNome);
             holder.imgViewFoto = (ImageView) convertView.findViewById(R.id.imgViewFoto);
+            holder.txtUnidade = (TextView) convertView.findViewById(R.id.txtUnidade);
             holder.txtPreco = (TextView) convertView.findViewById(R.id.txtPreco);
 
             convertView.setTag(holder);
@@ -90,14 +92,14 @@ public class ItemCompraAdapter extends BaseAdapter{
         ItemCompraVO row_pos = itens.get(position);
 
         if(row_pos != null && row_pos.getProduto() != null){
-            ProdutoVO produto = row_pos.getProduto();
             Picasso.with(parent.getContext())
-                    .load(produto.getUrlImagem())
-                    .placeholder(android.R.drawable.star_big_on) //
-                    .error(android.R.drawable.star_big_on)
-                    .into(holder.imgViewFoto);
-            holder.txtNome.setText(produto.getNome());
-            holder.txtPreco.setText(Utils.getValorFormatado(produto.getPreco()));
+                .load(row_pos.getProduto().getUrlImagem())
+                .placeholder(android.R.drawable.star_big_on) //
+                .error(android.R.drawable.star_big_on)
+                .into(holder.imgViewFoto);
+            holder.txtNome.setText(row_pos.getProduto().getNome());
+            holder.txtUnidade.setText(row_pos.getQuantidade() + " un");
+            holder.txtPreco.setText(Utils.getValorFormatado(row_pos.getProduto().getPreco()));
         }
 
         return convertView;

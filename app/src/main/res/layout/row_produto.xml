@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/fundo_telas_gradient_bg"
+    android:background="@color/white"
     android:padding="2dp" >
 
     <ImageView
@@ -11,16 +11,14 @@
         android:layout_height="80dp"
         android:contentDescription="desc"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:background="@drawable/fundo_telas_gradient_bg"/>
+        android:paddingRight="10dp"/>
 
     <TextView
         android:id="@+id/txtNome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="6dp"
         android:layout_toRightOf="@+id/imgViewFoto"
-        android:paddingBottom="6dp"
         android:textColor="#484848"
         android:text="txt"
         android:textSize="20dip" />
@@ -29,12 +27,24 @@
         android:id="@+id/txtPreco"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/txtNome"
+        android:layout_marginRight="7dp"
+        android:layout_marginBottom="6dp"
         android:layout_toRightOf="@+id/imgViewFoto"
         android:layout_alignBottom="@+id/imgViewFoto"
         android:textColor="#008c13"
         android:text="txt"
         android:textSize="20dip" />
+
+    <TextView
+        android:id="@+id/txtUnidade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:layout_toRightOf="@+id/txtPreco"
+        android:layout_alignBaseline="@+id/txtPreco"
+        android:textColor="#8c8c8c"
+        android:text="txt"
+        android:textSize="18dip" />
 
 
 </RelativeLayout>
