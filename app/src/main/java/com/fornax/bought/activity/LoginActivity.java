@@ -14,12 +14,20 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fornax.bought.common.ItemCompraVO;
+import com.fornax.bought.common.LoginVO;
+import com.fornax.bought.common.ProdutoVO;
+import com.fornax.bought.rest.RestClient;
+import com.fornax.bought.rest.WSRestService;
 import com.fornax.bought.utils.SharedPreferencesUtil;
 
 
 import bought.fornax.com.bought.R;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class LoginActivity extends AppCompatActivity{
 
@@ -82,30 +90,47 @@ public class LoginActivity extends AppCompatActivity{
 
         loginButton.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this, R.style.AppTheme_Dark_Dialog);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Autenticando...");
-        progressDialog.show();
+        final ProgressDialog  dialog = new ProgressDialog(LoginActivity.this, R.style.AppTheme_Personalized);
+        dialog.setIndeterminate(true);
+        dialog.setMessage("Autenticando...");
+        dialog.show();
 
-        String email = emailText.getText().toString();
-        String password = senhaText.getText().toString();
+        final String email = emailText.getText().toString();
+        final String senha = senhaText.getText().toString();
 
-        // TODO: Implement your own authentication logic here.
-         new android.os.Handler().postDelayed(
+        new android.os.Handler().postDelayed(
                  new Runnable() {
                      public void run() {
-                         // On complete call either onLoginSuccess or onLoginFailed
-                         onLoginSuccess();
-                         // onLoginFailed();
-                         progressDialog.dismiss();
-
-
-                         Intent intent = new Intent(getApplicationContext(), TelaPrincipalActivity.class);
-                         startActivity(intent);
+                         dialog.dismiss();
+                         efetuarLogin(email, senha,dialog);
                      }
                  }, 1000);
     }
 
+    public void efetuarLogin(String email, String senha, final ProgressDialog dialog){
+        WSRestService restClient = new WSRestService();
+        restClient.getRestAPI().autenticar(email, senha, new Callback<LoginVO>() {
+            @Override
+            public void success(LoginVO loginResponse, Response response) {
+                if (loginResponse != null) {
+                    if (loginResponse.getStatusLogin() == 0) {
+                        onLoginSuccess();
+                        Intent intent = new Intent(getApplicationContext(), TelaPrincipalActivity.class);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(getApplicationContext(), loginResponse.getMsg(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+                loginButton.setEnabled(true);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                dialog.dismiss();
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -150,20 +175,21 @@ public class LoginActivity extends AppCompatActivity{
         String email = emailText.getText().toString();
         String password = senhaText.getText().toString();
 
-       // if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-        if (email.isEmpty()) {
-            emailText.setError("Entre com um e-mail válido.");
-            valid = false;
-        } else {
-            emailText.setError(null);
-        }
+           if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+               if (email.isEmpty()) {
+                   emailText.setError("Entre com um e-mail válido.");
+                   valid = false;
+               } else {
+                   emailText.setError(null);
+               }
 
-        if (password.isEmpty() || password.length() < 3 || password.length() > 10) {
-            senhaText.setError("A senha deve conter no mínimo 3 caracteres.");
-            valid = false;
-        } else {
-            senhaText.setError(null);
-        }
+               if (password.isEmpty() || password.length() < 3 || password.length() > 10) {
+                   senhaText.setError("A senha deve conter no mínimo 3 caracteres.");
+                   valid = false;
+               } else {
+                   senhaText.setError(null);
+               }
+           }
 
         return valid;
     }

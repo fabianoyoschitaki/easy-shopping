@@ -45,7 +45,10 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" >
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name="com.fornax.bought.activity.SignupActivity"
@@ -70,10 +73,6 @@
             android:name="com.fornax.bought.activity.TelaPrincipalActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Personalized" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="com.fornax.bought.paypal.SampleActivity"
