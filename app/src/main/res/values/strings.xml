@@ -41,4 +41,5 @@
 
     <!-- Content Description -->
     <string name="desc_list_item_icon">Item Icon</string>
+    <string name="title_activity_pegar_carrinho">PegarCarrinhoActivity</string>
 </resources>

@@ -17,10 +17,13 @@ import android.widget.ListView;
 
 import com.fornax.bought.activity.CarrinhoComprasActivity;
 import com.fornax.bought.activity.EscolherMercadoActivity;
+import com.fornax.bought.activity.PegarCarrinhoActivity;
 import com.fornax.bought.common.MercadoVO;
 import com.fornax.bought.mock.ComprasMock;
 
 import bought.fornax.com.bought.R;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 /**
  * Created by Rodrigo on 21/11/15.
@@ -31,18 +34,17 @@ public class InicioFragment extends android.app.Fragment implements AdapterView.
 
     private ListView categoriasListView;
     private ProgressDialog dialog;
+    private Button iniciarCompraButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_inicio, container, false);
-
-        ImageButton img = (ImageButton) rootView.findViewById(R.id.btn_iniciar);
-        img.setOnClickListener(new View.OnClickListener() {
-
+        iniciarCompraButton = (Button) rootView.findViewById(R.id.btn_iniciar_compra);
+        iniciarCompraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-
-                Intent intent = new Intent(getActivity(), EscolherMercadoActivity.class);
+                //Intent intent = new Intent(getActivity(), EscolherMercadoActivity.class);
+                Intent intent = new Intent(getActivity(), PegarCarrinhoActivity.class);
                 startActivity(intent);
             }
 
