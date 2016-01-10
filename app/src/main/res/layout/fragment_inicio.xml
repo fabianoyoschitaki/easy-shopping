@@ -7,7 +7,7 @@
      space available using match_parent in both dimensions. -->
     <FrameLayout android:id="@+id/container" android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/fundo_telas_gradient_bg">
+        android:background="@color/white">
 
         <ImageButton
             android:layout_width="wrap_content"

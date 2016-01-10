@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="123dp"
+        android:gravity="center_horizontal"
+        android:layout_weight="0.35"
+        android:weightSum="1">
+
+        <Button
+            android:layout_width="230dp"
+            android:layout_height="wrap_content"
+            android:text="SCAN"
+            android:background="@drawable/button_default"
+            android:textColor="@color/white"
+            android:id="@+id/btnScan"
+            android:layout_marginTop="20dp"
+            android:layout_weight="0.25"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" />
+
+        <Button
+            android:layout_width="225dp"
+            android:layout_height="wrap_content"
+            android:text="DIGITAR CÓDIGO DE BARRAS"
+            android:textColor="@color/white"
+            android:background="@drawable/button_default"
+            android:id="@+id/btnDigitar"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="30dp"
+            android:layout_weight="0.36"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" />
+    </LinearLayout>
+
+</LinearLayout>

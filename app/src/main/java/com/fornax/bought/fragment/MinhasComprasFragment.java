@@ -2,6 +2,7 @@ package com.fornax.bought.fragment;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,7 @@ import java.util.List;
 
 import bought.fornax.com.bought.R;
 
-public class MinhasComprasFragment extends android.app.Fragment implements AdapterView.OnItemClickListener {
+public class MinhasComprasFragment extends android.app.Fragment {
 
     private ListView listMinhasCompras;
     private List<MinhaCompraVO> listCompras;
@@ -36,6 +37,14 @@ public class MinhasComprasFragment extends android.app.Fragment implements Adapt
 
         populateComprasListView();
 
+        listMinhasCompras.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setView(R.layout.dialog_minhas_compras).show();
+            }
+        });
+
         // Inflate the layout for this fragment
         return rootView;
     }
@@ -45,9 +54,4 @@ public class MinhasComprasFragment extends android.app.Fragment implements Adapt
         listMinhasCompras.setAdapter(minhasComprasAdapter);
     }
 
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-    }
 }

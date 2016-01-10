@@ -18,21 +18,10 @@ public class SucessoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sucesso);
 
-        /**if(LoginActivity.codigosEscaneados != null) {
-            LoginActivity.codigosEscaneados.clear();
-        }**/
-
         final Random numRandomico = new Random();
 
         String codigoSucesso = String.valueOf(numRandomico.nextInt(10310 * 33165));
-        TextView txt = (TextView) findViewById(R.id.txtCodigoSucesso);
-        txt.setText(codigoSucesso);
 
-        Button btn = (Button) findViewById(R.id.btn_voltar);
-        btn.setOnClickListener(new Button.OnClickListener() {
-            public void onClick(View v) {
 
-            }
-        });
     }
 }

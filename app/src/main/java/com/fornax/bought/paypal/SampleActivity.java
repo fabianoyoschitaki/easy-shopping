@@ -127,7 +127,7 @@ public class SampleActivity extends Activity {
         PayPalPayment payment = new PayPalPayment(amount, "USD", "sample item", paymentIntent);
         payment.items(items).paymentDetails(paymentDetails);
 
-        //--- set other optional fields like invoice_number, custom field, and soft_descriptor
+        //--- set other optional fields like invoice_number, dialog_finalizar field, and soft_descriptor
         payment.custom("This is text that will be associated with the payment that the app can use.");
 
         return payment;
