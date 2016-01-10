@@ -26,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Iniciar Compra!"
-        android:layout_gravity="center_horizontal|bottom"
+        android:layout_gravity="center_horizontal"
         android:background="@drawable/button_default"
         android:textColor="@color/white"
         android:layout_marginTop="10dp"
