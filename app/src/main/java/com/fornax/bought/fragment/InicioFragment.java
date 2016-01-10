@@ -1,5 +1,6 @@
 package com.fornax.bought.fragment;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.ProgressDialog;
@@ -13,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 
 
 import com.fornax.bought.activity.CarrinhoComprasActivity;
@@ -28,7 +30,7 @@ import butterknife.InjectView;
 /**
  * Created by Rodrigo on 21/11/15.
  */
-public class InicioFragment extends android.app.Fragment implements AdapterView.OnItemClickListener {
+public class InicioFragment extends android.app.Fragment {
 
     private static final String TAG = InicioFragment.class.getName();
 
@@ -43,28 +45,39 @@ public class InicioFragment extends android.app.Fragment implements AdapterView.
         iniciarCompraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                //Intent intent = new Intent(getActivity(), EscolherMercadoActivity.class);
-                Intent intent = new Intent(getActivity(), PegarCarrinhoActivity.class);
-                startActivity(intent);
+                //Intent intent = new Intent(getActivity(), PegarCarrinhoActivity.class);
+
+                //https://androidcookbook.com/Recipe.seam?recipeId=3324
+                Intent intent = new Intent("com.google.zxing.client.android.SCAN");
+                intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
+                startActivityForResult(intent, 0);	//Barcode Scanner to scan for us
             }
 
         });
-
         return rootView;
     }
 
-    protected synchronized void buildGoogleApiClient(Context context) {
+    /**
+     * Depois que voltar o QR code
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param intent
+     */
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (requestCode == 0) {
+            if (resultCode == Activity.RESULT_OK) {
+                String qrCodeFormat = intent.getStringExtra("SCAN_RESULT_FORMAT");
+                String resultado = intent.getStringExtra("SCAN_RESULT");
+                if ("QR_CODE".equals(qrCodeFormat)){
+                    Intent carrinhoCompras = new Intent(getActivity(), CarrinhoComprasActivity.class);
+                    MercadoVO mercadoEscolhido = ComprasMock.getMercadoPeloQRCode(resultado);
+                    carrinhoCompras.putExtra("mercadoEscolhido", mercadoEscolhido);
+                    startActivity(carrinhoCompras);
+                }
+            } else if (resultCode == Activity.RESULT_CANCELED) {
 
-        //mGoogleApiClient = new GoogleApiClient.Builder(this)
-         //       .addConnectionCallbacks(this)
-         //       .addOnConnectionFailedListener(this)
-          //      .addApi(LocationServices.API)
-            //    .build();
+            }
+        }
     }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-    }
-
 }

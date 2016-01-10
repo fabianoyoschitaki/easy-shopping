@@ -29,4 +29,19 @@ public class ComprasMock {
         retorno.add(new MercadoVO(3, "Pão de Açúcar", "O mercado do pão diabético", "São Paulo", "SP", "Brasil", "300", "Avenida", "12345-000", "http://res.cloudinary.com/networkmi/image/upload/v1449290461/pao-de-acucar-logo_oy5zhs.jpg"));
         return retorno;
     }
+
+    public static MercadoVO getMercadoPeloQRCode(String qrCode) {
+
+        MercadoVO retorno = null;
+        if (qrCode != null){
+            if (qrCode.equals("carrefour0001")){
+                retorno = ComprasMock.getMercados().get(0);
+            } else if (qrCode.equals("extra0001")){
+                retorno = ComprasMock.getMercados().get(1);
+            } else {
+                retorno = ComprasMock.getMercados().get(2);
+            }
+        }
+        return retorno;
+    }
 }
