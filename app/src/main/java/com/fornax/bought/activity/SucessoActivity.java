@@ -20,8 +20,7 @@ public class SucessoActivity extends AppCompatActivity {
 
         final Random numRandomico = new Random();
 
-        String codigoSucesso = String.valueOf(numRandomico.nextInt(10310 * 33165));
-
+        String sucesso = "blablalbla";
 
     }
 }
