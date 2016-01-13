@@ -1,12 +1,11 @@
 package com.fornax.bought.activity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-
-import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -14,17 +13,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.fornax.bought.common.ItemCompraVO;
 import com.fornax.bought.common.LoginVO;
-import com.fornax.bought.common.ProdutoVO;
-import com.fornax.bought.rest.RestClient;
 import com.fornax.bought.rest.WSRestService;
+import com.fornax.bought.utils.Constants;
 import com.fornax.bought.utils.SharedPreferencesUtil;
 
-
 import bought.fornax.com.bought.R;
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -34,11 +30,11 @@ public class LoginActivity extends AppCompatActivity{
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
 
-    @InjectView(R.id.input_email) EditText emailText;
-    @InjectView(R.id.input_password) EditText senhaText;
-    @InjectView(R.id.btn_login) Button loginButton;
-    @InjectView(R.id.link_signup) TextView signupLink;
-    @InjectView(R.id.ckbManterLogado) CheckBox ckbManterLogado;
+    @Bind(R.id.input_email) EditText emailText;
+    @Bind(R.id.input_password) EditText senhaText;
+    @Bind(R.id.btn_login) Button loginButton;
+    @Bind(R.id.link_signup) TextView signupLink;
+    @Bind(R.id.ckbManterLogado) CheckBox ckbManterLogado;
 
     private SharedPreferencesUtil sharedPreferencesUtil;
 
@@ -50,7 +46,7 @@ public class LoginActivity extends AppCompatActivity{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
 
 
         /** resgatando dados do email e senha caso tenha **/
@@ -90,8 +86,7 @@ public class LoginActivity extends AppCompatActivity{
 
         loginButton.setEnabled(false);
 
-        final ProgressDialog  dialog = new ProgressDialog(LoginActivity.this, R.style.AppTheme_Personalized);
-        dialog.setIndeterminate(true);
+        final ProgressDialog  dialog = new ProgressDialog(this);
         dialog.setMessage("Autenticando...");
         dialog.show();
 
@@ -113,7 +108,8 @@ public class LoginActivity extends AppCompatActivity{
             @Override
             public void success(LoginVO loginResponse, Response response) {
                 if (loginResponse != null) {
-                    if (loginResponse.getStatusLogin() == 0) {
+
+                    if (Constants.LOGIN_CODIGO_SUCESSO.equals(loginResponse.getStatus())) {
                         onLoginSuccess();
                         Intent intent = new Intent(getApplicationContext(), TelaPrincipalActivity.class);
                         startActivity(intent);

@@ -5,17 +5,17 @@ package com.fornax.bought.common;
  */
 public class LoginVO {
 
-    private Integer statusLogin;
-
-    public Integer getStatusLogin() {
-        return statusLogin;
-    }
-
-    public void setStatusLogin(Integer statusLogin) {
-        this.statusLogin = statusLogin;
-    }
-
+    private Integer status;
     private String msg;
+    private UsuarioVO usuario;
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 
     public String getMsg() {
         return msg;
@@ -25,5 +25,12 @@ public class LoginVO {
         this.msg = msg;
     }
 
+    public UsuarioVO getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(UsuarioVO usuario) {
+        this.usuario = usuario;
+    }
 }
 

@@ -15,17 +15,26 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.fornax.bought.activity.CarrinhoComprasActivity;
 import com.fornax.bought.activity.EscolherMercadoActivity;
 import com.fornax.bought.activity.PegarCarrinhoActivity;
+import com.fornax.bought.common.CarrinhoVO;
 import com.fornax.bought.common.MercadoVO;
+import com.fornax.bought.common.UsuarioVO;
 import com.fornax.bought.mock.ComprasMock;
+import com.fornax.bought.rest.RestClient;
+
+import java.util.List;
 
 import bought.fornax.com.bought.R;
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by Rodrigo on 21/11/15.
@@ -34,14 +43,14 @@ public class InicioFragment extends android.app.Fragment {
 
     private static final String TAG = InicioFragment.class.getName();
 
-    private ListView categoriasListView;
-    private ProgressDialog dialog;
-    private Button iniciarCompraButton;
+
+    @Bind(R.id.btn_iniciar_compra) Button iniciarCompraButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_inicio, container, false);
-        iniciarCompraButton = (Button) rootView.findViewById(R.id.btn_iniciar_compra);
+        ButterKnife.bind(this, rootView);
+
         iniciarCompraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
@@ -70,14 +79,45 @@ public class InicioFragment extends android.app.Fragment {
                 String qrCodeFormat = intent.getStringExtra("SCAN_RESULT_FORMAT");
                 String resultado = intent.getStringExtra("SCAN_RESULT");
                 if ("QR_CODE".equals(qrCodeFormat)){
-                    Intent carrinhoCompras = new Intent(getActivity(), CarrinhoComprasActivity.class);
-                    MercadoVO mercadoEscolhido = ComprasMock.getMercadoPeloQRCode(resultado);
-                    carrinhoCompras.putExtra("mercadoEscolhido", mercadoEscolhido);
-                    startActivity(carrinhoCompras);
+                    final ProgressDialog dialog;
+                    dialog = new ProgressDialog(getActivity());
+                    dialog.setMessage("Pegando carrinho...");
+                    dialog.show();
+
+                    RestClient restClient = new RestClient();
+                    // TODO usuario de verdade
+                    UsuarioVO usuario = new UsuarioVO();
+                    usuario.setEmail("admin@bought.com.br");
+                    usuario.setSenha("123456");
+
+                    restClient.getRestAPI().obterNovoCarrinho(resultado, usuario, new Callback<CarrinhoVO>() {
+                        @Override
+                        public void success(CarrinhoVO carrinhoResponse, Response response) {
+                            dialog.dismiss();
+                            onCarrinhoLoaded(carrinhoResponse);
+                        }
+
+                        @Override
+                        public void failure(RetrofitError error) {
+                            dialog.dismiss();
+                            Toast.makeText(getActivity().getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             } else if (resultCode == Activity.RESULT_CANCELED) {
 
             }
         }
+    }
+
+    /**
+     * Método quando o carrinho é obtido com sucesso
+     * @param carrinhoResponse
+     */
+    private void onCarrinhoLoaded(CarrinhoVO carrinhoResponse) {
+        Intent carrinhoCompras = new Intent(getActivity(), CarrinhoComprasActivity.class);
+        MercadoVO mercadoEscolhido = carrinhoResponse.getMercado();
+        carrinhoCompras.putExtra("mercadoEscolhido", mercadoEscolhido);
+        startActivity(carrinhoCompras);
     }
 }

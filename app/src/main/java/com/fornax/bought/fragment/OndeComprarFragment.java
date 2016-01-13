@@ -9,15 +9,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.fornax.bought.activity.CarrinhoComprasActivity;
 import com.fornax.bought.adapter.MercadoListAdapter;
 import com.fornax.bought.common.MercadoVO;
 import com.fornax.bought.mock.ComprasMock;
+import com.fornax.bought.rest.RestClient;
 
 import java.util.List;
 
 import bought.fornax.com.bought.R;
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by Rodrigo on 21/11/15.
@@ -27,31 +34,44 @@ public class OndeComprarFragment extends Fragment implements AdapterView.OnItemC
     private static final String TAG = OndeComprarFragment.class.getName();
 
     private List<MercadoVO> mercados;
-    private ListView mercadosListView;
+
+    @Bind(R.id.mercado_list_view) ListView mercadosListView;
+
     private ProgressDialog dialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_onde_comprar, container, false);
-        mercadosListView = (ListView) rootView.findViewById(R.id.mercado_list_view);
-        mercadosListView.setOnItemClickListener(this);
+        ButterKnife.bind(this, rootView);
         if (mercados == null) {
             dialog = new ProgressDialog(getActivity());
             dialog.setMessage("Carregando Mercados");
             dialog.show();
-            mercados = ComprasMock.getMercados();
-            dialog.dismiss();
-        }
+            RestClient restClient = new RestClient();
+            restClient.getRestAPI().obterTodosMercados(new Callback<List<MercadoVO>>() {
+                @Override
+                public void success(List<MercadoVO> mercadosResponse, Response response) {
+                    dialog.dismiss();
+                    onMercadosLoaded(mercadosResponse);
+                }
 
-        populateMercadosListView();
+                @Override
+                public void failure(RetrofitError error) {
+                    dialog.dismiss();
+                    Toast.makeText(getActivity().getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
 
         // Inflate the layout for this fragment
         return rootView;
     }
 
-    protected void populateMercadosListView() {
+    private void onMercadosLoaded(List<MercadoVO> mercadosResponse) {
+        mercados = mercadosResponse;
         MercadoListAdapter adapter = new MercadoListAdapter(getActivity(), mercados);
         mercadosListView.setAdapter(adapter);
+        mercadosListView.setOnItemClickListener(this);
     }
 
     @Override

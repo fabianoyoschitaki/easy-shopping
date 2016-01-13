@@ -13,6 +13,7 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
 import java.lang.reflect.Type;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -41,6 +42,25 @@ public class JSONUtil {
             public JsonElement serialize(Date src, Type typeOfSrc, JsonSerializationContext
                     context) {
                 return src == null ? null : new JsonPrimitive(src.getTime());
+            }
+        });
+
+        // Register an adapter to manage the date types as long values
+        builder.registerTypeAdapter(Calendar.class, new JsonDeserializer<Calendar>() {
+            @Override
+            public Calendar deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(new Date(json.getAsJsonPrimitive().getAsLong()));
+                return calendar;
+            }
+        });
+
+        // Register an adapter to manage the date types as long values
+        builder.registerTypeAdapter(Calendar.class, new JsonSerializer<Calendar>() {
+            @Override
+            public JsonElement serialize(Calendar src, Type typeOfSrc, JsonSerializationContext
+                    context) {
+                return src == null ? null : new JsonPrimitive(src.getTime().getTime());
             }
         });
 

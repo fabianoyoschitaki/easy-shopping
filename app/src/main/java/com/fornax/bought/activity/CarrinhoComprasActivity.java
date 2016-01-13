@@ -35,8 +35,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bought.fornax.com.bought.R;
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -55,14 +55,10 @@ public class CarrinhoComprasActivity extends AppCompatActivity {
 
     private ItemCompraAdapter itemCompraAdapter;
 
-    @InjectView(R.id.itemListView)
-    ListView itemListView;
-    @InjectView(R.id.btn_scan)
-    Button btnScan;
-    @InjectView(R.id.btn_finalizar)
-    Button btnFinalizar;
-    @InjectView(R.id.txtValorTotal)
-    TextView txtValorTotal;
+    @Bind(R.id.itemListView)ListView itemListView;
+    @Bind(R.id.btn_scan)Button btnScan;
+    @Bind(R.id.btn_finalizar)Button btnFinalizar;
+    @Bind(R.id.txtValorTotal)TextView txtValorTotal;
 
     private ProgressDialog dialog;
 
@@ -94,7 +90,7 @@ public class CarrinhoComprasActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carrinho_compras);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
 
         if (getIntent().getExtras().getSerializable("mercadoEscolhido") != null){
             mercadoEscolhido = (MercadoVO) getIntent().getExtras().getSerializable("mercadoEscolhido");

@@ -11,23 +11,23 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import bought.fornax.com.bought.R;
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 public class SignupActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
 
-    @InjectView(R.id.input_name) EditText _nameText;
-    @InjectView(R.id.input_email) EditText _emailText;
-    @InjectView(R.id.input_password) EditText _passwordText;
-    @InjectView(R.id.btn_signup) Button _signupButton;
-    @InjectView(R.id.link_login) TextView _loginLink;
+    @Bind(R.id.input_name) EditText _nameText;
+    @Bind(R.id.input_email) EditText _emailText;
+    @Bind(R.id.input_password) EditText _passwordText;
+    @Bind(R.id.btn_signup) Button _signupButton;
+    @Bind(R.id.link_login) TextView _loginLink;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
 
         _signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
