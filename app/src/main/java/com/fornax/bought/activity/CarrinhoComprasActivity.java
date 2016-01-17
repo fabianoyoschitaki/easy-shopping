@@ -18,6 +18,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
@@ -41,7 +42,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class CarrinhoComprasActivity extends AppCompatActivity {
+public class CarrinhoComprasActivity extends AppCompatActivity implements ItemCompraAdapter.CustomButtonListener{
     static final String ACTION_SCAN = "com.google.zxing.client.android.SCAN";
 
     /** lista que representa o carrinho de compras **/
@@ -92,7 +93,7 @@ public class CarrinhoComprasActivity extends AppCompatActivity {
         setContentView(R.layout.activity_carrinho_compras);
         ButterKnife.bind(this);
 
-        if (getIntent().getExtras().getSerializable("mercadoEscolhido") != null){
+        if (getIntent().getExtras().getSerializable("mercadoEscolhido") != null) {
             mercadoEscolhido = (MercadoVO) getIntent().getExtras().getSerializable("mercadoEscolhido");
             Toast.makeText(getApplicationContext(), mercadoEscolhido.getNome(), Toast.LENGTH_SHORT).show();
         }
@@ -115,7 +116,7 @@ public class CarrinhoComprasActivity extends AppCompatActivity {
                 });
 
                 Button btnDigitar = (Button) dialogEscolherForma.findViewById(R.id.btnDigitar);
-                btnDigitar.setOnClickListener(new View.OnClickListener(){
+                btnDigitar.setOnClickListener(new View.OnClickListener() {
 
                     @Override
                     public void onClick(View v) {
@@ -125,16 +126,16 @@ public class CarrinhoComprasActivity extends AppCompatActivity {
                         dialogInserirCodBarra.getWindow().setBackgroundDrawableResource(R.drawable.dialog_box);
 
                         final EditText edt = (EditText) dialogInserirCodBarra.findViewById(R.id.edtCodigoBarras);
-                        if(edt.requestFocus()) {
+                        if (edt.requestFocus()) {
                             dialogInserirCodBarra.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
                         }
 
                         Button btnPronto = (Button) dialogInserirCodBarra.findViewById(R.id.btnPronto);
-                        btnPronto.setOnClickListener(new View.OnClickListener(){
+                        btnPronto.setOnClickListener(new View.OnClickListener() {
 
                             @Override
                             public void onClick(View v) {
-                                if(edt.getText() != null){
+                                if (edt.getText() != null) {
                                     buscarProduto(edt.getText().toString());
                                 }
                                 dialogInserirCodBarra.dismiss();
@@ -152,11 +153,15 @@ public class CarrinhoComprasActivity extends AppCompatActivity {
         btnFinalizar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                abrirTelaConfirmarFinalizar();
+                Intent intent = new Intent(getApplicationContext(), CarrinhoFinalizadoActivity.class);
+                startActivity(intent);
             }
         });
+
         atualizaListaProdutos();
     }
+
+
 
     public void abrirTelaScan(){
         try {
@@ -276,17 +281,19 @@ public class CarrinhoComprasActivity extends AppCompatActivity {
 
         // Getting adapter by passing xml data ArrayList
         itemCompraAdapter = new ItemCompraAdapter(this, itens);
+        itemCompraAdapter.setCustomButtonListener(CarrinhoComprasActivity.this);
         itemListView.setAdapter(itemCompraAdapter);
 
         // Click event for single list row
         itemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+
+
                 final Dialog dialog = new Dialog(CarrinhoComprasActivity.this);
                 dialog.setContentView(R.layout.custom_dialog_editar);
                 dialog.setTitle("Quantidade");
                 dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_box);
-
 
                 NumberPicker number = (NumberPicker) dialog.findViewById(R.id.numberPicker);
                 number.setMaxValue(100);
@@ -308,6 +315,7 @@ public class CarrinhoComprasActivity extends AppCompatActivity {
                         itemCompraAdapter = new ItemCompraAdapter(CarrinhoComprasActivity.this, itens);
                         itemListView.setAdapter(itemCompraAdapter);
 
+                        txtValorTotal.setText(Utils.getValorFormatado(getValorTotalItens()));
                         dialog.dismiss();
                     }
                 });
@@ -333,5 +341,11 @@ public class CarrinhoComprasActivity extends AppCompatActivity {
             }
         }
         return retorno;
+    }
+
+    @Override
+    public void onButtonClickListener(int position) {
+        itens.remove(position);
+        atualizaListaProdutos();
     }
 }

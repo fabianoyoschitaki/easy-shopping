@@ -1,50 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/white"
-    android:padding="2dp" >
+    android:padding="2dp"
+    android:orientation="horizontal"
+    android:weightSum="1">
 
-    <ImageView
-        android:id="@+id/imgViewFoto"
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imgViewFoto"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:contentDescription="desc"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="59dp"
+        android:layout_height="80dp"
+        android:orientation="vertical"
+        android:layout_weight="0.99">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtNome"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginTop="6dp"
+                android:layout_weight="1"
+                android:text="ervila zuaada"
+                android:textColor="#484848"
+                android:textSize="20dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="bottom">
+
+            <TextView
+                android:id="@+id/txtPreco"
+                android:layout_weight="1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#008c13"
+                android:text="R$ 231,2"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/txtUnidade"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_weight="1"
+                android:textColor="#8c8c8c"
+                android:text="60un"
+                android:textSize="18dip" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:contentDescription="desc"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"/>
+        android:background="@drawable/border_delete"
+        android:gravity="center_vertical|center_horizontal">
 
-    <TextView
-        android:id="@+id/txtNome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:layout_toRightOf="@+id/imgViewFoto"
-        android:textColor="#484848"
-        android:text="txt"
-        android:textSize="20dip" />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgBtnExcluir"
+            android:src="@mipmap/ic_delete"
+            android:background="@null" />
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/txtPreco"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="7dp"
-        android:layout_marginBottom="6dp"
-        android:layout_toRightOf="@+id/imgViewFoto"
-        android:layout_alignBottom="@+id/imgViewFoto"
-        android:textColor="#008c13"
-        android:text="txt"
-        android:textSize="20dip" />
-
-    <TextView
-        android:id="@+id/txtUnidade"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="6dp"
-        android:layout_toRightOf="@+id/txtPreco"
-        android:layout_alignBaseline="@+id/txtPreco"
-        android:textColor="#8c8c8c"
-        android:text="txt"
-        android:textSize="18dip" />
-
-
-</RelativeLayout>
+</LinearLayout>
