@@ -55,7 +55,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Adicionar Produto"
-            android:background="@drawable/button_default"
+            android:background="@drawable/button_orange"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="4dp"
             android:layout_marginBottom="4dp"/>
@@ -65,7 +65,7 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/button_default"
+            android:background="@drawable/button_orange"
             android:text="Finalizar"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="8dp"

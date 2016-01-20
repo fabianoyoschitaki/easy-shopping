@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">IBought</string>
+    <string name="app_name">IBOUGHT</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -21,7 +21,7 @@
 
     <!-- Títulos dos itens do menu -->
     <string-array name="drawer_item_titles">
-        <item>Início</item>
+        <item>INICIO</item>
         <item>Onde Comprar?</item>
         <item>Minhas Compras</item>
         <item>Configurações</item>

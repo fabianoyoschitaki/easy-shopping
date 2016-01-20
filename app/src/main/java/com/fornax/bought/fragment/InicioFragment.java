@@ -44,7 +44,7 @@ public class InicioFragment extends android.app.Fragment {
     private static final String TAG = InicioFragment.class.getName();
 
 
-    @Bind(R.id.btn_iniciar_compra) Button iniciarCompraButton;
+    @Bind(R.id.btn_iniciar_compra) ImageButton iniciarCompraButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
