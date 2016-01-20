@@ -154,6 +154,7 @@ public class CarrinhoComprasActivity extends AppCompatActivity implements ItemCo
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), CarrinhoFinalizadoActivity.class);
+                intent.putExtra("valorTotal", valorTotal);
                 startActivity(intent);
             }
         });
@@ -277,7 +278,8 @@ public class CarrinhoComprasActivity extends AppCompatActivity implements ItemCo
      * Método que atualiza lista com novo produto escaneado
      */
     private void atualizaListaProdutos() {
-        txtValorTotal.setText(Utils.getValorFormatado(getValorTotalItens()));
+        valorTotal = getValorTotalItens();
+        txtValorTotal.setText(Utils.getValorFormatado(valorTotal));
 
         // Getting adapter by passing xml data ArrayList
         itemCompraAdapter = new ItemCompraAdapter(this, itens);
@@ -315,7 +317,8 @@ public class CarrinhoComprasActivity extends AppCompatActivity implements ItemCo
                         itemCompraAdapter = new ItemCompraAdapter(CarrinhoComprasActivity.this, itens);
                         itemListView.setAdapter(itemCompraAdapter);
 
-                        txtValorTotal.setText(Utils.getValorFormatado(getValorTotalItens()));
+                        valorTotal = getValorTotalItens();
+                        txtValorTotal.setText(Utils.getValorFormatado(valorTotal));
                         dialog.dismiss();
                     }
                 });
