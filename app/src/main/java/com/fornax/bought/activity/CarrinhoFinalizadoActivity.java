@@ -1,5 +1,6 @@
 package com.fornax.bought.activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -44,7 +45,9 @@ public class CarrinhoFinalizadoActivity extends AppCompatActivity {
         btnEfetuarPagamento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Pagar!", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(CarrinhoFinalizadoActivity.this, PagamentoEfetuadoActivity.class);
+                intent.putExtra("valorTotal", valorTotal);
+                startActivity(intent);
             }
         });
     }
