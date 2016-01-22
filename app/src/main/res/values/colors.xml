@@ -31,4 +31,11 @@
 
   <color name="action_bar_color">#12a91d</color>
 
+  <!-- Material Design -->
+  <color name="colorPrimary">#cf13760f</color>
+  <color name="colorPrimaryDark">#cf024d00</color>
+  <color name="textColorPrimary">#FFFFFF</color>
+  <color name="windowBackground">#FFFFFF</color>
+  <color name="navigationBarColor">#000000</color>
+  <color name="colorAccent">#ff31f5</color>
 </resources>

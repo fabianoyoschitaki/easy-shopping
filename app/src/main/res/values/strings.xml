@@ -1,11 +1,12 @@
 <resources>
     <string name="app_name">IBOUGHT</string>
 
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="action_search">Search</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
 
     <string name="title_activity_tela_inicial">TelaInicial</string>
-
     <string name="title_cartoes">Cartões</string>
     <string name="title_configuracoes">Configurações</string>
     <string name="title_sobre">Sobre</string>
@@ -13,14 +14,20 @@
     <string name="navigation_drawer_open">Abrindo Menu</string>
     <string name="navigation_drawer_close">Fechando Menu</string>
 
-    <string name="action_example">Example action</string>
     <string name="title_activity_initial">InitialActivity</string>
 
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
-    <!-- Títulos dos itens do menu -->
+    <!-- navigation drawer item labels  -->
     <string-array name="drawer_item_titles">
+        <item>INICIO</item>
+        <item>Onde Comprar?</item>
+        <item>Minhas Compras</item>
+        <item>Configurações</item>
+        <item>PayPal</item>
+        <item>Sair</item>
+    </string-array>
+
+    <!-- navigation drawer item labels  -->
+    <string-array name="nav_drawer_labels">
         <item>INICIO</item>
         <item>Onde Comprar?</item>
         <item>Minhas Compras</item>
@@ -43,4 +50,8 @@
     <string name="desc_list_item_icon">Item Icon</string>
     <string name="title_activity_pegar_carrinho">PegarCarrinhoActivity</string>
     <string name="title_activity_carrinho_finalizado">CarrinhoFinalizadoActivity</string>
+    <string name="title_activity_main">MainActivity</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

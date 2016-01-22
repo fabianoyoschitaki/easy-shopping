@@ -23,7 +23,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/IBoughtMaterialTheme" >
         <service
             android:name="com.paypal.android.sdk.payments.PayPalService"
             android:exported="false" />
@@ -43,68 +43,55 @@
         <activity android:name="io.card.payment.DataEntryActivity" />
         <activity
             android:name="com.fornax.bought.activity.LoginActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar" >
-        </activity>
-        <activity
-            android:name="com.fornax.bought.activity.SignupActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity
-            android:name="com.fornax.bought.activity.CarrinhoComprasActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar" >
-        </activity>
-        <activity
-            android:name="com.fornax.bought.activity.ConfirmacaoActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar" >
-        </activity>
-        <activity
-            android:name="com.fornax.bought.activity.SucessoActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar" >
-        </activity>
-        <activity
-            android:name="com.fornax.bought.activity.TelaPrincipalActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Personalized" >
+            android:theme="@style/IBoughtMaterialTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
+            android:name="com.fornax.bought.activity.SignupActivity"
+            android:theme="@style/IBoughtMaterialTheme">
+        </activity>
+        <activity
+            android:name="com.fornax.bought.activity.CarrinhoComprasActivity"
+            android:theme="@style/IBoughtMaterialTheme">
+        </activity>
+        <activity
+            android:name="com.fornax.bought.activity.ConfirmacaoActivity"
+            android:theme="@style/IBoughtMaterialTheme">
+        </activity>
+        <activity
+            android:name="com.fornax.bought.activity.SucessoActivity"
+            android:theme="@style/IBoughtMaterialTheme">
+        </activity>
+        <activity
+            android:name="com.fornax.bought.activity.TelaPrincipalActivity"
+            android:theme="@style/IBoughtMaterialTheme">
+        </activity>
+        <activity
             android:name="com.fornax.bought.paypal.SampleActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar" >
+            android:theme="@style/IBoughtMaterialTheme">
         </activity>
         <activity
             android:name="com.fornax.bought.activity.EscolherMercadoActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar" >
-        </activity>
-        <activity
-            android:name="com.fornax.bought.activity.PegarCarrinhoActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar" >
+            android:theme="@style/IBoughtMaterialTheme">
         </activity>
         <activity
             android:name="com.fornax.bought.activity.CarrinhoFinalizadoActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar" >
+            android:theme="@style/IBoughtMaterialTheme">
         </activity>
         <activity
             android:name="com.fornax.bought.activity.EscolherFormaPagamentoActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar" >
+            android:theme="@style/IBoughtMaterialTheme">
         </activity>
         <activity
             android:name="com.fornax.bought.activity.PagamentoEfetuadoActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar" >
+            android:theme="@style/IBoughtMaterialTheme">
+        </activity>
+        <activity
+            android:name="com.fornax.bought.activity.MainActivity"
+            android:theme="@style/IBoughtMaterialTheme">
         </activity>
     </application>
 

@@ -22,7 +22,7 @@ public class CarrinhoFinalizadoActivity extends AppCompatActivity {
     @Bind(R.id.btn_efetuar_pagamento) Button btnEfetuarPagamento;
     @Bind(R.id.btn_voltar) Button btnVoltar;
     @Bind(R.id.txt_valor_total_compra) TextView txtValorTotalCompra;
-    BigDecimal valorTotal;
+    BigDecimal valorTotal = BigDecimal.ZERO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +30,11 @@ public class CarrinhoFinalizadoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_carrinho_finalizado);
         ButterKnife.bind(this);
 
-        valorTotal = (BigDecimal) getIntent().getExtras().getSerializable("valorTotal");
+        try {
+            valorTotal = (BigDecimal) getIntent().getExtras().getSerializable("valorTotal");
+        } catch (Exception e){
+            e.printStackTrace();
+        }
 
         txtValorTotalCompra.setText(Utils.getValorFormatado(valorTotal));
 

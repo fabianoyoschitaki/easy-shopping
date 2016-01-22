@@ -1,6 +1,6 @@
 package com.fornax.bought.fragment;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,7 +14,6 @@ import android.widget.Toast;
 import com.fornax.bought.activity.CarrinhoComprasActivity;
 import com.fornax.bought.adapter.MercadoListAdapter;
 import com.fornax.bought.common.MercadoVO;
-import com.fornax.bought.mock.ComprasMock;
 import com.fornax.bought.rest.RestClient;
 
 import java.util.List;

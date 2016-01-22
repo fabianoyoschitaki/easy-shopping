@@ -2,6 +2,7 @@ package com.fornax.bought.fragment;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +18,7 @@ import java.util.List;
 
 import bought.fornax.com.bought.R;
 
-public class MinhasComprasFragment extends android.app.Fragment {
+public class MinhasComprasFragment extends Fragment {
 
     private ListView listMinhasCompras;
     private List<MinhaCompraVO> listCompras;

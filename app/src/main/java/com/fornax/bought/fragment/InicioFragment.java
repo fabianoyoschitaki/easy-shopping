@@ -1,33 +1,21 @@
 package com.fornax.bought.fragment;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.fornax.bought.activity.CarrinhoComprasActivity;
-import com.fornax.bought.activity.EscolherMercadoActivity;
-import com.fornax.bought.activity.PegarCarrinhoActivity;
 import com.fornax.bought.common.CarrinhoVO;
 import com.fornax.bought.common.MercadoVO;
 import com.fornax.bought.common.UsuarioVO;
-import com.fornax.bought.mock.ComprasMock;
 import com.fornax.bought.rest.RestClient;
-
-import java.util.List;
 
 import bought.fornax.com.bought.R;
 import butterknife.Bind;
@@ -39,7 +27,7 @@ import retrofit.client.Response;
 /**
  * Created by Rodrigo on 21/11/15.
  */
-public class InicioFragment extends android.app.Fragment {
+public class InicioFragment extends Fragment {
 
     private static final String TAG = InicioFragment.class.getName();
 

@@ -1,36 +1,25 @@
 <resources>
-    <style name="AppTheme.Personalized" parent="Theme.AppCompat.Light">
-        <item name="colorPrimary">@color/action_bar_color</item>
-        <item name="colorPrimaryDark">@color/list_background</item>
-        <item name="colorAccent">@color/primary</item>
-        <item name="actionBarStyle">@style/MyActionBar</item>
-        <item name="android:windowBackground">@color/white</item>
 
-        <item name="colorControlNormal">@color/iron</item>
-        <item name="colorControlActivated">@color/white</item>
-        <item name="colorControlHighlight">@color/white</item>
-        <item name="android:textColorHint">@color/iron</item>
+    <!-- Material Design -->
+    <style name="IBoughtMaterialTheme" parent="IBoughtMaterialTheme.Base">
 
-        <item name="colorButtonNormal">@color/list_background</item>
     </style>
 
-    <style name="AppTheme" parent="@android:style/TextAppearance">
-        <item name="android:textColor">@color/white</item>
-    </style>
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="android:textColor">@color/white</item>
+    <!-- Material Design -->
+    <style name="IBoughtMaterialTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="windowNoTitle">true</item>
-    </style>
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+        <item name="windowActionBar">false</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
 
-
-    <style name="MyActionBar" parent="@style/Widget.AppCompat.ActionBar.Solid">
-        <item name="titleTextStyle">@style/MyTitleTextStyle</item>
+        <!-- http://stackoverflow.com/questions/6921640/how-to-set-text-color-in-android-app-for-all-text -->
+        <item name="android:textColorPrimary">#00ffd0</item>
+        <item name="android:textColorSecondary">#e40707</item>
+        <item name="android:textColorTertiary">#c7ca02</item>
     </style>
 
-    <style name="MyTitleTextStyle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="android:textColor">@color/white</item>
-    </style>
+    <style name="IBoughtMaterialTheme.AppBarOverlay"
+        parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="IBoughtMaterialTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
