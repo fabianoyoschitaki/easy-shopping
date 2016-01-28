@@ -1,15 +1,19 @@
 package com.fornax.bought.activity;
 
-import android.app.ProgressDialog;
+import android.animation.TimeAnimator;
 import android.content.Intent;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,12 +22,11 @@ import com.fornax.bought.rest.WSRestService;
 import com.fornax.bought.utils.Constants;
 import com.fornax.bought.utils.SharedPreferencesUtil;
 
+import java.util.Timer;
+
 import bought.fornax.com.bought.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 public class LoginActivity extends AppCompatActivity{
 
@@ -35,6 +38,10 @@ public class LoginActivity extends AppCompatActivity{
     @Bind(R.id.btn_login) Button loginButton;
     @Bind(R.id.link_signup) TextView signupLink;
     @Bind(R.id.ckbManterLogado) CheckBox ckbManterLogado;
+
+    AlphaAnimation inAnimation;
+    AlphaAnimation outAnimation;
+    FrameLayout progressBarHolder;
 
     private SharedPreferencesUtil sharedPreferencesUtil;
 
@@ -48,6 +55,7 @@ public class LoginActivity extends AppCompatActivity{
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
+        progressBarHolder = (FrameLayout) findViewById(R.id.progressBarHolder);
 
         /** resgatando dados do email e senha caso tenha **/
         sharedPreferencesUtil = new SharedPreferencesUtil(this);
@@ -59,10 +67,11 @@ public class LoginActivity extends AppCompatActivity{
         }
 
         /** action para botao login **/
+        ViewCompat.setElevation(loginButton, 10);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                login();
+                doLogin();
             }
         });
 
@@ -76,75 +85,76 @@ public class LoginActivity extends AppCompatActivity{
         });
     }
 
-    public void login() {
-        Log.d(TAG, "Login");
 
+    private class LoginTask extends AsyncTask<String, Void, LoginVO> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            loginButton.setEnabled(false);
+            inAnimation = new AlphaAnimation(0f, 1f);
+            inAnimation.setDuration(200);
+            progressBarHolder.setAnimation(inAnimation);
+            progressBarHolder.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected void onPostExecute(LoginVO login) {
+            super.onPostExecute(login);
+            outAnimation = new AlphaAnimation(1f, 0f);
+            outAnimation.setDuration(200);
+            progressBarHolder.setAnimation(outAnimation);
+            progressBarHolder.setVisibility(View.GONE);
+            loginButton.setEnabled(true);
+            onLoginResult(login);
+        }
+
+        @Override
+        protected LoginVO doInBackground(String... params) {
+            LoginVO retorno = null;
+            try {
+                Thread.sleep(3000);
+                WSRestService restClient = new WSRestService();
+                retorno = restClient.getRestAPI().autenticar(params[0], params[1]);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return retorno;
+        }
+    }
+
+    /**
+     * Após o retorno do login pela Task
+     *
+     * @param login
+     */
+    private void onLoginResult(LoginVO login) {
+        if (login != null) {
+            if (Constants.LOGIN_CODIGO_SUCESSO.equals(login.getStatus())) {
+                salvarLogin();
+                Intent intent = new Intent(getApplicationContext(), TelaPrincipalActivity.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(getApplicationContext(), login.getMsg(), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    /**
+     * Quando clicar no botão login
+     */
+    public void doLogin() {
+        Log.d(TAG, "Login");
         if (!validate()) {
             onLoginFailed();
             return;
         }
-
-        loginButton.setEnabled(false);
-
-        final ProgressDialog  dialog = new ProgressDialog(this);
-        dialog.setMessage("Autenticando...");
-        dialog.show();
-
-        final String email = emailText.getText().toString();
-        final String senha = senhaText.getText().toString();
-
-        new android.os.Handler().postDelayed(
-                 new Runnable() {
-                     public void run() {
-                         dialog.dismiss();
-                         efetuarLogin(email, senha,dialog);
-                     }
-                 }, 1000);
-    }
-
-    public void efetuarLogin(String email, String senha, final ProgressDialog dialog){
-        WSRestService restClient = new WSRestService();
-        restClient.getRestAPI().autenticar(email, senha, new Callback<LoginVO>() {
-            @Override
-            public void success(LoginVO loginResponse, Response response) {
-                if (loginResponse != null) {
-
-                    if (Constants.LOGIN_CODIGO_SUCESSO.equals(loginResponse.getStatus())) {
-                        onLoginSuccess();
-                        Intent intent = new Intent(getApplicationContext(), TelaPrincipalActivity.class);
-                        startActivity(intent);
-                    } else {
-                        Toast.makeText(getApplicationContext(), loginResponse.getMsg(), Toast.LENGTH_SHORT).show();
-                    }
-                }
-                loginButton.setEnabled(true);
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                dialog.dismiss();
-                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_SIGNUP) {
-            if (resultCode == RESULT_OK) {
-
-            }
-        }
+        new LoginTask().execute(emailText.getText().toString(), senhaText.getText().toString());
     }
 
     @Override
     public void onBackPressed() {
         moveTaskToBack(true);
-    }
-
-    public void onLoginSuccess() {
-        salvarLogin();
-        loginButton.setEnabled(true);
     }
 
     /**
@@ -162,7 +172,6 @@ public class LoginActivity extends AppCompatActivity{
 
     public void onLoginFailed() {
         Toast.makeText(getBaseContext(), "Falha ao efetuar login", Toast.LENGTH_LONG).show();
-        loginButton.setEnabled(true);
     }
 
     public boolean validate() {

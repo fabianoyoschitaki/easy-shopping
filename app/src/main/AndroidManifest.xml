@@ -42,56 +42,43 @@
             android:configChanges="keyboardHidden|orientation" />
         <activity android:name="io.card.payment.DataEntryActivity" />
         <activity
-            android:name="com.fornax.bought.activity.LoginActivity"
-            android:theme="@style/IBoughtMaterialTheme">
+            android:name="com.fornax.bought.activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name="com.fornax.bought.activity.SignupActivity"
-            android:theme="@style/IBoughtMaterialTheme">
+            android:name="com.fornax.bought.activity.SignupActivity">
         </activity>
         <activity
-            android:name="com.fornax.bought.activity.CarrinhoComprasActivity"
-            android:theme="@style/IBoughtMaterialTheme">
+            android:name="com.fornax.bought.activity.CarrinhoComprasActivity">
         </activity>
         <activity
-            android:name="com.fornax.bought.activity.ConfirmacaoActivity"
-            android:theme="@style/IBoughtMaterialTheme">
+            android:name="com.fornax.bought.activity.ConfirmacaoActivity">
         </activity>
         <activity
-            android:name="com.fornax.bought.activity.SucessoActivity"
-            android:theme="@style/IBoughtMaterialTheme">
+            android:name="com.fornax.bought.activity.SucessoActivity">
         </activity>
         <activity
-            android:name="com.fornax.bought.activity.TelaPrincipalActivity"
-            android:theme="@style/IBoughtMaterialTheme">
+            android:name="com.fornax.bought.activity.TelaPrincipalActivity">
         </activity>
         <activity
-            android:name="com.fornax.bought.paypal.SampleActivity"
-            android:theme="@style/IBoughtMaterialTheme">
+            android:name="com.fornax.bought.paypal.SampleActivity">
         </activity>
         <activity
-            android:name="com.fornax.bought.activity.EscolherMercadoActivity"
-            android:theme="@style/IBoughtMaterialTheme">
+            android:name="com.fornax.bought.activity.CarrinhoFinalizadoActivity">
         </activity>
         <activity
-            android:name="com.fornax.bought.activity.CarrinhoFinalizadoActivity"
-            android:theme="@style/IBoughtMaterialTheme">
+            android:name="com.fornax.bought.activity.EscolherFormaPagamentoActivity">
         </activity>
         <activity
-            android:name="com.fornax.bought.activity.EscolherFormaPagamentoActivity"
-            android:theme="@style/IBoughtMaterialTheme">
+            android:name="com.fornax.bought.activity.PagamentoEfetuadoActivity">
         </activity>
         <activity
-            android:name="com.fornax.bought.activity.PagamentoEfetuadoActivity"
-            android:theme="@style/IBoughtMaterialTheme">
+            android:name="com.fornax.bought.activity.MainActivity">
         </activity>
-        <activity
-            android:name="com.fornax.bought.activity.MainActivity"
-            android:theme="@style/IBoughtMaterialTheme">
+        <activity android:name="com.fornax.bought.activity.ExemploCardViewActivity" >
         </activity>
     </application>
 

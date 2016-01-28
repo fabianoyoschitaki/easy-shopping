@@ -2,11 +2,12 @@ package com.fornax.bought.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.fornax.bought.common.MercadoVO;
@@ -19,44 +20,77 @@ import bought.fornax.com.bought.R;
 /**
  * Created by Hallan on 04/12/2015.
  */
-public class MercadoListAdapter extends BaseAdapter {
+public class MercadoListAdapter extends RecyclerView.Adapter<MercadoListAdapter.MercadoViewHolder> {
     private static final String TAG = MercadoListAdapter.class.getName();
 
-    Context context;
-    List<MercadoVO> rowItems;
-    private int position;
-    private View convertView;
-    private ViewGroup parent;
+    private final List<MercadoVO> mercados;
+    private final Context context;
+    private final MercadoOnClickListener onClickListener;
 
-    public MercadoListAdapter(Context context, List<MercadoVO> rowItems) {
+    public interface MercadoOnClickListener {
+        public void onClickMercado(View view, int idx);
+    }
+
+    public MercadoListAdapter(Context context, List<MercadoVO> mercados, MercadoOnClickListener onClickListener) {
         this.context = context;
-        this.rowItems = rowItems;
+        this.mercados = mercados;
+        this.onClickListener = onClickListener;
     }
 
     @Override
-    public int getCount() {
-        return rowItems.size();
+    public MercadoListAdapter.MercadoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.row_mercado, parent, false);
+        MercadoViewHolder holder = new MercadoViewHolder(view);
+        return holder;
     }
 
     @Override
-    public Object getItem(int position) {
-        return rowItems.get(position);
+    public void onBindViewHolder(final MercadoListAdapter.MercadoViewHolder holder, final int position) {
+        MercadoVO mercado = mercados.get(position);
+        Picasso.with(context)
+                .load(mercado.getUrlFoto())
+                .placeholder(R.drawable.ic_drawer) //
+                .error(R.drawable.ic_drawer)
+                .into(holder.imgViewMercado);
+        holder.tvNome.setText(mercado.getNome());
+        holder.tvDescricao.setText(mercado.getDescricao());
+        holder.tvLocal.setText(
+                mercado.getTipoLogradouro() + " " + mercado.getNomeLogradouro() + ", " + mercado.getNumeroLogradouro() +
+                        " " + mercado.getNomeCidade() + ", " + mercado.getSiglaEstado());
+        if (onClickListener != null){
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onClickListener.onClickMercado(holder.view, position);
+                }
+            });
+        }
     }
 
     @Override
-    public long getItemId(int position) {
-        return rowItems.indexOf(getItem(position));
+    public int getItemCount() {
+        return this.mercados != null ? this.mercados.size() : 0;
     }
 
-    /* private view holder class */
-    private class ViewHolder {
+    public static class MercadoViewHolder extends RecyclerView.ViewHolder {
         ImageView imgViewMercado;
         TextView tvNome;
         TextView tvDescricao;
         TextView tvLocal;
+        private View view;
+
+        public MercadoViewHolder(View view){
+            super(view);
+            this.view = view;
+
+            imgViewMercado = (ImageView) view.findViewById(R.id.imgViewMercado);
+            tvNome = (TextView) view.findViewById(R.id.tvNome);
+            tvDescricao = (TextView) view.findViewById(R.id.tvDescricao);
+            tvLocal = (TextView) view.findViewById(R.id.tvLocal);
+        }
     }
 
-    @Override
+    /** @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         this.position = position;
         this.convertView = convertView;
@@ -93,5 +127,5 @@ public class MercadoListAdapter extends BaseAdapter {
                 " " + row_pos.getNomeCidade() + ", " + row_pos.getSiglaEstado());
 
         return convertView;
-    }
+    } **/
 }

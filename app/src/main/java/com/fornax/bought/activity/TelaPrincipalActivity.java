@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,7 +25,7 @@ import com.fornax.bought.utils.SharedPreferencesUtil;
 import bought.fornax.com.bought.R;
 
 
-public class TelaPrincipalActivity extends ActionBarActivity implements FragmentDrawer.FragmentDrawerListener {
+public class TelaPrincipalActivity extends AppCompatActivity implements FragmentDrawer.FragmentDrawerListener {
     private static final String TAG = TelaPrincipalActivity.class.getName();
 
     private Toolbar mToolbar;

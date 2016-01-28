@@ -23,7 +23,7 @@ public interface RestAPI {
     public void obterProduto(@Path("codigoBarras") String codigoBarras, Callback<ProdutoVO> produtoResponse);
 
     @GET(Constants.REST_AUTENTICAR_URL)
-    public void autenticar(@Path("email") String email, @Path("senha") String senha, Callback<LoginVO> loginResponse);
+    public LoginVO autenticar(@Path("email") String email, @Path("senha") String senha);
 
     @GET(Constants.REST_TODOS_MERCADOS)
     public void obterTodosMercados(Callback<List<MercadoVO>> mercadosResponse);

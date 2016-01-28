@@ -9,14 +9,17 @@
     <style name="IBoughtMaterialTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
+        <!-- Cor primaria do aplicativo -->
         <item name="colorPrimary">@color/colorPrimary</item>
+        <!-- Variacao escura da cor primaria para a status bar e contextual app bars -->
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <!-- Cor de acentuacao para as views (checkbox, textfield etc) -->
         <item name="colorAccent">@color/colorAccent</item>
 
         <!-- http://stackoverflow.com/questions/6921640/how-to-set-text-color-in-android-app-for-all-text -->
-        <item name="android:textColorPrimary">#00ffd0</item>
-        <item name="android:textColorSecondary">#e40707</item>
-        <item name="android:textColorTertiary">#c7ca02</item>
+        <item name="android:textColorPrimary">@color/textColorPrimary</item>
+        <item name="android:textColorSecondary">@color/textColorSecondary</item>
+        <item name="android:textColorTertiary">@color/textColorTertiary</item>
     </style>
 
     <style name="IBoughtMaterialTheme.AppBarOverlay"

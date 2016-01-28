@@ -4,6 +4,9 @@ import android.support.v4.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +37,7 @@ public class OndeComprarFragment extends Fragment implements AdapterView.OnItemC
 
     private List<MercadoVO> mercados;
 
-    @Bind(R.id.mercado_list_view) ListView mercadosListView;
+    @Bind(R.id.mercado_recycler_view) RecyclerView mercadosRecyclerView;
 
     private ProgressDialog dialog;
 
@@ -42,6 +45,12 @@ public class OndeComprarFragment extends Fragment implements AdapterView.OnItemC
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_onde_comprar, container, false);
         ButterKnife.bind(this, rootView);
+
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        mercadosRecyclerView.setLayoutManager(mLayoutManager);
+        mercadosRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mercadosRecyclerView.setHasFixedSize(true);
+
         if (mercados == null) {
             dialog = new ProgressDialog(getActivity());
             dialog.setMessage("Carregando Mercados");
@@ -68,9 +77,20 @@ public class OndeComprarFragment extends Fragment implements AdapterView.OnItemC
 
     private void onMercadosLoaded(List<MercadoVO> mercadosResponse) {
         mercados = mercadosResponse;
-        MercadoListAdapter adapter = new MercadoListAdapter(getActivity(), mercados);
-        mercadosListView.setAdapter(adapter);
-        mercadosListView.setOnItemClickListener(this);
+        MercadoListAdapter adapter = new MercadoListAdapter(getContext(), mercados, onClickMercado());
+        mercadosRecyclerView.setAdapter(adapter);
+    }
+
+    private MercadoListAdapter.MercadoOnClickListener onClickMercado() {
+        return new MercadoListAdapter.MercadoOnClickListener(){
+            @Override
+            public void onClickMercado(View view, int idx) {
+                MercadoVO mercadoEscolhido = mercados.get(idx);
+                Intent intent = new Intent(getActivity(), CarrinhoComprasActivity.class);
+                intent.putExtra("mercadoEscolhido", mercadoEscolhido);
+                startActivity(intent);
+            }
+        };
     }
 
     @Override
