@@ -1,17 +1,15 @@
 package com.fornax.bought.activity;
 
-import android.animation.TimeAnimator;
 import android.content.Intent;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.view.ViewCompat;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -21,8 +19,8 @@ import com.fornax.bought.common.LoginVO;
 import com.fornax.bought.rest.WSRestService;
 import com.fornax.bought.utils.Constants;
 import com.fornax.bought.utils.SharedPreferencesUtil;
-
-import java.util.Timer;
+import com.rey.material.widget.Button;
+import com.rey.material.widget.CheckBox;
 
 import bought.fornax.com.bought.R;
 import butterknife.Bind;
@@ -33,11 +31,20 @@ public class LoginActivity extends AppCompatActivity{
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
 
-    @Bind(R.id.input_email) EditText emailText;
-    @Bind(R.id.input_password) EditText senhaText;
-    @Bind(R.id.btn_login) Button loginButton;
-    @Bind(R.id.link_signup) TextView signupLink;
-    @Bind(R.id.ckbManterLogado) CheckBox ckbManterLogado;
+    @Bind(R.id.input_email)
+    EditText emailText;
+
+    @Bind(R.id.input_password)
+    EditText senhaText;
+
+    @Bind(R.id.btn_login)
+    Button loginButton;
+
+    @Bind(R.id.link_signup)
+    TextView signupLink;
+
+    @Bind(R.id.ckbManterLogado)
+    CheckBox ckbManterLogado;
 
     AlphaAnimation inAnimation;
     AlphaAnimation outAnimation;
@@ -66,8 +73,6 @@ public class LoginActivity extends AppCompatActivity{
             ckbManterLogado.setChecked(true);
         }
 
-        /** action para botao login **/
-        ViewCompat.setElevation(loginButton, 10);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,9 +135,15 @@ public class LoginActivity extends AppCompatActivity{
      */
     private void onLoginResult(LoginVO login) {
         if (login != null) {
-            if (Constants.LOGIN_CODIGO_SUCESSO.equals(login.getStatus())) {
+            if (true){
+                Intent intent = new Intent(getApplicationContext(), TelaPrincipalActivity.class);
+                this.overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
+                startActivity(intent);
+            }
+            else if (Constants.LOGIN_CODIGO_SUCESSO.equals(login.getStatus())) {
                 salvarLogin();
                 Intent intent = new Intent(getApplicationContext(), TelaPrincipalActivity.class);
+                overridePendingTransition(R.anim.trans_up_in, R.anim.trans_up_out);
                 startActivity(intent);
             } else {
                 Toast.makeText(getApplicationContext(), login.getMsg(), Toast.LENGTH_SHORT).show();

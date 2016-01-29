@@ -10,13 +10,13 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="56dp"
+        android:paddingTop="40dp"
         android:paddingLeft="24dp"
         android:paddingRight="24dp">
 
-        <ImageView android:src="@drawable/logo"
+        <ImageView android:src="@drawable/iboughtlogo"
             android:layout_width="wrap_content"
-            android:layout_height="72dp"
+            android:layout_height="160dp"
             android:layout_marginBottom="24dp"
             android:layout_gravity="center_horizontal" />
 
@@ -46,15 +46,24 @@
                 android:hint="Senha"/>
         </android.support.design.widget.TextInputLayout>
 
-        <CheckBox
+        <!--CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/ckbManterLogado"
             android:text="Lembrar login"
             android:textColor="@color/textColorPrimary"
+            android:layout_marginLeft="30dp"/-->
+
+        <com.rey.material.widget.CheckBox
+            style="@style/Material.Drawable.CheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ckbManterLogado"
+            android:text="Lembrar login"
+            android:gravity="center"
             android:layout_marginLeft="30dp"/>
 
-        <Button
+        <!--Button
             android:id="@+id/btn_login"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -64,7 +73,21 @@
             android:layout_marginTop="24dp"
             android:layout_marginBottom="24dp"
             android:padding="12dp"
-            android:text="Entrar"/>
+            android:text="Entrar"/-->
+
+        <com.rey.material.widget.Button
+            android:id="@+id/btn_login"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imageView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:padding="7dp"
+            android:text="Entrar"
+            android:background="@drawable/button_default"
+            android:textColor="@color/textColorPrimary"
+            app:rd_style="@style/Material.Drawable.Ripple.Wave"/>
 
         <TextView android:id="@+id/link_signup"
             android:layout_width="fill_parent"
@@ -75,6 +98,7 @@
             android:gravity="center"
             android:textSize="16dip"/>
     </LinearLayout>
+
     <FrameLayout
         android:id="@+id/progressBarHolder"
         android:animateLayoutChanges="true"
