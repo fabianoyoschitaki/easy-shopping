@@ -8,7 +8,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.fornax.bought.common.MercadoVO;
+import com.fornax.bought.common.CompraVO;
+import com.fornax.bought.enums.StatusCompra;
+import com.fornax.bought.rest.RestClient;
 import com.fornax.bought.utils.Utils;
 
 import java.math.BigDecimal;
@@ -16,6 +18,9 @@ import java.math.BigDecimal;
 import bought.fornax.com.bought.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class CarrinhoFinalizadoActivity extends AppCompatActivity {
 
@@ -23,6 +28,7 @@ public class CarrinhoFinalizadoActivity extends AppCompatActivity {
     @Bind(R.id.btn_voltar) Button btnVoltar;
     @Bind(R.id.txt_valor_total_compra) TextView txtValorTotalCompra;
     BigDecimal valorTotal = BigDecimal.ZERO;
+    private CompraVO compraVO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,14 +36,10 @@ public class CarrinhoFinalizadoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_carrinho_finalizado);
         ButterKnife.bind(this);
 
-        try {
-            valorTotal = (BigDecimal) getIntent().getExtras().getSerializable("valorTotal");
-        } catch (Exception e){
-            e.printStackTrace();
+        if (getIntent().getExtras().getSerializable("compra") != null) {
+            compraVO = (CompraVO) getIntent().getExtras().getSerializable("compra");
+            txtValorTotalCompra.setText(Utils.getValorFormatado(compraVO.getValorTotal()));
         }
-
-        txtValorTotalCompra.setText(Utils.getValorFormatado(valorTotal));
-
         // volta pra activity anterior
         btnVoltar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,9 +51,29 @@ public class CarrinhoFinalizadoActivity extends AppCompatActivity {
         btnEfetuarPagamento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CarrinhoFinalizadoActivity.this, PagamentoEfetuadoActivity.class);
-                intent.putExtra("valorTotal", valorTotal);
-                startActivity(intent);
+                finalizarCompraWS();
+            }
+        });
+    }
+
+    public void finalizarCompraWS(){
+        RestClient restClient = new RestClient();
+        restClient.getRestAPI().finalizarCompra(compraVO, new Callback<CompraVO>() {
+            @Override
+            public void success(CompraVO compraResponse, Response response) {
+                if(compraResponse != null && compraResponse.getStatusCompra() != null &&
+                        compraResponse.getStatusCompra().equals(StatusCompra.FINALIZADO)){
+                    Intent intent = new Intent(CarrinhoFinalizadoActivity.this, EscolherFormaPagamentoActivity.class);
+                    intent.putExtra("compra", compraResponse);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(getApplicationContext(), "A compra não foi finalizada.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

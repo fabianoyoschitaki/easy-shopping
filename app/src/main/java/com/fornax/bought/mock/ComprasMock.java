@@ -1,9 +1,6 @@
 package com.fornax.bought.mock;
 
-import com.fornax.bought.common.CompraVO;
 import com.fornax.bought.common.MinhaCompraVO;
-import com.fornax.bought.common.MercadoVO;
-import com.fornax.bought.enums.StatusCompraEnum;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -18,19 +15,19 @@ public class ComprasMock {
 
     public static List<MinhaCompraVO> getCompras(){
         List<MinhaCompraVO> retorno = new ArrayList<MinhaCompraVO>();
-        retorno.add(new MinhaCompraVO("6516D5FGXAVASCA", BigDecimal.valueOf(56.35), StatusCompraEnum.PAGO, "http://res.cloudinary.com/networkmi/image/upload/v1449290439/139881916514_fnrky7.jpg"));
+        /*retorno.add(new MinhaCompraVO("6516D5FGXAVASCA", BigDecimal.valueOf(56.35), StatusCompraEnum.PAGO, "http://res.cloudinary.com/networkmi/image/upload/v1449290439/139881916514_fnrky7.jpg"));
         retorno.add(new MinhaCompraVO("65GA1SXAXAVASCA",BigDecimal.valueOf(53.35), StatusCompraEnum.AGUARDANDO_PAGAMENTO, "http://res.cloudinary.com/networkmi/image/upload/v1449290439/139881916514_fnrky7.jpg"));
-        retorno.add(new MinhaCompraVO("651SDAFSXAVASCA",BigDecimal.valueOf(82.35), StatusCompraEnum.CANCELADO, "http://res.cloudinary.com/networkmi/image/upload/v1449290439/139881916514_fnrky7.jpg"));
+        retorno.add(new MinhaCompraVO("651SDAFSXAVASCA",BigDecimal.valueOf(82.35), StatusCompraEnum.CANCELADO, "http://res.cloudinary.com/networkmi/image/upload/v1449290439/139881916514_fnrky7.jpg"));*/
         return retorno;
     }
 
-    public static CompraVO getCompraVO(BigDecimal valorTotal) {
+   /* public static CompraVO getCompraVO(BigDecimal valorTotal) {
         CompraVO retorno = new CompraVO();
         retorno.setValorTotalCompra(valorTotal);
         retorno.setDataCompra(Calendar.getInstance());
         //TODO colocar os itens
         return retorno;
-    }
+    }*/
 
     /** public static List<MercadoVO> getMercados() {
         List<MercadoVO> retorno = new ArrayList<MercadoVO>();

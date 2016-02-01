@@ -25,6 +25,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fornax.bought.adapter.ItemCompraAdapter;
+import com.fornax.bought.common.CompraVO;
+import com.fornax.bought.common.EstabelecimentoVO;
 import com.fornax.bought.common.ItemCompraVO;
 import com.fornax.bought.common.MercadoVO;
 import com.fornax.bought.common.ProdutoVO;
@@ -52,7 +54,9 @@ public class CarrinhoComprasActivity extends AppCompatActivity implements ItemCo
     private BigDecimal valorTotal = new BigDecimal(0);
 
     /** mercado escolhido anteriormente **/
-    private MercadoVO mercadoEscolhido;
+    private CompraVO compraVO;
+
+    private EstabelecimentoVO estabelecimentoVO;
 
     private ItemCompraAdapter itemCompraAdapter;
 
@@ -63,7 +67,7 @@ public class CarrinhoComprasActivity extends AppCompatActivity implements ItemCo
 
     private ProgressDialog dialog;
 
-    static {
+    /*static {
         ProdutoVO produto = new ProdutoVO();
         produto.setCategoria("Alimento");
         produto.setCodigoBarra("123123123");
@@ -85,7 +89,7 @@ public class CarrinhoComprasActivity extends AppCompatActivity implements ItemCo
         produto.setUrlImagem("http://www.paodeacucar.com.br/img/uploads/1/424/474424x200x200.jpg");
         itemCompra = new ItemCompraVO(produto, 1);
         itens.add(itemCompra);
-    }
+    }*/
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -93,9 +97,10 @@ public class CarrinhoComprasActivity extends AppCompatActivity implements ItemCo
         setContentView(R.layout.activity_carrinho_compras);
         ButterKnife.bind(this);
 
-        if (getIntent().getExtras().getSerializable("mercadoEscolhido") != null) {
-            mercadoEscolhido = (MercadoVO) getIntent().getExtras().getSerializable("mercadoEscolhido");
-            Toast.makeText(getApplicationContext(), mercadoEscolhido.getNome(), Toast.LENGTH_SHORT).show();
+        if (getIntent().getExtras().getSerializable("compra") != null) {
+            compraVO = (CompraVO) getIntent().getExtras().getSerializable("compra");
+            estabelecimentoVO = compraVO.getEstabelecimentoVO();
+            Toast.makeText(getApplicationContext(), estabelecimentoVO.getNome(), Toast.LENGTH_SHORT).show();
         }
 
         btnScan.setOnClickListener(new View.OnClickListener() {
@@ -153,8 +158,10 @@ public class CarrinhoComprasActivity extends AppCompatActivity implements ItemCo
         btnFinalizar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                compraVO.setItensCompraVO(itens);
+                compraVO.setValorTotal(valorTotal);
                 Intent intent = new Intent(getApplicationContext(), CarrinhoFinalizadoActivity.class);
-                intent.putExtra("valorTotal", valorTotal);
+                intent.putExtra("compra", compraVO);
                 startActivity(intent);
             }
         });
@@ -176,7 +183,7 @@ public class CarrinhoComprasActivity extends AppCompatActivity implements ItemCo
         }
     }
 
-    public void abrirTelaConfirmarFinalizar(){
+    /*public void abrirTelaConfirmarFinalizar(){
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog_finalizar);
         dialog.setTitle("Deseja finalizar a compra?");
@@ -205,7 +212,7 @@ public class CarrinhoComprasActivity extends AppCompatActivity implements ItemCo
         });
 
         dialog.show();
-    }
+    }*/
 
     //alert dialog for downloadDialog
     private static AlertDialog showDialog(final Activity act, CharSequence title, CharSequence message, CharSequence buttonYes, CharSequence buttonNo) {
@@ -252,13 +259,13 @@ public class CarrinhoComprasActivity extends AppCompatActivity implements ItemCo
         dialog.show();
 
         RestClient restClient = new RestClient();
-        restClient.getRestAPI().obterProduto(codigoBarras, new Callback<ProdutoVO>() {
+        String codigoEstabelecimento = estabelecimentoVO.getCodigoEstabelecimento();
+        restClient.getRestAPI().obterItemCompraPorCodigoBarra(codigoBarras, codigoEstabelecimento, new Callback<ItemCompraVO>() {
             @Override
-            public void success(ProdutoVO produtoResponse, Response response) {
+            public void success(ItemCompraVO itemCompraResponse, Response response) {
                 dialog.dismiss();
-                if (produtoResponse != null) {
-                    ItemCompraVO item = new ItemCompraVO(produtoResponse, 1);
-                    itens.add(item);
+                if (itemCompraResponse != null) {
+                    itens.add(itemCompraResponse);
                     atualizaListaProdutos();
                 } else {
                     Toast.makeText(getApplicationContext(), "Produto " + codigoBarras + " nao encontrado!", Toast.LENGTH_SHORT).show();
@@ -340,7 +347,7 @@ public class CarrinhoComprasActivity extends AppCompatActivity implements ItemCo
         BigDecimal retorno = new BigDecimal(0);
         if (itens != null){
             for (ItemCompraVO item:itens) {
-                retorno = retorno.add(item.getValorTotalItem());
+                retorno = retorno.add(item.getValor());
             }
         }
         return retorno;

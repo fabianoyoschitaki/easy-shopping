@@ -12,10 +12,13 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.fornax.bought.activity.CarrinhoComprasActivity;
-import com.fornax.bought.common.CarrinhoVO;
-import com.fornax.bought.common.MercadoVO;
+import com.fornax.bought.activity.LoginActivity;
+import com.fornax.bought.common.CompraVO;
+import com.fornax.bought.common.EstabelecimentoVO;
+import com.fornax.bought.common.LoginVO;
 import com.fornax.bought.common.UsuarioVO;
 import com.fornax.bought.rest.RestClient;
+import com.fornax.bought.utils.SharedPreferencesUtil;
 
 import bought.fornax.com.bought.R;
 import butterknife.Bind;
@@ -31,6 +34,8 @@ public class InicioFragment extends Fragment {
 
     private static final String TAG = InicioFragment.class.getName();
 
+
+    private SharedPreferencesUtil sharedPreferencesUtil;
 
     @Bind(R.id.btn_iniciar_compra) ImageButton iniciarCompraButton;
 
@@ -73,16 +78,15 @@ public class InicioFragment extends Fragment {
                     dialog.show();
 
                     RestClient restClient = new RestClient();
-                    // TODO usuario de verdade
-                    UsuarioVO usuario = new UsuarioVO();
-                    usuario.setEmail("admin@bought.com.br");
-                    usuario.setSenha("123456");
 
-                    restClient.getRestAPI().obterNovoCarrinho(resultado, usuario, new Callback<CarrinhoVO>() {
+                    //PROVISORIO...
+                    UsuarioVO usuario = LoginActivity.loginVO.getUsuario();
+
+                    restClient.getRestAPI().getNovaCompra(resultado, usuario, new Callback<CompraVO>() {
                         @Override
-                        public void success(CarrinhoVO carrinhoResponse, Response response) {
+                        public void success(CompraVO compraResponse, Response response) {
                             dialog.dismiss();
-                            onCarrinhoLoaded(carrinhoResponse);
+                            onCompraLoaded(compraResponse);
                         }
 
                         @Override
@@ -99,13 +103,16 @@ public class InicioFragment extends Fragment {
     }
 
     /**
-     * Método quando o carrinho é obtido com sucesso
-     * @param carrinhoResponse
+     * Método quando a compra é obtida com sucesso
+     * @param compraResponse
      */
-    private void onCarrinhoLoaded(CarrinhoVO carrinhoResponse) {
-        Intent carrinhoCompras = new Intent(getActivity(), CarrinhoComprasActivity.class);
-        MercadoVO mercadoEscolhido = carrinhoResponse.getMercado();
-        carrinhoCompras.putExtra("mercadoEscolhido", mercadoEscolhido);
-        startActivity(carrinhoCompras);
+    private void onCompraLoaded(CompraVO compraResponse) {
+        if(compraResponse != null && compraResponse.getId() != null){
+            Intent carrinhoCompras = new Intent(getActivity(), CarrinhoComprasActivity.class);
+            carrinhoCompras.putExtra("compra", compraResponse);
+            startActivity(carrinhoCompras);
+        }else {
+            Toast.makeText(getActivity().getApplicationContext(), "Desculpe, não foi possível pegar o carrinho.", Toast.LENGTH_SHORT).show();
+        }
     }
 }

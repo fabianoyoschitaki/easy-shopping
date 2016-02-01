@@ -1,31 +1,28 @@
 package com.fornax.bought.common;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
+
 
 /**
  * Created by Hallan on 06/12/2015.
  */
-public class ItemCompraVO {
+public class ItemCompraVO implements Serializable {
 
-    private ProdutoVO produto;
+	private Long id;
+    private ProdutoVO produtoVO;
     private Integer quantidade;
-    private BigDecimal valorTotalItem;
+    private BigDecimal valor;
 
-    public ItemCompraVO(ProdutoVO produto, Integer quantidade){
-        this.produto = produto;
-        this.quantidade = quantidade;
-        this.valorTotalItem = new BigDecimal(0);
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public ProdutoVO getProduto() {
-        return produto;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setProduto(ProdutoVO produto) {
-        this.produto = produto;
-    }
-
-    public Integer getQuantidade() {
+	public Integer getQuantidade() {
         return quantidade;
     }
 
@@ -33,10 +30,19 @@ public class ItemCompraVO {
         this.quantidade = quantidade;
     }
 
-    public BigDecimal getValorTotalItem() {
-        if (produto != null && produto.getPreco() != null && quantidade != null){
-            valorTotalItem = new BigDecimal(produto.getPreco() * quantidade);
-        }
-        return valorTotalItem;
-    }
+	public BigDecimal getValor() {
+		return valor;
+	}
+
+	public void setValor(BigDecimal valor) {
+		this.valor = valor;
+	}
+
+	public ProdutoVO getProdutoVO() {
+		return produtoVO;
+	}
+
+	public void setProdutoVO(ProdutoVO produtoVO) {
+		this.produtoVO = produtoVO;
+	}
 }

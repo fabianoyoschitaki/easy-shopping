@@ -1,40 +1,63 @@
 package com.fornax.bought.common;
 
+import com.fornax.bought.enums.StatusCompra;
+
+import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
-/**
- * Created by Hallan on 06/12/2015.
- */
-public class CompraVO {
+public class CompraVO implements Serializable{
 
-    private List<ItemCompraVO> itens;
-    private BigDecimal valorTotalCompra;
-    private Calendar dataCompra;
+	private Long id;
+	private String numeroSessao;
+	private BigDecimal valorTotal;
+	private UsuarioVO usuarioVO;
+	private EstabelecimentoVO estabelecimentoVO;
+	private List<ItemCompraVO> itensCompraVO;
+	private StatusCompra statusCompra;
 
-    public List<ItemCompraVO> getItens() {
-        return itens;
-    }
+	public BigDecimal getValorTotal() {
+		return valorTotal;
+	}
+	public void setValorTotal(BigDecimal valorTotal) {
+		this.valorTotal = valorTotal;
+	}
+	public UsuarioVO getUsuarioVO() {
+		return usuarioVO;
+	}
+	public void setUsuarioVO(UsuarioVO usuarioVO) {
+		this.usuarioVO = usuarioVO;
+	}
+	public EstabelecimentoVO getEstabelecimentoVO() {
+		return estabelecimentoVO;
+	}
+	public void setEstabelecimentoVO(EstabelecimentoVO estabelecimentoVO) {
+		this.estabelecimentoVO = estabelecimentoVO;
+	}
+	public List<ItemCompraVO> getItensCompraVO() {
+		return itensCompraVO;
+	}
+	public void setItensCompraVO(List<ItemCompraVO> itensCompraVO) {
+		this.itensCompraVO = itensCompraVO;
+	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public String getNumeroSessao() {
+		return numeroSessao;
+	}
+	public void setNumeroSessao(String numeroSessao) {
+		this.numeroSessao = numeroSessao;
+	}
 
-    public void setItens(List<ItemCompraVO> itens) {
-        this.itens = itens;
-    }
+	public StatusCompra getStatusCompra() {
+		return statusCompra;
+	}
 
-    public BigDecimal getValorTotalCompra() {
-        return valorTotalCompra;
-    }
-
-    public void setValorTotalCompra(BigDecimal valorTotalCompra) {
-        this.valorTotalCompra = valorTotalCompra;
-    }
-
-    public Calendar getDataCompra() {
-        return dataCompra;
-    }
-
-    public void setDataCompra(Calendar dataCompra) {
-        this.dataCompra = dataCompra;
-    }
+	public void setStatusCompra(StatusCompra statusCompra) {
+		this.statusCompra = statusCompra;
+	}
 }

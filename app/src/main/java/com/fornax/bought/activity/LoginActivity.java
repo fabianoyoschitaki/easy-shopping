@@ -31,6 +31,8 @@ public class LoginActivity extends AppCompatActivity{
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
 
+    public static LoginVO loginVO;
+
     @Bind(R.id.input_email)
     EditText emailText;
 
@@ -121,6 +123,7 @@ public class LoginActivity extends AppCompatActivity{
                 Thread.sleep(3000);
                 WSRestService restClient = new WSRestService();
                 retorno = restClient.getRestAPI().autenticar(params[0], params[1]);
+                loginVO = retorno;
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -135,12 +138,7 @@ public class LoginActivity extends AppCompatActivity{
      */
     private void onLoginResult(LoginVO login) {
         if (login != null) {
-            if (true){
-                Intent intent = new Intent(getApplicationContext(), TelaPrincipalActivity.class);
-                this.overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
-                startActivity(intent);
-            }
-            else if (Constants.LOGIN_CODIGO_SUCESSO.equals(login.getStatus())) {
+            if (Constants.LOGIN_CODIGO_SUCESSO.equals(login.getStatus())) {
                 salvarLogin();
                 Intent intent = new Intent(getApplicationContext(), TelaPrincipalActivity.class);
                 overridePendingTransition(R.anim.trans_up_in, R.anim.trans_up_out);

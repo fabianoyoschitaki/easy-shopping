@@ -102,15 +102,15 @@ public class ItemCompraAdapter extends BaseAdapter{
 
         ItemCompraVO row_pos = itens.get(position);
 
-        if(row_pos != null && row_pos.getProduto() != null){
+        if(row_pos != null && row_pos.getProdutoVO() != null){
             Picasso.with(parent.getContext())
-                .load(row_pos.getProduto().getUrlImagem())
+                .load(row_pos.getProdutoVO().getUrlImagem())
                 .placeholder(android.R.drawable.star_big_on) //
                 .error(android.R.drawable.star_big_on)
                 .into(holder.imgViewFoto);
-            holder.txtNome.setText(row_pos.getProduto().getNome());
+            holder.txtNome.setText(row_pos.getProdutoVO().getNome());
             holder.txtUnidade.setText(row_pos.getQuantidade() + " un");
-            holder.txtPreco.setText(Utils.getValorFormatado(row_pos.getProduto().getPreco()));
+            holder.txtPreco.setText(Utils.getValorFormatado(row_pos.getValor()));
         }
 
         holder.imgButton.setOnClickListener(new View.OnClickListener() {

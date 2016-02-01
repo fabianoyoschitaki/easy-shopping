@@ -1,9 +1,11 @@
 package com.fornax.bought.common;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrador on 10/01/2016.
  */
-public class LoginVO {
+public class LoginVO implements Serializable {
 
     private Integer status;
     private String msg;

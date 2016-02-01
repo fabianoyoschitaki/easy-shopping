@@ -1,96 +1,66 @@
 package com.fornax.bought.common;
 
-import com.fornax.bought.utils.JSONUtil;
 
-/**
- * Edited by Fabiano on 03/12/2015.
- */
-public class ProdutoVO{
+import java.io.Serializable;
 
-    private Integer id;
-    private String nome;
-    private Double preco;
-    private String codigoBarra;
-    private String categoria;
-    private String marca;
-    private String urlImagem;
+public class ProdutoVO implements Serializable {
 
-    public ProdutoVO(){}
+	private Long id;
+	private String nome;
+	private String codigoBarra;
+	private String urlImagem;
 
-    public ProdutoVO(Integer id, String nome, Double preco,
-                     String codigoBarra, String categoria, String marca,
-                     String urlImagem) {
-        super();
-        this.id = id;
-        this.nome = nome;
-        this.preco = preco;
-        this.codigoBarra = codigoBarra;
-        this.categoria = categoria;
-        this.marca = marca;
-        this.urlImagem = urlImagem;
-    }
+	
+	// private Categoria categoria;
 
-    public Integer getId() {
-        return id;
-    }
+	// private Marca marca;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	// public Categoria getCategoria() {
+	// return categoria;
+	// }
+	//
+	// public void setCategoria(Categoria categoria) {
+	// this.categoria = categoria;
+	// }
+	//
+	// public Marca getMarca() {
+	// return marca;
+	// }
+	//
+	// public void setMarca(Marca marca) {
+	// this.marca = marca;
+	// }
 
-    public String getNome() {
-        return nome;
-    }
+	
+	public String getNome() {
+		return nome;
+	}
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public Double getPreco() {
-        return preco;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setPreco(Double preco) {
-        this.preco = preco;
-    }
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 
-    public String getCodigoBarra() {
-        return codigoBarra;
-    }
+	public String getCodigoBarra() {
+		return codigoBarra;
+	}
 
-    public void setCodigoBarra(String codigoBarra) {
-        this.codigoBarra = codigoBarra;
-    }
+	public void setCodigoBarra(String codigoBarra) {
+		this.codigoBarra = codigoBarra;
+	}
 
-    public String getCategoria() {
-        return categoria;
-    }
+	public String getUrlImagem() {
+		return urlImagem;
+	}
 
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
-    }
-
-
-    public String getMarca() {
-        return marca;
-    }
-
-
-    public void setMarca(String marca) {
-        this.marca = marca;
-    }
-
-
-    public String getUrlImagem() {
-        return urlImagem;
-    }
-
-
-    public void setUrlImagem(String urlImagem) {
-        this.urlImagem = urlImagem;
-    }
-
-    public String toString(){
-        return JSONUtil.toJSON(this);
-    }
+	public void setUrlImagem(String urlImagem) {
+		this.urlImagem = urlImagem;
+	}
 }

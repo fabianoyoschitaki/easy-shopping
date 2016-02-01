@@ -1,19 +1,15 @@
 package com.fornax.bought.activity;
 
 import android.app.AlertDialog;
-import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Display;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -46,8 +42,8 @@ public class PagamentoEfetuadoActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         //TODO tirar mock
-        CompraVO compra = ComprasMock.getCompraVO((BigDecimal) getIntent().getExtras().getSerializable("valorTotal"));
-
+        //CompraVO compra = ComprasMock.getCompraVO((BigDecimal) getIntent().getExtras().getSerializable("valorTotal"));
+        CompraVO compra = null;
         String qrCodePagamentoEfetuado = getQRCodePagamentoEfetuado(compra);
 
         if (qrCodePagamentoEfetuado != null){

@@ -1,9 +1,11 @@
 package com.fornax.bought.common;
 
+import java.io.Serializable;
+
 /**
  * Created by root on 12/01/16.
  */
-public class UsuarioVO {
+public class UsuarioVO implements Serializable {
 
     private Integer id;
     private String nome;

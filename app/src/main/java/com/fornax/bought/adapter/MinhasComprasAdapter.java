@@ -10,8 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fornax.bought.common.MinhaCompraVO;
-import com.fornax.bought.enums.StatusCompraEnum;
-import com.fornax.bought.utils.Utils;
 
 import java.util.List;
 
@@ -84,17 +82,7 @@ public class MinhasComprasAdapter extends BaseAdapter {
 
         MinhaCompraVO row_pos = compras.get(position);
 
-        if(row_pos != null){
-            if(row_pos.getStatus().equals(StatusCompraEnum.PAGO)){
-                holder.imgViewFoto.setImageResource(R.mipmap.ic_pago);
-            }else if(row_pos.getStatus().equals(StatusCompraEnum.AGUARDANDO_PAGAMENTO)){
-                holder.imgViewFoto.setImageResource(R.mipmap.ic_aguardando);
-            }else{
-                holder.imgViewFoto.setImageResource(R.mipmap.ic_cancelado);
-            }
-            holder.txtCodigo.setText(row_pos.getCodigo());
-            holder.txtValorCompra.setText(Utils.getValorFormatado(row_pos.getValorTotal()));
-        }
+
         return convertView;
     }
 }

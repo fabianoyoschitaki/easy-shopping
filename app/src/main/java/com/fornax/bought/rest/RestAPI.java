@@ -1,6 +1,7 @@
 package com.fornax.bought.rest;
 
-import com.fornax.bought.common.CarrinhoVO;
+import com.fornax.bought.common.CompraVO;
+import com.fornax.bought.common.ItemCompraVO;
 import com.fornax.bought.common.LoginVO;
 import com.fornax.bought.common.MercadoVO;
 import com.fornax.bought.common.ProdutoVO;
@@ -19,8 +20,12 @@ import retrofit.http.Path;
  * Created by root on 03/12/15.
  */
 public interface RestAPI {
-    @GET(Constants.REST_OBTER_PRODUTO_URL)
-    public void obterProduto(@Path("codigoBarras") String codigoBarras, Callback<ProdutoVO> produtoResponse);
+    @GET(Constants.REST_OBTER_ITEM_COMPRA_URL)
+    public void obterItemCompraPorCodigoBarra(@Path("codigoBarras") String codigoBarras,
+                                              @Path("codigoEstabelecimento") String codigoEstabelecimento,
+                                              Callback<ItemCompraVO> itemCompraResponse);
+    @POST(Constants.REST_FINALIZAR_COMPRA)
+    public void finalizarCompra(@Body CompraVO compraVO, Callback<CompraVO> compraResponse);
 
     @GET(Constants.REST_AUTENTICAR_URL)
     public LoginVO autenticar(@Path("email") String email, @Path("senha") String senha);
@@ -28,6 +33,6 @@ public interface RestAPI {
     @GET(Constants.REST_TODOS_MERCADOS)
     public void obterTodosMercados(Callback<List<MercadoVO>> mercadosResponse);
 
-    @POST(Constants.REST_CARRINHO_NOVO)
-    public void obterNovoCarrinho(@Path("qrCode") String qrCode, @Body UsuarioVO usuarioLogado, Callback<CarrinhoVO> carrinhoResponse);
+    @POST(Constants.REST_NOVA_COMPRA)
+    public void getNovaCompra(@Path("codigoEstabelecimento") String codigoEstabelecimento, @Body UsuarioVO usuarioLogado, Callback<CompraVO> compraResponse);
 }
