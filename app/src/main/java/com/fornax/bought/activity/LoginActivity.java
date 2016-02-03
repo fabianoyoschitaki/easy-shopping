@@ -4,10 +4,11 @@ import android.content.Intent;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.EditText;
@@ -15,6 +16,8 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.fornax.bought.common.LoginVO;
 import com.fornax.bought.rest.WSRestService;
 import com.fornax.bought.utils.Constants;
@@ -47,6 +50,9 @@ public class LoginActivity extends AppCompatActivity{
 
     @Bind(R.id.ckbManterLogado)
     CheckBox ckbManterLogado;
+
+    @Bind(R.id.coordinatorLayout)
+    CoordinatorLayout coordinatorLayout;
 
     AlphaAnimation inAnimation;
     AlphaAnimation outAnimation;
@@ -144,7 +150,11 @@ public class LoginActivity extends AppCompatActivity{
                 overridePendingTransition(R.anim.trans_up_in, R.anim.trans_up_out);
                 startActivity(intent);
             } else {
-                Toast.makeText(getApplicationContext(), login.getMsg(), Toast.LENGTH_SHORT).show();
+
+                Snackbar snack = Snackbar.make(coordinatorLayout, login.getMsg(), Snackbar.LENGTH_LONG);
+                ((TextView)snack.getView().findViewById(android.support.design.R.id.snackbar_text)).setGravity(Gravity.CENTER_HORIZONTAL);
+                snack.show();
+                //Toast.makeText(getApplicationContext(), login.getMsg(), Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -154,11 +164,9 @@ public class LoginActivity extends AppCompatActivity{
      */
     public void doLogin() {
         Log.d(TAG, "Login");
-        if (!validate()) {
-            onLoginFailed();
-            return;
+        if (validate()) {
+            new LoginTask().execute(emailText.getText().toString(), senhaText.getText().toString());
         }
-        new LoginTask().execute(emailText.getText().toString(), senhaText.getText().toString());
     }
 
     @Override
@@ -180,7 +188,8 @@ public class LoginActivity extends AppCompatActivity{
     }
 
     public void onLoginFailed() {
-        Toast.makeText(getBaseContext(), "Falha ao efetuar login", Toast.LENGTH_LONG).show();
+        Snackbar.make(coordinatorLayout, "Falha ao efetuar login", Snackbar.LENGTH_LONG).show();
+        //Toast.makeText(getBaseContext(), "Falha ao efetuar login", Toast.LENGTH_LONG).show();
     }
 
     public boolean validate() {
@@ -189,21 +198,23 @@ public class LoginActivity extends AppCompatActivity{
         String email = emailText.getText().toString();
         String password = senhaText.getText().toString();
 
-           if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-               if (email.isEmpty()) {
-                   emailText.setError("Entre com um e-mail válido.");
-                   valid = false;
-               } else {
-                   emailText.setError(null);
-               }
+        if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            //emailText.setError("Entre com um e-mail válido.");
+            valid = false;
+            Snackbar snack = Snackbar.make(coordinatorLayout, "Entre com um e-mail válido!", Snackbar.LENGTH_LONG);
+            ((TextView)snack.getView().findViewById(android.support.design.R.id.snackbar_text)).setGravity(Gravity.CENTER_HORIZONTAL);
+            snack.show();
 
-               if (password.isEmpty() || password.length() < 3 || password.length() > 10) {
-                   senhaText.setError("A senha deve conter no mínimo 3 caracteres.");
-                   valid = false;
-               } else {
-                   senhaText.setError(null);
-               }
-           }
+            YoYo.with(Techniques.Bounce).duration(700).playOn(findViewById(R.id.input_email));
+        } else if (password.isEmpty() || password.length() < 3) {
+            //senhaText.setError("A senha deve conter no mínimo 3 caracteres.");
+            valid = false;
+            Snackbar snack = Snackbar.make(coordinatorLayout, "A senha deve conter no mínimo 3 caracteres.", Snackbar.LENGTH_LONG);
+            ((TextView)snack.getView().findViewById(android.support.design.R.id.snackbar_text)).setGravity(Gravity.CENTER_HORIZONTAL);
+            snack.show();
+
+            YoYo.with(Techniques.Bounce).duration(700).playOn(findViewById(R.id.input_password));
+        }
 
         return valid;
     }

@@ -30,9 +30,22 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:23.1.1'
     compile 'com.google.code.gson:gson:2.3.1'
     compile 'com.squareup.okhttp:okhttp:2.6.0'
+
+    // http requesting easily lib
     compile 'com.squareup.retrofit:retrofit:1.9.0'
+
+    // image loading lib
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.journeyapps:zxing-android-embedded:3.0.2@aar'
+
+    // barcode/qrcode lib
     compile 'com.google.zxing:core:3.2.0'
+
+    // material design compat lib
     compile 'com.github.rey5137:material:1.2.2'
+
+    // animations
+    compile 'com.nineoldandroids:library:2.4.0'
+    compile 'com.daimajia.easing:library:1.0.0@aar'
+    compile 'com.daimajia.androidanimations:library:1.0.8@aar'
 }
