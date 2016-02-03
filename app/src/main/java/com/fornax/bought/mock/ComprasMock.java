@@ -1,6 +1,7 @@
 package com.fornax.bought.mock;
 
 import com.fornax.bought.common.MinhaCompraVO;
+import com.fornax.bought.common.UsuarioVO;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -13,12 +14,23 @@ import java.util.List;
 public class ComprasMock {
 
 
+    private static UsuarioVO usuario;
+
     public static List<MinhaCompraVO> getCompras(){
         List<MinhaCompraVO> retorno = new ArrayList<MinhaCompraVO>();
         /*retorno.add(new MinhaCompraVO("6516D5FGXAVASCA", BigDecimal.valueOf(56.35), StatusCompraEnum.PAGO, "http://res.cloudinary.com/networkmi/image/upload/v1449290439/139881916514_fnrky7.jpg"));
         retorno.add(new MinhaCompraVO("65GA1SXAXAVASCA",BigDecimal.valueOf(53.35), StatusCompraEnum.AGUARDANDO_PAGAMENTO, "http://res.cloudinary.com/networkmi/image/upload/v1449290439/139881916514_fnrky7.jpg"));
         retorno.add(new MinhaCompraVO("651SDAFSXAVASCA",BigDecimal.valueOf(82.35), StatusCompraEnum.CANCELADO, "http://res.cloudinary.com/networkmi/image/upload/v1449290439/139881916514_fnrky7.jpg"));*/
         return retorno;
+    }
+
+    public static UsuarioVO getUsuario() {
+        UsuarioVO usuario = new UsuarioVO();
+        usuario.setId(1);
+        usuario.setSenha("123456");
+        usuario.setNome("Admin");
+        usuario.setEmail("admin@bought.com.br");
+        return usuario;
     }
 
    /* public static CompraVO getCompraVO(BigDecimal valorTotal) {

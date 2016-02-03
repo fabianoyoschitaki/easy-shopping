@@ -45,6 +45,12 @@ public class SignupActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.trans_up_out, R.anim.trans_up_in);
+    }
+
     public void signup() {
         Log.d(TAG, "Signup");
 

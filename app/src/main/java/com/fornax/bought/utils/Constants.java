@@ -16,4 +16,5 @@ public class Constants {
     public static final String REST_FINALIZAR_COMPRA = "/compra/finalizarCompra";
 
     public static final Integer LOGIN_CODIGO_SUCESSO = 0;
+    public static final Integer LOGIN_CODIGO_ERRO = -1;
 }

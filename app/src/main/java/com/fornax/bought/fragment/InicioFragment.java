@@ -17,6 +17,7 @@ import com.fornax.bought.common.CompraVO;
 import com.fornax.bought.common.EstabelecimentoVO;
 import com.fornax.bought.common.LoginVO;
 import com.fornax.bought.common.UsuarioVO;
+import com.fornax.bought.mock.ComprasMock;
 import com.fornax.bought.rest.RestClient;
 import com.fornax.bought.utils.SharedPreferencesUtil;
 
@@ -79,8 +80,8 @@ public class InicioFragment extends Fragment {
 
                     RestClient restClient = new RestClient();
 
-                    //PROVISORIO...
-                    UsuarioVO usuario = LoginActivity.loginVO.getUsuario();
+                    //TODO PROVISORIO...
+                    UsuarioVO usuario = ComprasMock.getUsuario();
 
                     restClient.getRestAPI().getNovaCompra(resultado, usuario, new Callback<CompraVO>() {
                         @Override

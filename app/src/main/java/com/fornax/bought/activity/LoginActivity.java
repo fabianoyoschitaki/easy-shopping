@@ -34,8 +34,6 @@ public class LoginActivity extends AppCompatActivity{
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
 
-    public static LoginVO loginVO;
-
     @Bind(R.id.input_email)
     EditText emailText;
 
@@ -93,7 +91,8 @@ public class LoginActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
-                startActivityForResult(intent, REQUEST_SIGNUP);
+                startActivity(intent);
+                overridePendingTransition(R.anim.trans_up_in, R.anim.trans_up_out);
             }
         });
     }
@@ -129,8 +128,10 @@ public class LoginActivity extends AppCompatActivity{
                 Thread.sleep(3000);
                 WSRestService restClient = new WSRestService();
                 retorno = restClient.getRestAPI().autenticar(params[0], params[1]);
-                loginVO = retorno;
             } catch (Exception e) {
+                retorno = new LoginVO();
+                retorno.setMsg("Desculpe. Tente novamente mais tarde! :(");
+                retorno.setStatus(Constants.LOGIN_CODIGO_ERRO);
                 e.printStackTrace();
             }
             return retorno;
@@ -147,10 +148,9 @@ public class LoginActivity extends AppCompatActivity{
             if (Constants.LOGIN_CODIGO_SUCESSO.equals(login.getStatus())) {
                 salvarLogin();
                 Intent intent = new Intent(getApplicationContext(), TelaPrincipalActivity.class);
-                overridePendingTransition(R.anim.trans_up_in, R.anim.trans_up_out);
                 startActivity(intent);
+                overridePendingTransition(R.anim.trans_up_in, R.anim.trans_up_out);
             } else {
-
                 Snackbar snack = Snackbar.make(coordinatorLayout, login.getMsg(), Snackbar.LENGTH_LONG);
                 ((TextView)snack.getView().findViewById(android.support.design.R.id.snackbar_text)).setGravity(Gravity.CENTER_HORIZONTAL);
                 snack.show();
