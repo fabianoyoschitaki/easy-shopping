@@ -98,7 +98,7 @@
             android:text="@string/criar_nova_conta"
             android:textColor="@color/textColorPrimary"
             android:gravity="center"
-            android:textSize="16dip"/>
+            android:textSize="16sp"/>
     </LinearLayout>
 
     <FrameLayout

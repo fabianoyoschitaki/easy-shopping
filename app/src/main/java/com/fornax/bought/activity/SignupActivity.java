@@ -1,12 +1,12 @@
 package com.fornax.bought.activity;
 
 import android.app.DatePickerDialog;
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -20,9 +20,9 @@ import android.widget.Toast;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.fornax.bought.common.LoginVO;
-import com.fornax.bought.personalviews.CpfEditText;
 import com.fornax.bought.rest.WSRestService;
 import com.fornax.bought.utils.Constants;
+import com.fornax.bought.utils.Mascara;
 import com.rey.material.widget.Button;
 
 import java.text.SimpleDateFormat;
@@ -31,7 +31,6 @@ import java.util.Calendar;
 import bought.fornax.com.bought.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import retrofit.http.Path;
 
 public class SignupActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
@@ -49,7 +48,7 @@ public class SignupActivity extends AppCompatActivity {
     EditText etDataNascimento;
 
     @Bind(R.id.input_cpf)
-    CpfEditText etCpf;
+    EditText etCpf;
 
     @Bind(R.id.btn_cadastrar)
     Button btnCadastrar;
@@ -71,6 +70,10 @@ public class SignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
         ButterKnife.bind(this);
+
+        //Máscara CPF
+        TextWatcher cpfMask = Mascara.insert("###.###.###-##", etCpf);
+        etCpf.addTextChangedListener(cpfMask);
 
         //Datepicker do campo Data de Nascimento
         dataAniversarioCalendar = Calendar.getInstance();
