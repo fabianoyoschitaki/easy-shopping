@@ -49,4 +49,5 @@
     <!-- Content Description -->
     <string name="desc_list_item_icon">Item Icon</string>
     <string name="criar_nova_conta"><u>Criar nova conta!</u></string>
+    <string name="ja_tem_conta_entre"><u>Já tem cadastro? Entre agora!</u></string>
 </resources>

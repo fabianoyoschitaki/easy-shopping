@@ -9,6 +9,8 @@ public class Constants {
     public static final String REST_TODOS_PRODUTOS_URL = "/produtos/todos";
     public static final String REST_OBTER_ITEM_COMPRA_URL = "/compra/obterItemCompraPorCodigoBarra/{codigoBarras}/{codigoEstabelecimento}";
     public static final String REST_AUTENTICAR_URL = "/login/autenticar/{email}/{senha}";
+    //TODO ver com o lixo
+    public static final String REST_CADASTRAR_NOVO_USUARIO = "/usuarios/cadastrarUsuario/novo";
 
     public static final String REST_TODOS_MERCADOS = "/mercados/todos";
 

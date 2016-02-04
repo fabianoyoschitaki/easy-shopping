@@ -52,8 +52,7 @@ public class LoginActivity extends AppCompatActivity{
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
 
-    AlphaAnimation inAnimation;
-    AlphaAnimation outAnimation;
+    @Bind(R.id.progressBarHolder)
     FrameLayout progressBarHolder;
 
     private SharedPreferencesUtil sharedPreferencesUtil;
@@ -67,8 +66,6 @@ public class LoginActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-
-        progressBarHolder = (FrameLayout) findViewById(R.id.progressBarHolder);
 
         /** resgatando dados do email e senha caso tenha **/
         sharedPreferencesUtil = new SharedPreferencesUtil(this);
@@ -99,6 +96,9 @@ public class LoginActivity extends AppCompatActivity{
 
 
     private class LoginTask extends AsyncTask<String, Void, LoginVO> {
+
+        AlphaAnimation inAnimation;
+        AlphaAnimation outAnimation;
 
         @Override
         protected void onPreExecute() {
@@ -198,22 +198,29 @@ public class LoginActivity extends AppCompatActivity{
         String email = emailText.getText().toString();
         String password = senhaText.getText().toString();
 
+        String mensagemErro = null;
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             //emailText.setError("Entre com um e-mail válido.");
+            mensagemErro = "Entre com um e-mail válido!";
             valid = false;
-            Snackbar snack = Snackbar.make(coordinatorLayout, "Entre com um e-mail válido!", Snackbar.LENGTH_LONG);
-            ((TextView)snack.getView().findViewById(android.support.design.R.id.snackbar_text)).setGravity(Gravity.CENTER_HORIZONTAL);
-            snack.show();
-
             YoYo.with(Techniques.Bounce).duration(700).playOn(findViewById(R.id.input_email));
-        } else if (password.isEmpty() || password.length() < 3) {
+        }
+        if (password.isEmpty() || password.length() < 3) {
+            if (mensagemErro == null){
+                mensagemErro = "A senha deve conter no mínimo 3 caracteres.";
+            } else {
+                mensagemErro = mensagemErro + "\nA senha deve conter no mínimo 3 caracteres.";
+            }
             //senhaText.setError("A senha deve conter no mínimo 3 caracteres.");
             valid = false;
-            Snackbar snack = Snackbar.make(coordinatorLayout, "A senha deve conter no mínimo 3 caracteres.", Snackbar.LENGTH_LONG);
-            ((TextView)snack.getView().findViewById(android.support.design.R.id.snackbar_text)).setGravity(Gravity.CENTER_HORIZONTAL);
-            snack.show();
-
             YoYo.with(Techniques.Bounce).duration(700).playOn(findViewById(R.id.input_password));
+        }
+
+        if (!valid) {
+            Snackbar snack = Snackbar.make(coordinatorLayout, mensagemErro, Snackbar.LENGTH_LONG);
+            ((TextView) snack.getView().findViewById(android.support.design.R.id.snackbar_text)).setGravity(Gravity.CENTER_HORIZONTAL);
+            ((TextView) snack.getView().findViewById(android.support.design.R.id.snackbar_text)).setMaxLines(2);
+            snack.show();
         }
 
         return valid;

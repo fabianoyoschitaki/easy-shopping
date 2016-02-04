@@ -21,14 +21,28 @@ import retrofit.http.Path;
  */
 public interface RestAPI {
     @GET(Constants.REST_OBTER_ITEM_COMPRA_URL)
-    public void obterItemCompraPorCodigoBarra(@Path("codigoBarras") String codigoBarras,
-                                              @Path("codigoEstabelecimento") String codigoEstabelecimento,
-                                              Callback<ItemCompraVO> itemCompraResponse);
+    public void obterItemCompraPorCodigoBarra(
+        @Path("codigoBarras") String codigoBarras,
+        @Path("codigoEstabelecimento") String codigoEstabelecimento,
+        Callback<ItemCompraVO> itemCompraResponse);
+
     @POST(Constants.REST_FINALIZAR_COMPRA)
-    public void finalizarCompra(@Body CompraVO compraVO, Callback<CompraVO> compraResponse);
+    public void finalizarCompra(
+        @Body CompraVO compraVO,
+        Callback<CompraVO> compraResponse);
 
     @GET(Constants.REST_AUTENTICAR_URL)
-    public LoginVO autenticar(@Path("email") String email, @Path("senha") String senha);
+    public LoginVO autenticar(
+        @Path("email") String email,
+        @Path("senha") String senha);
+
+    @GET(Constants.REST_CADASTRAR_NOVO_USUARIO)
+    public LoginVO cadastrarNovoUsuario(
+        @Path("nome") String nome,
+        @Path("email") String email,
+        @Path("senha") String senha,
+        @Path("cpf") String cpf,
+        @Path("dataNascimento") String dataNascimento);
 
     @GET(Constants.REST_TODOS_MERCADOS)
     public void obterTodosMercados(Callback<List<MercadoVO>> mercadosResponse);

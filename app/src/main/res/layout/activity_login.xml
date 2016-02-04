@@ -16,7 +16,7 @@
         android:paddingLeft="24dp"
         android:paddingRight="24dp">
 
-        <ImageView android:src="@drawable/iboughtlogo"
+        <ImageView android:src="@drawable/iboughtlogo3"
             android:layout_width="wrap_content"
             android:layout_height="160dp"
             android:layout_marginBottom="24dp"
