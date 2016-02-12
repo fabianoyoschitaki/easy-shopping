@@ -5,6 +5,7 @@ import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -55,6 +56,9 @@ public class LoginActivity extends AppCompatActivity{
     @Bind(R.id.progressBarHolder)
     FrameLayout progressBarHolder;
 
+    @Bind(R.id.fab)
+    FloatingActionButton fab;
+
     private SharedPreferencesUtil sharedPreferencesUtil;
 
     //private GoogleApiClient mGoogleApiClient;
@@ -90,6 +94,14 @@ public class LoginActivity extends AppCompatActivity{
                 Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.trans_up_in, R.anim.trans_up_out);
+            }
+        });
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Cala Boca fdp", Snackbar.LENGTH_SHORT)
+                        .setAction("Action", null).show();
             }
         });
     }
