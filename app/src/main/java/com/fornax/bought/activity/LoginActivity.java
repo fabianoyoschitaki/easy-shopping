@@ -15,7 +15,6 @@ import android.view.animation.AlphaAnimation;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
@@ -91,7 +90,7 @@ public class LoginActivity extends AppCompatActivity{
         signupLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
+                Intent intent = new Intent(getApplicationContext(), CadastroUsuarioActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.trans_up_in, R.anim.trans_up_out);
             }

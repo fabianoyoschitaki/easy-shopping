@@ -48,7 +48,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.fornax.bought.activity.SignupActivity">
+            android:name="com.fornax.bought.activity.CadastroUsuarioActivity">
         </activity>
         <activity
             android:name="com.fornax.bought.activity.CarrinhoComprasActivity">

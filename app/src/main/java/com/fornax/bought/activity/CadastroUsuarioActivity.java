@@ -19,7 +19,9 @@ import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.fornax.bought.common.CadastroUsuarioVO;
 import com.fornax.bought.common.LoginVO;
+import com.fornax.bought.common.UsuarioVO;
 import com.fornax.bought.rest.WSRestService;
 import com.fornax.bought.utils.Constants;
 import com.fornax.bought.utils.Mascara;
@@ -32,8 +34,8 @@ import bought.fornax.com.bought.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SignupActivity extends AppCompatActivity {
-    private static final String TAG = "SignupActivity";
+public class CadastroUsuarioActivity extends AppCompatActivity {
+    private static final String TAG = "CadastroUsuarioActivity";
 
     @Bind(R.id.input_nome)
     EditText etNome;
@@ -68,7 +70,7 @@ public class SignupActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signup);
+        setContentView(R.layout.activity_cadastro_usuario);
         ButterKnife.bind(this);
 
         //Máscara CPF
@@ -81,7 +83,6 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear,
                                   int dayOfMonth) {
-                // TODO Auto-generated method stub
                 dataAniversarioCalendar.set(Calendar.YEAR, year);
                 dataAniversarioCalendar.set(Calendar.MONTH, monthOfYear);
                 dataAniversarioCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
@@ -92,11 +93,10 @@ public class SignupActivity extends AppCompatActivity {
         etDataNascimento.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                // TODO Auto-generated method stub
-                new DatePickerDialog(SignupActivity.this, date,
-                        dataAniversarioCalendar.get(Calendar.YEAR) - 18,
-                        dataAniversarioCalendar.get(Calendar.MONTH),
-                        dataAniversarioCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                new DatePickerDialog(CadastroUsuarioActivity.this, date,
+                    dataAniversarioCalendar.get(Calendar.YEAR) - 18,
+                    dataAniversarioCalendar.get(Calendar.MONTH),
+                    dataAniversarioCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
 
@@ -131,12 +131,13 @@ public class SignupActivity extends AppCompatActivity {
     public void signup() {
         Log.d(TAG, "Signup");
         if (validate()) {
-            new SignupTask().execute(
-                    etNome.getText().toString(),
-                    etEmail.getText().toString(),
-                    etSenha.getText().toString(),
-                    etCpf.getText().toString(),
-                    etDataNascimento.getText().toString());
+            CadastroUsuarioVO cadastroUsuarioVO = new CadastroUsuarioVO();
+            cadastroUsuarioVO.setNome(etNome.getText().toString());
+            cadastroUsuarioVO.setEmail(etEmail.getText().toString());
+            cadastroUsuarioVO.setSenha(etSenha.getText().toString());
+            cadastroUsuarioVO.setCpf(etCpf.getText().toString());
+            cadastroUsuarioVO.setEmail(etEmail.getText().toString());
+            new CadastroUsuarioTask().execute(cadastroUsuarioVO);
         }
     }
 
@@ -219,7 +220,7 @@ public class SignupActivity extends AppCompatActivity {
         return valid;
     }
 
-    private class SignupTask extends AsyncTask<String, Void, LoginVO> {
+    private class CadastroUsuarioTask extends AsyncTask<CadastroUsuarioVO, Void, UsuarioVO> {
 
         AlphaAnimation inAnimation;
         AlphaAnimation outAnimation;
@@ -235,8 +236,8 @@ public class SignupActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(LoginVO login) {
-            super.onPostExecute(login);
+        protected void onPostExecute(UsuarioVO usuario) {
+            super.onPostExecute(usuario);
             outAnimation = new AlphaAnimation(1f, 0f);
             outAnimation.setDuration(200);
             progressBarHolder.setAnimation(outAnimation);
@@ -246,21 +247,14 @@ public class SignupActivity extends AppCompatActivity {
         }
 
         @Override
-        protected LoginVO doInBackground(String... params) {
-            LoginVO retorno = null;
+        protected UsuarioVO doInBackground(CadastroUsuarioVO... cadastro) {
+            UsuarioVO retorno = null;
             try {
                 Thread.sleep(3000);
                 WSRestService restClient = new WSRestService();
-                retorno = restClient.getRestAPI().cadastrarNovoUsuario(
-                        params[0],
-                        params[1],
-                        params[2],
-                        params[3],
-                        params[4]);
+                retorno = restClient.getRestAPI().cadastrarUsuario(cadastro[0]);
             } catch (Exception e) {
-                retorno = new LoginVO();
-                retorno.setMsg("Desculpe. Tente novamente mais tarde! :(");
-                retorno.setStatus(Constants.LOGIN_CODIGO_ERRO);
+                retorno = new UsuarioVO();
                 e.printStackTrace();
             }
             return retorno;

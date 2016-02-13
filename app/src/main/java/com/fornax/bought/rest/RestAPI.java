@@ -1,10 +1,10 @@
 package com.fornax.bought.rest;
 
+import com.fornax.bought.common.CadastroUsuarioVO;
 import com.fornax.bought.common.CompraVO;
 import com.fornax.bought.common.ItemCompraVO;
 import com.fornax.bought.common.LoginVO;
 import com.fornax.bought.common.MercadoVO;
-import com.fornax.bought.common.ProdutoVO;
 import com.fornax.bought.common.UsuarioVO;
 import com.fornax.bought.utils.Constants;
 
@@ -20,13 +20,13 @@ import retrofit.http.Path;
  * Created by root on 03/12/15.
  */
 public interface RestAPI {
-    @GET(Constants.REST_OBTER_ITEM_COMPRA_URL)
+    @GET(Constants.REST_COMPRA_OBTER_ITEM_COMPRA_CODIGO_BARRA)
     public void obterItemCompraPorCodigoBarra(
         @Path("codigoBarras") String codigoBarras,
         @Path("codigoEstabelecimento") String codigoEstabelecimento,
         Callback<ItemCompraVO> itemCompraResponse);
 
-    @POST(Constants.REST_FINALIZAR_COMPRA)
+    @POST(Constants.REST_COMPRA_FINALIZAR_COMPRA)
     public void finalizarCompra(
         @Body CompraVO compraVO,
         Callback<CompraVO> compraResponse);
@@ -36,17 +36,12 @@ public interface RestAPI {
         @Path("email") String email,
         @Path("senha") String senha);
 
-    @GET(Constants.REST_CADASTRAR_NOVO_USUARIO)
-    public LoginVO cadastrarNovoUsuario(
-        @Path("nome") String nome,
-        @Path("email") String email,
-        @Path("senha") String senha,
-        @Path("cpf") String cpf,
-        @Path("dataNascimento") String dataNascimento);
+    @POST(Constants.REST_USUARIO_CADASTRAR_USUARIO)
+    public UsuarioVO cadastrarUsuario(@Body CadastroUsuarioVO cadastroUsuarioVO);
 
     @GET(Constants.REST_TODOS_MERCADOS)
     public void obterTodosMercados(Callback<List<MercadoVO>> mercadosResponse);
 
-    @POST(Constants.REST_NOVA_COMPRA)
+    @POST(Constants.REST_COMPRA_NOVA_COMPRA)
     public void getNovaCompra(@Path("codigoEstabelecimento") String codigoEstabelecimento, @Body UsuarioVO usuarioLogado, Callback<CompraVO> compraResponse);
 }

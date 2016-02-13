@@ -26,7 +26,7 @@ public class ComprasMock {
 
     public static UsuarioVO getUsuario() {
         UsuarioVO usuario = new UsuarioVO();
-        usuario.setId(1);
+        usuario.setId(Long.valueOf(1));
         usuario.setSenha("123456");
         usuario.setNome("Admin");
         usuario.setEmail("admin@bought.com.br");
