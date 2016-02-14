@@ -28,8 +28,10 @@ public class ComprasMock {
         UsuarioVO usuario = new UsuarioVO();
         usuario.setId(Long.valueOf(1));
         usuario.setSenha("123456");
-        usuario.setNome("Admin");
-        usuario.setEmail("admin@bought.com.br");
+        usuario.setNome("Teste");
+        usuario.setEmail("teste@bought.com.br");
+        usuario.setCpf("12345678910");
+        usuario.setAtivo(Boolean.FALSE);
         return usuario;
     }
 

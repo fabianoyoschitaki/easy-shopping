@@ -1,6 +1,7 @@
 package com.fornax.bought.activity;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -22,8 +23,10 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.fornax.bought.common.CadastroUsuarioVO;
 import com.fornax.bought.common.LoginVO;
 import com.fornax.bought.common.UsuarioVO;
+import com.fornax.bought.mock.ComprasMock;
 import com.fornax.bought.rest.WSRestService;
 import com.fornax.bought.utils.Constants;
+import com.fornax.bought.utils.JSONUtil;
 import com.fornax.bought.utils.Mascara;
 import com.rey.material.widget.Button;
 
@@ -141,10 +144,20 @@ public class CadastroUsuarioActivity extends AppCompatActivity {
         }
     }
 
-    public void onSignupSuccess() {
+    public void onSignupFinished(UsuarioVO usuario) {
         btnCadastrar.setEnabled(true);
-        setResult(RESULT_OK, null);
-        finish();
+        //finish();
+        Log.d(TAG, JSONUtil.toJSON(usuario));
+        if (usuario == null) {
+            Snackbar snack = Snackbar.make(coordinatorLayout, "Erro ao cadastrar. Tente novamente mais tarde :(", Snackbar.LENGTH_LONG);
+            ((TextView) snack.getView().findViewById(android.support.design.R.id.snackbar_text)).setGravity(Gravity.CENTER_HORIZONTAL);
+            snack.show();
+        } else {
+            Intent intent = new Intent(getApplicationContext(), ConfirmacaoEmailActivity.class);
+            intent.putExtra("usuario", usuario);
+            startActivity(intent);
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        }
     }
 
     public void onSignupFailed() {
@@ -243,18 +256,22 @@ public class CadastroUsuarioActivity extends AppCompatActivity {
             progressBarHolder.setAnimation(outAnimation);
             progressBarHolder.setVisibility(View.GONE);
             btnCadastrar.setEnabled(true);
-            onSignupSuccess();;
+            onSignupFinished(usuario);
         }
 
         @Override
         protected UsuarioVO doInBackground(CadastroUsuarioVO... cadastro) {
             UsuarioVO retorno = null;
             try {
-                Thread.sleep(3000);
                 WSRestService restClient = new WSRestService();
                 retorno = restClient.getRestAPI().cadastrarUsuario(cadastro[0]);
+
+                if (retorno == null){
+                    retorno = ComprasMock.getUsuario();
+                }
             } catch (Exception e) {
-                retorno = new UsuarioVO();
+                //TODO tirar quando funcionar
+                retorno = ComprasMock.getUsuario();
                 e.printStackTrace();
             }
             return retorno;

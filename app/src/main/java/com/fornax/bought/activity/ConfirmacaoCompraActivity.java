@@ -7,18 +7,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.fornax.bought.common.ItemCompraVO;
 import com.fornax.bought.common.MercadoVO;
-import com.fornax.bought.common.ProdutoVO;
 import com.fornax.bought.utils.Utils;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import bought.fornax.com.bought.R;
-public class ConfirmacaoActivity extends AppCompatActivity {
+public class ConfirmacaoCompraActivity extends AppCompatActivity {
 
     private MercadoVO mercadoEscolhido;
     private ArrayList<ItemCompraVO> itens;
@@ -27,7 +24,7 @@ public class ConfirmacaoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_confirmacao);
+        setContentView(R.layout.activity_confirmacao_compra);
 
         Bundle extras = getIntent().getExtras();
         Double value = 0.0;

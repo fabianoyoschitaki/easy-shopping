@@ -54,7 +54,10 @@
             android:name="com.fornax.bought.activity.CarrinhoComprasActivity">
         </activity>
         <activity
-            android:name="com.fornax.bought.activity.ConfirmacaoActivity">
+            android:name="com.fornax.bought.activity.ConfirmacaoCompraActivity">
+        </activity>
+        <activity
+            android:name="com.fornax.bought.activity.ConfirmacaoEmailActivity">
         </activity>
         <activity
             android:name="com.fornax.bought.activity.SucessoActivity">

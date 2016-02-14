@@ -4,7 +4,7 @@ package com.fornax.bought.utils;
  * Created by root on 03/12/15.
  */
 public class Constants {
-    public static final String REST_BASE_BOUGHT_URL = "http://54.200.195.122/bought-web";
+    public static final String REST_BASE_BOUGHT_URL = "http://ec2-54-200-195-122.us-west-2.compute.amazonaws.com/bought-web";
 
     public static final String REST_COMPRA_OBTER_ITEM_COMPRA_CODIGO_BARRA = "/compra/obterItemCompraPorCodigoBarra/{codigoBarras}/{codigoEstabelecimento}";
     public static final String REST_COMPRA_NOVA_COMPRA = "/compra/novaCompra/{codigoEstabelecimento}";
