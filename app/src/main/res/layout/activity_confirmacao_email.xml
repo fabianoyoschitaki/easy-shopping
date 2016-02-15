@@ -11,7 +11,6 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="80dp"
         android:gravity="center">
 
         <TextView
@@ -48,5 +47,18 @@
             android:layout_width="wrap_content"
             android:scaleType="fitCenter"
             android:src="@drawable/iboughtmail" />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center|bottom">
+        <TextView android:id="@+id/tvJaConfirmei"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:text="@string/ja_confirmei"
+            android:gravity="center"
+            android:textSize="20sp"/>
     </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

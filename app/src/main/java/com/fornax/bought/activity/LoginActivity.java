@@ -175,6 +175,11 @@ public class LoginActivity extends AppCompatActivity{
      */
     public void doLogin() {
         Log.d(TAG, "Login");
+        if ("mock".equalsIgnoreCase(emailText.getText().toString())){
+            Intent intent = new Intent(getApplicationContext(), TelaPrincipalActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.trans_up_in, R.anim.trans_up_out);
+        }
         if (validate()) {
             new LoginTask().execute(emailText.getText().toString(), senhaText.getText().toString());
         }

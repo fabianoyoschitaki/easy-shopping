@@ -157,12 +157,12 @@ public class CadastroUsuarioActivity extends AppCompatActivity {
             intent.putExtra("usuario", usuario);
             startActivity(intent);
             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            finish();
         }
     }
 
     public void onSignupFailed() {
         Toast.makeText(getBaseContext(), "Falha no login.", Toast.LENGTH_LONG).show();
-
         btnCadastrar.setEnabled(true);
     }
 

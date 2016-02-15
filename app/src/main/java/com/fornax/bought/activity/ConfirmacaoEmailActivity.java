@@ -49,6 +49,9 @@ public class ConfirmacaoEmailActivity extends AppCompatActivity {
     @Bind(R.id.ibOpenMail)
     ImageButton ibOpenMail;
 
+    @Bind(R.id.tvJaConfirmei)
+    TextView tvJaConfirmei;
+
     private UsuarioVO usuario;
 
     @Override
@@ -64,6 +67,21 @@ public class ConfirmacaoEmailActivity extends AppCompatActivity {
             Log.d(TAG, "Erro:" + e.getMessage());
             e.printStackTrace();
         }
+
+        tvJaConfirmei.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        ibOpenMail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.addCategory(Intent.CATEGORY_APP_EMAIL);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
