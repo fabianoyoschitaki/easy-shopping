@@ -55,8 +55,7 @@ public class LoginActivity extends AppCompatActivity{
     @Bind(R.id.progressBarHolder)
     FrameLayout progressBarHolder;
 
-    @Bind(R.id.fab)
-    FloatingActionButton fab;
+    //@Bind(R.id.fab) FloatingActionButton fab;
 
     private SharedPreferencesUtil sharedPreferencesUtil;
 
@@ -96,13 +95,13 @@ public class LoginActivity extends AppCompatActivity{
             }
         });
 
-        fab.setOnClickListener(new View.OnClickListener() {
+        /**fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Cala Boca fdp", Snackbar.LENGTH_SHORT)
                         .setAction("Action", null).show();
             }
-        });
+        });**/
     }
 
 

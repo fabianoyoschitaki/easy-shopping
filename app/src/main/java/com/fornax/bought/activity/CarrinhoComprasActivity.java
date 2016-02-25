@@ -11,6 +11,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
@@ -31,7 +34,10 @@ import com.fornax.bought.common.ItemCompraVO;
 import com.fornax.bought.common.MercadoVO;
 import com.fornax.bought.common.ProdutoVO;
 import com.fornax.bought.rest.RestClient;
+import com.fornax.bought.utils.FragmentIntentIntegrator;
 import com.fornax.bought.utils.Utils;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -45,10 +51,10 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class CarrinhoComprasActivity extends AppCompatActivity implements ItemCompraAdapter.CustomButtonListener{
-    static final String ACTION_SCAN = "com.google.zxing.client.android.SCAN";
-
     /** lista que representa o carrinho de compras **/
     private static List<ItemCompraVO> itens = new ArrayList<ItemCompraVO>();
+    private static ItemCompraVO ultimoItemRemovido;
+    private static int posicaoUltimoItemRemovido;
 
     /** valor total das compras **/
     private BigDecimal valorTotal = new BigDecimal(0);
@@ -60,36 +66,14 @@ public class CarrinhoComprasActivity extends AppCompatActivity implements ItemCo
 
     private ItemCompraAdapter itemCompraAdapter;
 
+    /** @Bind(R.id.btn_scan)Button btnScan; **/
+    /** @Bind(R.id.btn_finalizar)Button btnFinalizar; **/
     @Bind(R.id.itemListView)ListView itemListView;
-    @Bind(R.id.btn_scan)Button btnScan;
-    @Bind(R.id.btn_finalizar)Button btnFinalizar;
     @Bind(R.id.txtValorTotal)TextView txtValorTotal;
+    @Bind(R.id.fab) FloatingActionButton fab;
+    @Bind(R.id.coordinatorLayout) CoordinatorLayout coordinatorLayout;
 
     private ProgressDialog dialog;
-
-    /*static {
-        ProdutoVO produto = new ProdutoVO();
-        produto.setCategoria("Alimento");
-        produto.setCodigoBarra("123123123");
-        produto.setId(1);
-        produto.setNome("Meus Bago");
-        produto.setMarca("Galinha");
-        produto.setPreco(new Double(3.12));
-        produto.setUrlImagem("http://www.paodeacucar.com.br/img/uploads/1/354/473354x200x200.jpg");
-        ItemCompraVO itemCompra = new ItemCompraVO(produto, 1);
-        itens.add(itemCompra);
-
-        produto = new ProdutoVO();
-        produto.setCategoria("Enlatado");
-        produto.setCodigoBarra("123123123");
-        produto.setId(1);
-        produto.setNome("Ervilha Zuada");
-        produto.setMarca("CASINO");
-        produto.setPreco(new Double(1.33));
-        produto.setUrlImagem("http://www.paodeacucar.com.br/img/uploads/1/424/474424x200x200.jpg");
-        itemCompra = new ItemCompraVO(produto, 1);
-        itens.add(itemCompra);
-    }*/
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -103,9 +87,10 @@ public class CarrinhoComprasActivity extends AppCompatActivity implements ItemCo
             Toast.makeText(getApplicationContext(), estabelecimentoVO.getNome(), Toast.LENGTH_SHORT).show();
         }
 
-        btnScan.setOnClickListener(new View.OnClickListener() {
+        //fab.setImageResource(R.drawable.ic_shopping_cart_white);
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 final Dialog dialogEscolherForma = new Dialog(CarrinhoComprasActivity.this);
                 dialogEscolherForma.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialogEscolherForma.setContentView(R.layout.dialog_escolher_forma);
@@ -154,8 +139,58 @@ public class CarrinhoComprasActivity extends AppCompatActivity implements ItemCo
             }
         });
 
+        /**btnScan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Dialog dialogEscolherForma = new Dialog(CarrinhoComprasActivity.this);
+                dialogEscolherForma.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialogEscolherForma.setContentView(R.layout.dialog_escolher_forma);
+                dialogEscolherForma.getWindow().setBackgroundDrawableResource(R.drawable.dialog_box);
 
-        btnFinalizar.setOnClickListener(new View.OnClickListener() {
+                Button btnScan = (Button) dialogEscolherForma.findViewById(R.id.btnScan);
+                btnScan.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        abrirTelaScan();
+                        dialogEscolherForma.dismiss();
+                    }
+                });
+
+                Button btnDigitar = (Button) dialogEscolherForma.findViewById(R.id.btnDigitar);
+                btnDigitar.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        final Dialog dialogInserirCodBarra = new Dialog(CarrinhoComprasActivity.this);
+                        dialogInserirCodBarra.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        dialogInserirCodBarra.setContentView(R.layout.dialog_inserir_codbarra);
+                        dialogInserirCodBarra.getWindow().setBackgroundDrawableResource(R.drawable.dialog_box);
+
+                        final EditText edt = (EditText) dialogInserirCodBarra.findViewById(R.id.edtCodigoBarras);
+                        if (edt.requestFocus()) {
+                            dialogInserirCodBarra.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                        }
+
+                        Button btnPronto = (Button) dialogInserirCodBarra.findViewById(R.id.btnPronto);
+                        btnPronto.setOnClickListener(new View.OnClickListener() {
+
+                            @Override
+                            public void onClick(View v) {
+                                if (edt.getText() != null) {
+                                    buscarProduto(edt.getText().toString());
+                                }
+                                dialogInserirCodBarra.dismiss();
+                            }
+                        });
+                        dialogInserirCodBarra.show();
+                        dialogEscolherForma.dismiss();
+                    }
+                });
+                dialogEscolherForma.show();
+            }
+        });**/
+
+        /** btnFinalizar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 compraVO.setItensCompraVO(itens);
@@ -164,7 +199,7 @@ public class CarrinhoComprasActivity extends AppCompatActivity implements ItemCo
                 intent.putExtra("compra", compraVO);
                 startActivity(intent);
             }
-        });
+        }); **/
 
         atualizaListaProdutos();
     }
@@ -174,9 +209,12 @@ public class CarrinhoComprasActivity extends AppCompatActivity implements ItemCo
     public void abrirTelaScan(){
         try {
             //start the scanning activity from the com.google.zxing.client.android.SCAN intent
-            Intent intent = new Intent(ACTION_SCAN);
-            intent.putExtra("SCAN_MODE", "PRODUCT_MODE");
-            startActivityForResult(intent, 0);
+            //Intent intent = new Intent(ACTION_SCAN);
+            //intent.putExtra("SCAN_MODE", "PRODUCT_MODE");
+            //startActivityForResult(intent, 0);
+            IntentIntegrator integrator = new IntentIntegrator(this);
+            integrator.initiateScan();
+
         } catch (ActivityNotFoundException anfe) {
             //on catch, show the download dialog
             showDialog(CarrinhoComprasActivity.this, "No Scanner Found", "Download a scanner code activity?", "Yes", "No").show();
@@ -239,8 +277,9 @@ public class CarrinhoComprasActivity extends AppCompatActivity implements ItemCo
 
     //on ActivityResult method
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (requestCode == 0) {
-            if (resultCode == RESULT_OK) {
+        IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        if (scanResult != null) {
+            if (resultCode == Activity.RESULT_OK) {
                 //get the extras that are returned from the intent
                 final String codigoBarras = intent.getStringExtra("SCAN_RESULT");
                 //String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
@@ -355,7 +394,20 @@ public class CarrinhoComprasActivity extends AppCompatActivity implements ItemCo
 
     @Override
     public void onButtonClickListener(int position) {
-        itens.remove(position);
+        ultimoItemRemovido = itens.remove(position);
+        posicaoUltimoItemRemovido = position;
         atualizaListaProdutos();
+        Snackbar snackbar = Snackbar
+            .make(coordinatorLayout, "Item removido.", Snackbar.LENGTH_LONG)
+            .setAction("DESFAZER", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    itens.add(posicaoUltimoItemRemovido, ultimoItemRemovido);
+                    atualizaListaProdutos();
+                    Snackbar snackbar1 = Snackbar.make(coordinatorLayout, "Produto " + ultimoItemRemovido.getProdutoVO().getNome() + " adicionado!", Snackbar.LENGTH_SHORT);
+                    snackbar1.show();
+                }
+            });
+        snackbar.show();
     }
 }
