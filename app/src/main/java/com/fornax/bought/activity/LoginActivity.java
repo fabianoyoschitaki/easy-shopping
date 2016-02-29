@@ -18,14 +18,36 @@ import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.Profile;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+import com.fornax.bought.common.CadastroUsuarioVO;
 import com.fornax.bought.common.LoginVO;
+import com.fornax.bought.common.UsuarioVO;
 import com.fornax.bought.rest.WSRestService;
 import com.fornax.bought.utils.Constants;
+import com.fornax.bought.utils.IntentUtil;
+import com.fornax.bought.utils.PrefUtil;
 import com.fornax.bought.utils.SharedPreferencesUtil;
 import com.rey.material.widget.Button;
 import com.rey.material.widget.CheckBox;
 
-import bought.fornax.com.bought.R;
+import com.fornax.bought.R;
+
+import org.json.JSONObject;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -55,6 +77,9 @@ public class LoginActivity extends AppCompatActivity{
     @Bind(R.id.progressBarHolder)
     FrameLayout progressBarHolder;
 
+    @Bind(R.id.login_button_facebook)
+    LoginButton loginButtonFacebook;
+
     //@Bind(R.id.fab) FloatingActionButton fab;
 
     private SharedPreferencesUtil sharedPreferencesUtil;
@@ -63,11 +88,17 @@ public class LoginActivity extends AppCompatActivity{
 
     private Location location;
 
+    private PrefUtil prefUtil;
+    private IntentUtil intentUtil;
+    private CallbackManager callbackManager;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+
+        callbackManager = CallbackManager.Factory.create();
 
         /** resgatando dados do email e senha caso tenha **/
         sharedPreferencesUtil = new SharedPreferencesUtil(this);
@@ -102,9 +133,113 @@ public class LoginActivity extends AppCompatActivity{
                         .setAction("Action", null).show();
             }
         });**/
+
+        prefUtil = new PrefUtil(this);
+        intentUtil = new IntentUtil(this);
+        loginButtonFacebook.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+
+                GraphRequest request = GraphRequest.newMeRequest(
+                        loginResult.getAccessToken(),
+                        new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(JSONObject object, GraphResponse response) {
+                                Log.v("LoginActivity", response.toString());
+                                try{
+                                    cadastrarUsuarioFacebook(object);
+                                }catch (Exception e){
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "email,id,name,picture,birthday");
+                request.setParameters(parameters);
+                GraphRequest.executeBatchAsync(request);
+
+                // save accessToken to SharedPreference
+                prefUtil.saveAccessToken(loginResult.getAccessToken().getToken());
+
+                Intent intent = new Intent(getApplicationContext(), TelaPrincipalActivity.class);
+                startActivity(intent);
+            }
+
+
+
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onError(FacebookException e) {
+
+            }
+        });
+
+        loginButtonFacebook.setReadPermissions(Arrays.asList("public_profile", "user_birthday"));
     }
 
+    public UsuarioVO cadastrarUsuarioFacebook(JSONObject object){
+        UsuarioVO retorno = null;
+        try{
+            CadastroUsuarioVO cadastro = new CadastroUsuarioVO();
+            cadastro.setEmail(object.getString("email"));
+            cadastro.setDataNascimento(convertToDate(object.getString("birthday")));
+            cadastro.setIdFacebook(object.getString("id"));
 
+            WSRestService restClient = new WSRestService();
+            retorno = restClient.getRestAPI().cadastrarUsuario(cadastro);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return retorno;
+    }
+
+    public Date convertToDate(String data){
+        Date retorno = null;
+        if(data != null){
+            try{
+                retorno = new SimpleDateFormat("mm/dd/yyyy").parse(data);
+            }catch (ParseException e){
+                e.printStackTrace();
+            }
+        }
+        return retorno;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        deleteAccessToken();
+        Profile profile = Profile.getCurrentProfile();
+        if(profile != null){
+            Intent intent = new Intent(getApplicationContext(), TelaPrincipalActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void deleteAccessToken() {
+        AccessTokenTracker accessTokenTracker = new AccessTokenTracker() {
+            @Override
+            protected void onCurrentAccessTokenChanged(
+                    AccessToken oldAccessToken,
+                    AccessToken currentAccessToken) {
+
+                if (currentAccessToken == null){
+                    //User logged out
+                    deleteAccessToken();
+                    prefUtil.clearToken();
+                }
+            }
+        };
+    }
     private class LoginTask extends AsyncTask<String, Void, LoginVO> {
 
         AlphaAnimation inAnimation;
