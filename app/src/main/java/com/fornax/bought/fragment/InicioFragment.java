@@ -4,23 +4,27 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fornax.bought.R;
 import com.fornax.bought.activity.CarrinhoComprasActivity;
-import com.fornax.bought.activity.LoginActivity;
 import com.fornax.bought.common.CompraVO;
-import com.fornax.bought.common.EstabelecimentoVO;
-import com.fornax.bought.common.LoginVO;
 import com.fornax.bought.common.UsuarioVO;
 import com.fornax.bought.mock.ComprasMock;
 import com.fornax.bought.rest.RestClient;
+import com.fornax.bought.utils.FragmentIntentIntegrator;
 import com.fornax.bought.utils.SharedPreferencesUtil;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -35,10 +39,10 @@ public class InicioFragment extends Fragment {
 
     private static final String TAG = InicioFragment.class.getName();
 
-
     private SharedPreferencesUtil sharedPreferencesUtil;
 
     @Bind(R.id.btn_iniciar_compra) ImageButton iniciarCompraButton;
+    @Bind(R.id.coordinatorLayout) CoordinatorLayout coordinatorLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
@@ -51,9 +55,11 @@ public class InicioFragment extends Fragment {
                 //Intent intent = new Intent(getActivity(), PegarCarrinhoActivity.class);
 
                 //https://androidcookbook.com/Recipe.seam?recipeId=3324
-                Intent intent = new Intent("com.google.zxing.client.android.SCAN");
-                intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
-                startActivityForResult(intent, 0);	//Barcode Scanner to scan for us
+                //Intent intent = new Intent("com.google.zxing.client.android.SCAN");
+                //intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
+                //startActivityForResult(intent, 0);	//Barcode Scanner to scan for us
+                FragmentIntentIntegrator integrator = new FragmentIntentIntegrator(InicioFragment.this);
+                integrator.initiateScan();
             }
 
         });
@@ -68,7 +74,8 @@ public class InicioFragment extends Fragment {
      * @param intent
      */
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (requestCode == 0) {
+        IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        if (scanResult != null) {
             if (resultCode == Activity.RESULT_OK) {
                 String qrCodeFormat = intent.getStringExtra("SCAN_RESULT_FORMAT");
                 String resultado = intent.getStringExtra("SCAN_RESULT");
@@ -77,6 +84,10 @@ public class InicioFragment extends Fragment {
                     dialog = new ProgressDialog(getActivity());
                     dialog.setMessage("Pegando carrinho...");
                     dialog.show();
+
+                    Snackbar snack = Snackbar.make(coordinatorLayout, resultado, Snackbar.LENGTH_LONG);
+                    ((TextView)snack.getView().findViewById(android.support.design.R.id.snackbar_text)).setGravity(Gravity.CENTER_HORIZONTAL);
+                    snack.show();
 
                     RestClient restClient = new RestClient();
 
@@ -97,8 +108,6 @@ public class InicioFragment extends Fragment {
                         }
                     });
                 }
-            } else if (resultCode == Activity.RESULT_CANCELED) {
-
             }
         }
     }
@@ -108,7 +117,9 @@ public class InicioFragment extends Fragment {
      * @param compraResponse
      */
     private void onCompraLoaded(CompraVO compraResponse) {
-        if(compraResponse != null && compraResponse.getId() != null){
+        if (compraResponse != null
+         && compraResponse.getId() != null
+         && compraResponse.getEstabelecimentoVO() != null){
             Intent carrinhoCompras = new Intent(getActivity(), CarrinhoComprasActivity.class);
             carrinhoCompras.putExtra("compra", compraResponse);
             startActivity(carrinhoCompras);

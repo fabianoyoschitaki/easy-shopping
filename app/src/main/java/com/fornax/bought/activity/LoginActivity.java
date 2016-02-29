@@ -1,17 +1,6 @@
 package com.fornax.bought.activity;
 
 import android.content.Intent;
-
-import com.facebook.AccessToken;
-import com.facebook.AccessTokenTracker;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,50 +8,24 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.Profile;
-import com.facebook.ProfileTracker;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
-import com.fornax.bought.R;
-import com.fornax.bought.common.CadastroUsuarioVO;
 import com.fornax.bought.common.LoginVO;
-import com.fornax.bought.common.UsuarioVO;
 import com.fornax.bought.rest.WSRestService;
 import com.fornax.bought.utils.Constants;
-import com.fornax.bought.utils.IntentUtil;
-import com.fornax.bought.utils.PrefUtil;
 import com.fornax.bought.utils.SharedPreferencesUtil;
 import com.rey.material.widget.Button;
 import com.rey.material.widget.CheckBox;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-
+import bought.fornax.com.bought.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -92,25 +55,17 @@ public class LoginActivity extends AppCompatActivity{
     @Bind(R.id.progressBarHolder)
     FrameLayout progressBarHolder;
 
-    @Bind((R.id.login_button_facebook))
-    LoginButton loginButtonFacebook;
-
-    @Bind(R.id.fab)
-    FloatingActionButton fab;
-
-    private PrefUtil prefUtil;
-    private IntentUtil intentUtil;
-    private CallbackManager callbackManager;
+    //@Bind(R.id.fab) FloatingActionButton fab;
 
     private SharedPreferencesUtil sharedPreferencesUtil;
 
+    //private GoogleApiClient mGoogleApiClient;
+
+    private Location location;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        callbackManager = CallbackManager.Factory.create();
-
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
@@ -140,126 +95,13 @@ public class LoginActivity extends AppCompatActivity{
             }
         });
 
-        fab.setOnClickListener(new View.OnClickListener() {
+        /**fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Cala Boca fdp", Snackbar.LENGTH_SHORT)
                         .setAction("Action", null).show();
             }
-        });
-
-
-        prefUtil = new PrefUtil(this);
-        intentUtil = new IntentUtil(this);
-
-        loginButtonFacebook.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-
-                GraphRequest request = GraphRequest.newMeRequest(
-                        loginResult.getAccessToken(),
-                        new GraphRequest.GraphJSONObjectCallback() {
-                            @Override
-                            public void onCompleted(JSONObject object, GraphResponse response) {
-                                Log.v("LoginActivity", response.toString());
-                                try{
-                                    cadastrarUsuarioFacebook(object);
-                                }catch (Exception e){
-                                    e.printStackTrace();
-                                }
-                            }
-                        });
-                Bundle parameters = new Bundle();
-                parameters.putString("fields", "email,id,name,picture,birthday");
-                request.setParameters(parameters);
-                GraphRequest.executeBatchAsync(request);
-
-                // save accessToken to SharedPreference
-                prefUtil.saveAccessToken(loginResult.getAccessToken().getToken());
-
-                Intent intent = new Intent(getApplicationContext(), TelaPrincipalActivity.class);
-                startActivity(intent);
-            }
-
-
-
-            @Override
-            public void onCancel() {
-
-            }
-
-            @Override
-            public void onError(FacebookException e) {
-
-            }
-        });
-
-        loginButtonFacebook.setReadPermissions(Arrays.asList("public_profile", "user_birthday"));
-    }
-
-    public UsuarioVO cadastrarUsuarioFacebook(JSONObject object){
-        UsuarioVO retorno = null;
-        try{
-            CadastroUsuarioVO cadastro = new CadastroUsuarioVO();
-            cadastro.setEmail(object.getString("email"));
-            cadastro.setDataNascimento(convertToDate(object.getString("birthday")));
-            cadastro.setIdFacebook(object.getString("id"));
-
-            WSRestService restClient = new WSRestService();
-            retorno = restClient.getRestAPI().cadastrarUsuario(cadastro);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return retorno;
-    }
-
-    public Date convertToDate(String data){
-        Date retorno = null;
-        if(data != null){
-            try{
-                retorno = new SimpleDateFormat("mm/dd/yyyy").parse(data);
-            }catch (ParseException e){
-                e.printStackTrace();
-            }
-        }
-        return retorno;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        deleteAccessToken();
-        Profile profile = Profile.getCurrentProfile();
-        if(profile != null){
-            Intent intent = new Intent(getApplicationContext(), TelaPrincipalActivity.class);
-            startActivity(intent);
-        }
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        callbackManager.onActivityResult(requestCode, resultCode, data);
-    }
-
-    private void deleteAccessToken() {
-        AccessTokenTracker accessTokenTracker = new AccessTokenTracker() {
-            @Override
-            protected void onCurrentAccessTokenChanged(
-                    AccessToken oldAccessToken,
-                    AccessToken currentAccessToken) {
-
-                if (currentAccessToken == null){
-                    //User logged out
-                    deleteAccessToken();
-                    prefUtil.clearToken();
-                    clearUserArea();
-                }
-            }
-        };
-    }
-
-    private void clearUserArea() {
+        });**/
     }
 
 
@@ -346,8 +188,6 @@ public class LoginActivity extends AppCompatActivity{
     public void onBackPressed() {
         moveTaskToBack(true);
     }
-
-
 
     /**
      * Salva dados do login
