@@ -8,13 +8,13 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.fornax.bought.R;
 import com.fornax.bought.common.ItemCompraVO;
 import com.fornax.bought.common.MercadoVO;
 import com.fornax.bought.utils.Utils;
 
 import java.util.ArrayList;
 
-import bought.fornax.com.bought.R;
 public class ConfirmacaoCompraActivity extends AppCompatActivity {
 
     private MercadoVO mercadoEscolhido;

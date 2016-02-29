@@ -24,6 +24,7 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fornax.bought.R;
 import com.fornax.bought.adapter.ItemCompraAdapter;
 import com.fornax.bought.common.CompraVO;
 import com.fornax.bought.common.EstabelecimentoVO;
@@ -37,7 +38,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import bought.fornax.com.bought.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import retrofit.Callback;

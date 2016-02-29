@@ -8,9 +8,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.fornax.bought.R;
 import com.fornax.bought.adapter.ConfiguracoesAdapter;
 
-import bought.fornax.com.bought.R;
 
 /**
  * Created by Rodrigo on 21/11/15.

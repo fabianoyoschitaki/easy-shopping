@@ -7,7 +7,8 @@ import android.support.v7.widget.CardView;
 import android.widget.Button;
 import android.widget.SeekBar;
 
-import bought.fornax.com.bought.R;
+import com.fornax.bought.R;
+
 
 public class ExemploCardViewActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener {
 

@@ -7,6 +7,9 @@ import java.util.Date;
  * Created by Fabiano Yoschitaki on 13/02/2016.
  */
 public class CadastroUsuarioVO implements Serializable{
+
+
+    private String idFacebook;
     private String nome;
     private String email;
     private Date dataNascimento;
@@ -43,4 +46,12 @@ public class CadastroUsuarioVO implements Serializable{
     public void setCpf(String cpf) {
         this.cpf = cpf;
     }
+    public String getIdFacebook() {
+        return idFacebook;
+    }
+
+    public void setIdFacebook(String idFacebook) {
+        this.idFacebook = idFacebook;
+    }
+
 }

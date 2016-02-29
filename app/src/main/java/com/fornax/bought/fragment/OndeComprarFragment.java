@@ -21,7 +21,7 @@ import com.fornax.bought.rest.RestClient;
 
 import java.util.List;
 
-import bought.fornax.com.bought.R;
+import com.fornax.bought.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import retrofit.Callback;

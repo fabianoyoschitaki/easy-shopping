@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.fornax.bought.R;
 import com.fornax.bought.common.ItemCompraVO;
 import com.fornax.bought.common.ProdutoVO;
 import com.fornax.bought.utils.ImageLoader;
@@ -19,7 +20,6 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-import bought.fornax.com.bought.R;
 
 /**
  * Created by Hallan on 29/11/2015.

@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.fornax.bought.R;
 import com.fornax.bought.common.CompraVO;
 import com.fornax.bought.mock.ComprasMock;
 import com.google.zxing.BarcodeFormat;
@@ -24,7 +25,6 @@ import com.google.zxing.qrcode.QRCodeWriter;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-import bought.fornax.com.bought.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 

@@ -17,14 +17,16 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import com.facebook.Profile;
+import com.fornax.bought.R;
 import com.fornax.bought.adapter.NavigationDrawerAdapter;
 import com.fornax.bought.model.NavDrawerItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import bought.fornax.com.bought.R;
 
 public class FragmentDrawer extends Fragment {
 
@@ -37,6 +39,7 @@ public class FragmentDrawer extends Fragment {
     private View containerView;
     private static String[] titles = null;
     private FragmentDrawerListener drawerListener;
+    private ImageView profileImgView;
 
     public FragmentDrawer() {
 
@@ -67,6 +70,9 @@ public class FragmentDrawer extends Fragment {
         titles = getActivity().getResources().getStringArray(R.array.nav_drawer_labels);
     }
 
+
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -89,6 +95,7 @@ public class FragmentDrawer extends Fragment {
 
             }
         }));
+
 
         return layout;
     }

@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.fornax.bought.R;
 import com.fornax.bought.common.CadastroUsuarioVO;
 import com.fornax.bought.common.UsuarioVO;
 import com.fornax.bought.mock.ComprasMock;
@@ -33,7 +34,6 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import bought.fornax.com.bought.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 

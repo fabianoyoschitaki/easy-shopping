@@ -15,6 +15,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.facebook.Profile;
+import com.facebook.login.LoginManager;
+import com.fornax.bought.R;
 import com.fornax.bought.fragment.ConfiguracoesFragment;
 import com.fornax.bought.fragment.InicioFragment;
 import com.fornax.bought.fragment.MinhasComprasFragment;
@@ -22,7 +25,6 @@ import com.fornax.bought.fragment.OndeComprarFragment;
 import com.fornax.bought.fragment.PayPalFragment;
 import com.fornax.bought.utils.SharedPreferencesUtil;
 
-import bought.fornax.com.bought.R;
 
 
 public class TelaPrincipalActivity extends AppCompatActivity implements FragmentDrawer.FragmentDrawerListener {
@@ -39,7 +41,6 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Fragment
     private static final int MINHAS_COMPRAS_FRAGMENT_POSITION = 2;
     private static final int CONFIGURACOES_FRAGMENT_POSITION = 3;
     private static final int PAYPAL_FRAGMENT_POSITION = 4;
-    private static final int LOGOUT_FRAGMENT_POSITION = 5;
 
 
     @Override
@@ -128,6 +129,8 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Fragment
 
             // set the toolbar title
             getSupportActionBar().setTitle(title);
+        }else{
+            logout();
         }
     }
 
@@ -137,9 +140,16 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Fragment
                 .setMessage("Deseja realizar o logout?")
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        sharedPreferencesUtil.remove("Login");
-                        sharedPreferencesUtil.remove("Password");
 
+                        //SE TIVER PERFIL LOGADO..
+                        Profile profile = Profile.getCurrentProfile();
+                        if(profile != null){
+                            //DESLOGA DO FACE
+                            LoginManager.getInstance().logOut();
+                        }else{
+                            sharedPreferencesUtil.remove("Login");
+                            sharedPreferencesUtil.remove("Password");
+                        }
                         Intent intent = new Intent(TelaPrincipalActivity.this, LoginActivity.class);
                         startActivity(intent);
                     }

@@ -7,9 +7,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.fornax.bought.R;
+
 import java.util.Random;
 
-import bought.fornax.com.bought.R;
 
 public class SucessoActivity extends AppCompatActivity {
 

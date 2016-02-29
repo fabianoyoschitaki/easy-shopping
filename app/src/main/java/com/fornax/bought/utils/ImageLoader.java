@@ -20,7 +20,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.widget.ImageView;
 
-import bought.fornax.com.bought.R;
+import com.facebook.Profile;
+import com.fornax.bought.R;
 
 public class ImageLoader {
 

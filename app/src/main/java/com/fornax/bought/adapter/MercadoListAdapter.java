@@ -10,12 +10,12 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.fornax.bought.R;
 import com.fornax.bought.common.MercadoVO;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import bought.fornax.com.bought.R;
 
 /**
  * Created by Hallan on 04/12/2015.

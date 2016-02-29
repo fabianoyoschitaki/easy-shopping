@@ -28,7 +28,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import bought.fornax.com.bought.R;
+import com.fornax.bought.R;
 
 /**
  * Basic sample using the SDK to make a payment or consent to future payments.

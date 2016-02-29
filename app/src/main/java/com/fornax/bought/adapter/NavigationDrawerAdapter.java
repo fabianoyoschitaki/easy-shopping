@@ -7,12 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.fornax.bought.R;
 import com.fornax.bought.model.NavDrawerItem;
 
 import java.util.Collections;
 import java.util.List;
 
-import bought.fornax.com.bought.R;
 
 /**
  * Created by Ravi Tamada on 12-03-2015.

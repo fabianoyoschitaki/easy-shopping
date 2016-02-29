@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.fornax.bought.R;
 import com.fornax.bought.activity.CarrinhoComprasActivity;
 import com.fornax.bought.activity.LoginActivity;
 import com.fornax.bought.common.CompraVO;
@@ -21,7 +22,6 @@ import com.fornax.bought.mock.ComprasMock;
 import com.fornax.bought.rest.RestClient;
 import com.fornax.bought.utils.SharedPreferencesUtil;
 
-import bought.fornax.com.bought.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import retrofit.Callback;

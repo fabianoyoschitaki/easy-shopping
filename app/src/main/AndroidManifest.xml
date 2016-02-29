@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="bought.fornax.com.bought" >
+    package="com.fornax.bought" >
 
     <!-- for card.io card scanning -->
     <uses-permission android:name="android.permission.CAMERA" />
@@ -20,9 +20,14 @@
     <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
 
     <application
+        android:name=".IBoughtApplication"
         android:allowBackup="true"
         android:label="@string/app_name"
         android:theme="@style/IBoughtMaterialTheme" >
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
         <service
             android:name="com.paypal.android.sdk.payments.PayPalService"
             android:exported="false" />
@@ -40,47 +45,43 @@
             android:name="io.card.payment.CardIOActivity"
             android:configChanges="keyboardHidden|orientation" />
         <activity android:name="io.card.payment.DataEntryActivity" />
-        <activity
-            android:name="com.fornax.bought.activity.LoginActivity">
+        <activity android:name="com.fornax.bought.activity.LoginActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name="com.fornax.bought.activity.CadastroUsuarioActivity">
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity android:name="com.fornax.bought.activity.CadastroUsuarioActivity" >
         </activity>
-        <activity
-            android:name="com.fornax.bought.activity.CarrinhoComprasActivity">
+        <activity android:name="com.fornax.bought.activity.CarrinhoComprasActivity" >
         </activity>
-        <activity
-            android:name="com.fornax.bought.activity.ConfirmacaoCompraActivity">
+        <activity android:name="com.fornax.bought.activity.ConfirmacaoCompraActivity" >
         </activity>
-        <activity
-            android:name="com.fornax.bought.activity.ConfirmacaoEmailActivity">
+        <activity android:name="com.fornax.bought.activity.ConfirmacaoEmailActivity" >
         </activity>
-        <activity
-            android:name="com.fornax.bought.activity.SucessoActivity">
+        <activity android:name="com.fornax.bought.activity.SucessoActivity" >
         </activity>
-        <activity
-            android:name="com.fornax.bought.activity.TelaPrincipalActivity">
+        <activity android:name="com.fornax.bought.activity.TelaPrincipalActivity" >
         </activity>
-        <activity
-            android:name="com.fornax.bought.paypal.SampleActivity">
+        <activity android:name="com.fornax.bought.paypal.SampleActivity" >
         </activity>
-        <activity
-            android:name="com.fornax.bought.activity.CarrinhoFinalizadoActivity">
+        <activity android:name="com.fornax.bought.activity.CarrinhoFinalizadoActivity" >
         </activity>
-        <activity
-            android:name="com.fornax.bought.activity.EscolherFormaPagamentoActivity">
+        <activity android:name="com.fornax.bought.activity.EscolherFormaPagamentoActivity" >
         </activity>
-        <activity
-            android:name="com.fornax.bought.activity.PagamentoEfetuadoActivity">
+        <activity android:name="com.fornax.bought.activity.PagamentoEfetuadoActivity" >
         </activity>
-        <activity
-            android:name="com.fornax.bought.activity.MainActivity">
+        <activity android:name="com.fornax.bought.activity.MainActivity" >
         </activity>
         <activity android:name="com.fornax.bought.activity.ExemploCardViewActivity" >
+        </activity>
+        <activity android:name=".IBoughtApplication" >
         </activity>
     </application>
 

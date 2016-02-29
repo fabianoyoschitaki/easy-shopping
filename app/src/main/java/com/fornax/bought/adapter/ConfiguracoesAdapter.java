@@ -8,9 +8,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.fornax.bought.R;
 import com.fornax.bought.enums.ItemConfiguracaoEnum;
 
-import bought.fornax.com.bought.R;
 
 /**
  * Created by Hallan on 04/12/2015.

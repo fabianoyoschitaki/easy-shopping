@@ -8,7 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import bought.fornax.com.bought.R;
+import com.fornax.bought.R;
+
 
 public class MaterialDesignFragment extends Fragment {
     public MaterialDesignFragment() {

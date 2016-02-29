@@ -3,7 +3,8 @@ package com.fornax.bought.activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import bought.fornax.com.bought.R;
+import com.fornax.bought.R;
+
 
 public class EscolherFormaPagamentoActivity extends AppCompatActivity {
 

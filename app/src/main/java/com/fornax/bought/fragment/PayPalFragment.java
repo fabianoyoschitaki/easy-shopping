@@ -11,7 +11,7 @@ import android.widget.Button;
 
 import com.fornax.bought.paypal.SampleActivity;
 
-import bought.fornax.com.bought.R;
+import com.fornax.bought.R;
 
 /**
  * Created by Hallan on 03/12/15.

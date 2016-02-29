@@ -16,7 +16,7 @@ import com.fornax.bought.mock.ComprasMock;
 
 import java.util.List;
 
-import bought.fornax.com.bought.R;
+import com.fornax.bought.R;
 
 public class MinhasComprasFragment extends Fragment {
 
