@@ -80,8 +80,6 @@
         </activity>
         <activity android:name="com.fornax.bought.activity.ExemploCardViewActivity" >
         </activity>
-        <activity android:name=".IBoughtApplication" >
-        </activity>
     </application>
 
 </manifest>
