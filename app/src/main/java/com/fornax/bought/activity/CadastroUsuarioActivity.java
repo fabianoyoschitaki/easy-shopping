@@ -22,11 +22,9 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.fornax.bought.R;
 import com.fornax.bought.common.CadastroUsuarioVO;
-import com.fornax.bought.common.LoginVO;
 import com.fornax.bought.common.UsuarioVO;
-import com.fornax.bought.mock.ComprasMock;
+import com.fornax.bought.mock.IBoughtMock;
 import com.fornax.bought.rest.WSRestService;
-import com.fornax.bought.utils.Constants;
 import com.fornax.bought.utils.JSONUtil;
 import com.fornax.bought.utils.Mascara;
 import com.rey.material.widget.Button;
@@ -268,11 +266,11 @@ public class CadastroUsuarioActivity extends AppCompatActivity {
                 retorno = restClient.getRestAPI().cadastrarUsuario(cadastro[0]);
 
                 if (retorno == null){
-                    retorno = ComprasMock.getUsuario();
+                    retorno = com.fornax.bought.mock.IBoughtMock.getUsuarioMock();
                 }
             } catch (Exception e) {
                 //TODO tirar quando funcionar
-                retorno = ComprasMock.getUsuario();
+                retorno = IBoughtMock.getUsuarioMock();
                 e.printStackTrace();
             }
             return retorno;

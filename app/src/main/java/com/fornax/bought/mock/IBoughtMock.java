@@ -11,10 +11,10 @@ import java.util.List;
 /**
  * Created by Administrador on 04/12/2015.
  */
-public class ComprasMock {
-
+public class IBoughtMock {
 
     private static UsuarioVO usuario;
+    public static boolean isMock = false;
 
     public static List<MinhaCompraVO> getCompras(){
         List<MinhaCompraVO> retorno = new ArrayList<MinhaCompraVO>();
@@ -24,11 +24,11 @@ public class ComprasMock {
         return retorno;
     }
 
-    public static UsuarioVO getUsuario() {
+    public static UsuarioVO getUsuarioMock() {
         UsuarioVO usuario = new UsuarioVO();
         usuario.setId(Long.valueOf(1));
         usuario.setSenha("123456");
-        usuario.setNome("Teste");
+        usuario.setNome("mock");
         usuario.setEmail("teste@bought.com.br");
         usuario.setCpf("12345678910");
         usuario.setAtivo(Boolean.FALSE);
@@ -56,11 +56,11 @@ public class ComprasMock {
         MercadoVO retorno = null;
         if (qrCode != null){
             if (qrCode.equals("carrefour0001")){
-                retorno = ComprasMock.getMercados().get(0);
+                retorno = IBoughtMock.getMercados().get(0);
             } else if (qrCode.equals("extra0001")){
-                retorno = ComprasMock.getMercados().get(1);
+                retorno = IBoughtMock.getMercados().get(1);
             } else {
-                retorno = ComprasMock.getMercados().get(2);
+                retorno = IBoughtMock.getMercados().get(2);
             }
         }
         return retorno;

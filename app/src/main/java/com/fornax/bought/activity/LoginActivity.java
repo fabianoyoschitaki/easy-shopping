@@ -5,7 +5,6 @@ import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -31,10 +30,12 @@ import com.facebook.login.widget.LoginButton;
 import com.fornax.bought.common.CadastroUsuarioVO;
 import com.fornax.bought.common.LoginVO;
 import com.fornax.bought.common.UsuarioVO;
+import com.fornax.bought.mock.IBoughtMock;
 import com.fornax.bought.rest.WSRestService;
 import com.fornax.bought.utils.Constants;
 import com.fornax.bought.utils.IntentUtil;
 import com.fornax.bought.utils.PrefUtil;
+import com.fornax.bought.utils.SessionUtils;
 import com.fornax.bought.utils.SharedPreferencesUtil;
 import com.rey.material.widget.Button;
 import com.rey.material.widget.CheckBox;
@@ -292,6 +293,7 @@ public class LoginActivity extends AppCompatActivity{
         if (login != null) {
             if (Constants.LOGIN_CODIGO_SUCESSO.equals(login.getStatus())) {
                 salvarLogin();
+                SessionUtils.setUsuario(login.getUsuario());
                 Intent intent = new Intent(getApplicationContext(), TelaPrincipalActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.trans_up_in, R.anim.trans_up_out);
@@ -310,6 +312,8 @@ public class LoginActivity extends AppCompatActivity{
     public void doLogin() {
         Log.d(TAG, "Login");
         if ("mock".equalsIgnoreCase(emailText.getText().toString())){
+            IBoughtMock.isMock = true;
+            SessionUtils.setUsuario(IBoughtMock.getUsuarioMock());
             Intent intent = new Intent(getApplicationContext(), TelaPrincipalActivity.class);
             startActivity(intent);
             overridePendingTransition(R.anim.trans_up_in, R.anim.trans_up_out);

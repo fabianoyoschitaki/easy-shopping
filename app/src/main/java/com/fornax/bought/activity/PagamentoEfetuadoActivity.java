@@ -16,13 +16,11 @@ import android.widget.Toast;
 
 import com.fornax.bought.R;
 import com.fornax.bought.common.CompraVO;
-import com.fornax.bought.mock.ComprasMock;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
-import java.math.BigDecimal;
 import java.util.UUID;
 
 import butterknife.Bind;
@@ -42,7 +40,7 @@ public class PagamentoEfetuadoActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         //TODO tirar mock
-        //CompraVO compra = ComprasMock.getCompraVO((BigDecimal) getIntent().getExtras().getSerializable("valorTotal"));
+        //CompraVO compra = IBoughtMock.getCompraVO((BigDecimal) getIntent().getExtras().getSerializable("valorTotal"));
         CompraVO compra = null;
         String qrCodePagamentoEfetuado = getQRCodePagamentoEfetuado(compra);
 

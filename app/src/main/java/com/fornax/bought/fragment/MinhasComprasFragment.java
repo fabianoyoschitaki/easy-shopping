@@ -12,11 +12,11 @@ import android.widget.ListView;
 
 import com.fornax.bought.adapter.MinhasComprasAdapter;
 import com.fornax.bought.common.MinhaCompraVO;
-import com.fornax.bought.mock.ComprasMock;
 
 import java.util.List;
 
 import com.fornax.bought.R;
+import com.fornax.bought.mock.IBoughtMock;
 
 public class MinhasComprasFragment extends Fragment {
 
@@ -32,7 +32,7 @@ public class MinhasComprasFragment extends Fragment {
             dialog = new ProgressDialog(getActivity());
             dialog.setMessage("Carregando compras");
             dialog.show();
-            listCompras = ComprasMock.getCompras();
+            listCompras = IBoughtMock.getCompras();
             dialog.dismiss();
         }
 

@@ -1,38 +1,15 @@
 package com.fornax.bought.activity;
 
-import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 import com.fornax.bought.R;
-import com.fornax.bought.common.CadastroUsuarioVO;
 import com.fornax.bought.common.UsuarioVO;
-import com.fornax.bought.mock.ComprasMock;
-import com.fornax.bought.rest.WSRestService;
-import com.fornax.bought.utils.JSONUtil;
-import com.fornax.bought.utils.Mascara;
-import com.rey.material.widget.Button;
-
-import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

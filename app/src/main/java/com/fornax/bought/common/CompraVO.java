@@ -4,6 +4,7 @@ import com.fornax.bought.enums.StatusCompra;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.List;
 
 public class CompraVO implements Serializable{
@@ -17,6 +18,12 @@ public class CompraVO implements Serializable{
 	private StatusCompra statusCompra;
 
 	public BigDecimal getValorTotal() {
+		valorTotal = BigDecimal.ZERO;
+		if (itensCompraVO != null && itensCompraVO.size() > 0){
+			for (ItemCompraVO itemCompra : itensCompraVO) {
+				valorTotal = valorTotal.add(itemCompra.getValor().multiply(new BigDecimal(itemCompra.getQuantidade())));
+			}
+		}
 		return valorTotal;
 	}
 	public void setValorTotal(BigDecimal valorTotal) {
@@ -36,9 +43,6 @@ public class CompraVO implements Serializable{
 	}
 	public List<ItemCompraVO> getItensCompraVO() {
 		return itensCompraVO;
-	}
-	public void setItensCompraVO(List<ItemCompraVO> itensCompraVO) {
-		this.itensCompraVO = itensCompraVO;
 	}
 	public Long getId() {
 		return id;

@@ -62,7 +62,7 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name="com.fornax.bought.activity.CadastroUsuarioActivity" >
         </activity>
-        <activity android:name="com.fornax.bought.activity.CarrinhoComprasActivity" >
+        <activity android:name=".activity.CarrinhoComprasFragment" >
         </activity>
         <activity android:name="com.fornax.bought.activity.ConfirmacaoCompraActivity" >
         </activity>

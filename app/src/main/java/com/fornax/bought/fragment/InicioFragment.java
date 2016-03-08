@@ -16,12 +16,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fornax.bought.R;
-import com.fornax.bought.activity.CarrinhoComprasActivity;
+import com.fornax.bought.activity.CarrinhoComprasFragment;
+import com.fornax.bought.activity.TelaPrincipalActivity;
 import com.fornax.bought.common.CompraVO;
 import com.fornax.bought.common.UsuarioVO;
-import com.fornax.bought.mock.ComprasMock;
+import com.fornax.bought.mock.IBoughtMock;
 import com.fornax.bought.rest.RestClient;
 import com.fornax.bought.utils.FragmentIntentIntegrator;
+import com.fornax.bought.utils.SessionUtils;
 import com.fornax.bought.utils.SharedPreferencesUtil;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -52,14 +54,12 @@ public class InicioFragment extends Fragment {
         iniciarCompraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                //Intent intent = new Intent(getActivity(), PegarCarrinhoActivity.class);
-
-                //https://androidcookbook.com/Recipe.seam?recipeId=3324
-                //Intent intent = new Intent("com.google.zxing.client.android.SCAN");
-                //intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
-                //startActivityForResult(intent, 0);	//Barcode Scanner to scan for us
-                FragmentIntentIntegrator integrator = new FragmentIntentIntegrator(InicioFragment.this);
-                integrator.initiateScan();
+                if (com.fornax.bought.mock.IBoughtMock.isMock){
+                    pegaCarrinho("EXTRA01");
+                } else {
+                    FragmentIntentIntegrator integrator = new FragmentIntentIntegrator(InicioFragment.this);
+                    integrator.initiateScan();
+                }
             }
 
         });
@@ -80,36 +80,33 @@ public class InicioFragment extends Fragment {
                 String qrCodeFormat = intent.getStringExtra("SCAN_RESULT_FORMAT");
                 String resultado = intent.getStringExtra("SCAN_RESULT");
                 if ("QR_CODE".equals(qrCodeFormat)){
-                    final ProgressDialog dialog;
-                    dialog = new ProgressDialog(getActivity());
-                    dialog.setMessage("Pegando carrinho...");
-                    dialog.show();
-
-                    Snackbar snack = Snackbar.make(coordinatorLayout, resultado, Snackbar.LENGTH_LONG);
-                    ((TextView)snack.getView().findViewById(android.support.design.R.id.snackbar_text)).setGravity(Gravity.CENTER_HORIZONTAL);
-                    snack.show();
-
-                    RestClient restClient = new RestClient();
-
-                    //TODO PROVISORIO...
-                    UsuarioVO usuario = ComprasMock.getUsuario();
-
-                    restClient.getRestAPI().getNovaCompra(resultado, usuario, new Callback<CompraVO>() {
-                        @Override
-                        public void success(CompraVO compraResponse, Response response) {
-                            dialog.dismiss();
-                            onCompraLoaded(compraResponse);
-                        }
-
-                        @Override
-                        public void failure(RetrofitError error) {
-                            dialog.dismiss();
-                            Toast.makeText(getActivity().getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    pegaCarrinho(resultado);
                 }
             }
         }
+    }
+
+    private void pegaCarrinho(String resultado) {
+        final ProgressDialog dialog;
+        dialog = new ProgressDialog(getActivity());
+        dialog.setMessage("Pegando carrinho...");
+        dialog.show();
+
+        RestClient restClient = new RestClient();
+
+        restClient.getRestAPI().getNovaCompra(resultado, SessionUtils.getUsuario(), new Callback<CompraVO>() {
+            @Override
+            public void success(CompraVO compraResponse, Response response) {
+                dialog.dismiss();
+                onCompraLoaded(compraResponse);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                dialog.dismiss();
+                Toast.makeText(getActivity().getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     /**
@@ -120,9 +117,8 @@ public class InicioFragment extends Fragment {
         if (compraResponse != null
          && compraResponse.getId() != null
          && compraResponse.getEstabelecimentoVO() != null){
-            Intent carrinhoCompras = new Intent(getActivity(), CarrinhoComprasActivity.class);
-            carrinhoCompras.putExtra("compra", compraResponse);
-            startActivity(carrinhoCompras);
+            SessionUtils.setCompra(compraResponse);
+            ((TelaPrincipalActivity) getActivity()).displayView(TelaPrincipalActivity.CARRINHO_COMPRAS_FRAGMENT_POSITION);
         }else {
             Toast.makeText(getActivity().getApplicationContext(), "Desculpe, não foi possível pegar o carrinho.", Toast.LENGTH_SHORT).show();
         }

@@ -36,11 +36,12 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Fragment
     private SharedPreferencesUtil sharedPreferencesUtil;
 
     /** posicao dos itens de fragmento da Tela Principal **/
-    private static final int INICIO_FRAGMENT_POSITION = 0;
-    private static final int ONDE_COMPRAR_FRAGMENT_POSITION = 1;
-    private static final int MINHAS_COMPRAS_FRAGMENT_POSITION = 2;
-    private static final int CONFIGURACOES_FRAGMENT_POSITION = 3;
-    private static final int PAYPAL_FRAGMENT_POSITION = 4;
+    public static final int INICIO_FRAGMENT_POSITION = 0;
+    public static final int ONDE_COMPRAR_FRAGMENT_POSITION = 1;
+    public static final int MINHAS_COMPRAS_FRAGMENT_POSITION = 2;
+    public static final int CONFIGURACOES_FRAGMENT_POSITION = 3;
+    public static final int PAYPAL_FRAGMENT_POSITION = 4;
+    public static final int CARRINHO_COMPRAS_FRAGMENT_POSITION = 5;
 
 
     @Override
@@ -98,7 +99,7 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Fragment
     /**
      * Diplaying fragment view for selected nav drawer list item
      * */
-    private void displayView(int position) {
+    public void displayView(int position) {
         // update the main content by replacing fragments
         Fragment fragment = null;
         String title = getString(R.string.app_name);
@@ -117,6 +118,9 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Fragment
                 break;
             case PAYPAL_FRAGMENT_POSITION:
                 fragment = new PayPalFragment();
+                break;
+            case CARRINHO_COMPRAS_FRAGMENT_POSITION:
+                fragment = new CarrinhoComprasFragment();
                 break;
             default:
                 break;
