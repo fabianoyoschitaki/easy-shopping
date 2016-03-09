@@ -5,22 +5,17 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fornax.bought.R;
-import com.fornax.bought.activity.CarrinhoComprasFragment;
+import com.fornax.bought.activity.CarrinhoComprasActivity;
 import com.fornax.bought.activity.TelaPrincipalActivity;
 import com.fornax.bought.common.CompraVO;
-import com.fornax.bought.common.UsuarioVO;
-import com.fornax.bought.mock.IBoughtMock;
 import com.fornax.bought.rest.RestClient;
 import com.fornax.bought.utils.FragmentIntentIntegrator;
 import com.fornax.bought.utils.SessionUtils;
@@ -118,7 +113,9 @@ public class InicioFragment extends Fragment {
          && compraResponse.getId() != null
          && compraResponse.getEstabelecimentoVO() != null){
             SessionUtils.setCompra(compraResponse);
-            ((TelaPrincipalActivity) getActivity()).displayView(TelaPrincipalActivity.CARRINHO_COMPRAS_FRAGMENT_POSITION);
+            Intent carrinhoCompras = new Intent(getActivity(), CarrinhoComprasActivity.class);
+            startActivity(carrinhoCompras);
+            getActivity().overridePendingTransition(R.anim.trans_up_in, R.anim.trans_up_out);
         }else {
             Toast.makeText(getActivity().getApplicationContext(), "Desculpe, não foi possível pegar o carrinho.", Toast.LENGTH_SHORT).show();
         }

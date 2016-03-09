@@ -49,7 +49,7 @@ public class ConfirmacaoCompraActivity extends AppCompatActivity {
                     mercadoEscolhido = (MercadoVO) getIntent().getExtras().getSerializable("mercadoEscolhido");
                 }
 
-                Intent intent = new Intent(getApplicationContext(), CarrinhoComprasFragment.class);
+                Intent intent = new Intent(getApplicationContext(), CarrinhoComprasActivity.class);
                 intent.putExtra("mercadoEscolhido", mercadoEscolhido);
                 intent.putExtra("itens", itens);
                 startActivity(intent);

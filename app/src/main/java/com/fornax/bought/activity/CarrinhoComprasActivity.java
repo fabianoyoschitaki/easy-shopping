@@ -10,11 +10,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.SyncStateContract;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.view.Gravity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,6 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
@@ -31,8 +31,6 @@ import android.widget.Toast;
 
 import com.fornax.bought.R;
 import com.fornax.bought.adapter.ItemCompraAdapter;
-import com.fornax.bought.common.CompraVO;
-import com.fornax.bought.common.EstabelecimentoVO;
 import com.fornax.bought.common.ItemCompraVO;
 import com.fornax.bought.rest.RestClient;
 import com.fornax.bought.utils.SessionUtils;
@@ -40,17 +38,13 @@ import com.fornax.bought.utils.Utils;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class CarrinhoComprasFragment extends Fragment implements ItemCompraAdapter.CustomButtonListener{
+public class CarrinhoComprasActivity extends AppCompatActivity implements ItemCompraAdapter.CustomButtonListener{
     private static ItemCompraVO ultimoItemRemovido;
     private static int posicaoUltimoItemRemovido;
 
@@ -64,16 +58,17 @@ public class CarrinhoComprasFragment extends Fragment implements ItemCompraAdapt
     private ProgressDialog dialog;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_carrinho_compras, container, false);
-        ButterKnife.bind(this, rootView);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_carrinho_compras);
+        ButterKnife.bind(this);
 
-        Toast.makeText(getContext(), "Bem-vindo ao " + SessionUtils.getCompra().getEstabelecimentoVO().getNome(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Bem-vindo ao " + SessionUtils.getCompra().getEstabelecimentoVO().getNome(), Toast.LENGTH_SHORT).show();
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final Dialog dialogEscolherForma = new Dialog(getActivity());
+                final Dialog dialogEscolherForma = new Dialog(CarrinhoComprasActivity.this);
                 dialogEscolherForma.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialogEscolherForma.setContentView(R.layout.dialog_escolher_forma);
                 dialogEscolherForma.getWindow().setBackgroundDrawableResource(R.drawable.dialog_box);
@@ -92,7 +87,7 @@ public class CarrinhoComprasFragment extends Fragment implements ItemCompraAdapt
 
                     @Override
                     public void onClick(View v) {
-                        final Dialog dialogInserirCodBarra = new Dialog(getActivity());
+                        final Dialog dialogInserirCodBarra = new Dialog(CarrinhoComprasActivity.this);
                         dialogInserirCodBarra.requestWindowFeature(Window.FEATURE_NO_TITLE);
                         dialogInserirCodBarra.setContentView(R.layout.dialog_inserir_codbarra);
                         dialogInserirCodBarra.getWindow().setBackgroundDrawableResource(R.drawable.dialog_box);
@@ -121,16 +116,15 @@ public class CarrinhoComprasFragment extends Fragment implements ItemCompraAdapt
             }
         });
         atualizaListaProdutos();
-        return rootView;
     }
 
     public void abrirTelaScan(){
         try {
-            IntentIntegrator integrator = new IntentIntegrator(getActivity());
+            IntentIntegrator integrator = new IntentIntegrator(this);
             integrator.initiateScan();
 
         } catch (ActivityNotFoundException anfe) {
-            showDialog(getActivity(), "No Scanner Found", "Download a scanner code activity?", "Yes", "No").show();
+            showDialog(this, "No Scanner Found", "Download a scanner code activity?", "Yes", "No").show();
         }
     }
 
@@ -205,7 +199,7 @@ public class CarrinhoComprasFragment extends Fragment implements ItemCompraAdapt
     }
 
     public void buscarProduto(final String codigoBarras){
-        dialog = new ProgressDialog(getActivity());
+        dialog = new ProgressDialog(this);
         dialog.setMessage("Buscando produto");
         dialog.show();
 
@@ -221,14 +215,14 @@ public class CarrinhoComprasFragment extends Fragment implements ItemCompraAdapt
                     SessionUtils.getCompra().getItensCompraVO().add(itemCompraResponse);
                     atualizaListaProdutos();
                 } else {
-                    Toast.makeText(getActivity(), "Produto " + codigoBarras + " nao encontrado!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Produto " + codigoBarras + " nao encontrado!", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void failure(RetrofitError error) {
                 dialog.dismiss();
-                Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
             }
 
         });
@@ -241,8 +235,8 @@ public class CarrinhoComprasFragment extends Fragment implements ItemCompraAdapt
         txtValorTotal.setText(Utils.getValorFormatado(SessionUtils.getCompra().getValorTotal()));
 
         // Getting adapter by passing xml data ArrayList
-        itemCompraAdapter = new ItemCompraAdapter(getActivity(), SessionUtils.getCompra().getItensCompraVO());
-        itemCompraAdapter.setCustomButtonListener(CarrinhoComprasFragment.this);
+        itemCompraAdapter = new ItemCompraAdapter(this, SessionUtils.getCompra().getItensCompraVO());
+        itemCompraAdapter.setCustomButtonListener(CarrinhoComprasActivity.this);
         itemListView.setAdapter(itemCompraAdapter);
 
         // Click event for single list row
@@ -251,7 +245,7 @@ public class CarrinhoComprasFragment extends Fragment implements ItemCompraAdapt
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
 
 
-                final Dialog dialog = new Dialog(getActivity());
+                final Dialog dialog = new Dialog(CarrinhoComprasActivity.this);
                 dialog.setContentView(R.layout.custom_dialog_editar);
                 dialog.setTitle("Quantidade");
                 dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_box);
@@ -273,7 +267,7 @@ public class CarrinhoComprasFragment extends Fragment implements ItemCompraAdapt
                         NumberPicker number = (NumberPicker) dialog.findViewById(R.id.numberPicker);
                         SessionUtils.getCompra().getItensCompraVO().get(position).setQuantidade(number.getValue());
 
-                        itemCompraAdapter = new ItemCompraAdapter(getActivity(), SessionUtils.getCompra().getItensCompraVO());
+                        itemCompraAdapter = new ItemCompraAdapter(CarrinhoComprasActivity.this, SessionUtils.getCompra().getItensCompraVO());
                         itemListView.setAdapter(itemCompraAdapter);
 
                         txtValorTotal.setText(Utils.getValorFormatado(SessionUtils.getCompra().getValorTotal()));

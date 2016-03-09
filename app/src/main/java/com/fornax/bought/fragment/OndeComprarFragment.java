@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
-import com.fornax.bought.activity.CarrinhoComprasFragment;
+import com.fornax.bought.activity.CarrinhoComprasActivity;
 import com.fornax.bought.adapter.MercadoListAdapter;
 import com.fornax.bought.common.MercadoVO;
 import com.fornax.bought.rest.RestClient;
@@ -85,7 +85,7 @@ public class OndeComprarFragment extends Fragment implements AdapterView.OnItemC
             @Override
             public void onClickMercado(View view, int idx) {
                 MercadoVO mercadoEscolhido = mercados.get(idx);
-                Intent intent = new Intent(getActivity(), CarrinhoComprasFragment.class);
+                Intent intent = new Intent(getActivity(), CarrinhoComprasActivity.class);
                 intent.putExtra("mercadoEscolhido", mercadoEscolhido);
                 startActivity(intent);
             }
@@ -95,7 +95,7 @@ public class OndeComprarFragment extends Fragment implements AdapterView.OnItemC
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         MercadoVO mercadoEscolhido = mercados.get(position);
-        Intent intent = new Intent(getActivity(), CarrinhoComprasFragment.class);
+        Intent intent = new Intent(getActivity(), CarrinhoComprasActivity.class);
         intent.putExtra("mercadoEscolhido", mercadoEscolhido);
         startActivity(intent);
     }

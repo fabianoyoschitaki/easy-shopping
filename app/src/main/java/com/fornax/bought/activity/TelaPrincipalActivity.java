@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -41,8 +40,6 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Fragment
     public static final int MINHAS_COMPRAS_FRAGMENT_POSITION = 2;
     public static final int CONFIGURACOES_FRAGMENT_POSITION = 3;
     public static final int PAYPAL_FRAGMENT_POSITION = 4;
-    public static final int CARRINHO_COMPRAS_FRAGMENT_POSITION = 5;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,9 +115,6 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Fragment
                 break;
             case PAYPAL_FRAGMENT_POSITION:
                 fragment = new PayPalFragment();
-                break;
-            case CARRINHO_COMPRAS_FRAGMENT_POSITION:
-                fragment = new CarrinhoComprasFragment();
                 break;
             default:
                 break;
