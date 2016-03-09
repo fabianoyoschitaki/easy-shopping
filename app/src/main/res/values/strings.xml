@@ -53,4 +53,7 @@
     <string name="criar_nova_conta"><u>Criar nova conta!</u></string>
     <string name="ja_confirmei"><u>Já confirmei!</u></string>
     <string name="ja_tem_conta_entre"><u>Já tem cadastro? Entre agora!</u></string>
+
+    <!-- menu carrinho de compras -->
+    <string name="action_concluir_compra">Concluir</string>
 </resources>

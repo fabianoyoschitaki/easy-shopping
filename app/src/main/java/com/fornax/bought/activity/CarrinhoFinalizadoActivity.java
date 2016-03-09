@@ -12,6 +12,7 @@ import com.fornax.bought.R;
 import com.fornax.bought.common.CompraVO;
 import com.fornax.bought.enums.StatusCompra;
 import com.fornax.bought.rest.RestClient;
+import com.fornax.bought.utils.SessionUtils;
 import com.fornax.bought.utils.Utils;
 
 import java.math.BigDecimal;
@@ -27,8 +28,6 @@ public class CarrinhoFinalizadoActivity extends AppCompatActivity {
     @Bind(R.id.btn_efetuar_pagamento) Button btnEfetuarPagamento;
     @Bind(R.id.btn_voltar) Button btnVoltar;
     @Bind(R.id.txt_valor_total_compra) TextView txtValorTotalCompra;
-    BigDecimal valorTotal = BigDecimal.ZERO;
-    private CompraVO compraVO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +35,8 @@ public class CarrinhoFinalizadoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_carrinho_finalizado);
         ButterKnife.bind(this);
 
-        if (getIntent().getExtras().getSerializable("compra") != null) {
-            compraVO = (CompraVO) getIntent().getExtras().getSerializable("compra");
-            txtValorTotalCompra.setText(Utils.getValorFormatado(compraVO.getValorTotal()));
-        }
+        txtValorTotalCompra.setText(Utils.getValorFormatado(SessionUtils.getCompra().getValorTotal()));
+
         // volta pra activity anterior
         btnVoltar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,7 +55,7 @@ public class CarrinhoFinalizadoActivity extends AppCompatActivity {
 
     public void finalizarCompraWS(){
         RestClient restClient = new RestClient();
-        restClient.getRestAPI().finalizarCompra(compraVO, new Callback<CompraVO>() {
+        restClient.getRestAPI().finalizarCompra(SessionUtils.getCompra(), new Callback<CompraVO>() {
             @Override
             public void success(CompraVO compraResponse, Response response) {
                 if(compraResponse != null && compraResponse.getStatusCompra() != null &&

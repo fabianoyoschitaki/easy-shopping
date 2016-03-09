@@ -4,6 +4,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public class Utils {
     public static void CopyStream(InputStream is, OutputStream os)
@@ -25,11 +27,10 @@ public class Utils {
 
 
     public static String getValorFormatado(Number valor){
-        DecimalFormat format = new DecimalFormat("R$ ########.##");
+        NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
         format.setGroupingUsed(true);
         format.setMaximumIntegerDigits(8);
         format.setMaximumFractionDigits(2);
-
         return format.format(valor);
     }
 }

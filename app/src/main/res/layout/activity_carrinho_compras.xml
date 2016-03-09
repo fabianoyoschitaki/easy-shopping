@@ -13,11 +13,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
+            android:id="@+id/container_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/toolbar"
+                layout="@layout/toolbar" />
+        </LinearLayout>
+        <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:background="@color/iron">
+            android:background="@color/primary_light">
 
             <TextView
                 android:id="@+id/txtDescricaoValorTotal"
@@ -27,18 +37,15 @@
                 android:textColor="#484848"
                 android:layout_weight="0.07"
                 android:textSize="20dip"
-                android:gravity="center|right"
-                android:paddingLeft="10dp" />
+                android:gravity="center" />
 
             <TextView
                 android:layout_width="212dp"
                 android:layout_height="match_parent"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Medium Text"
-                android:paddingLeft="5dp"
                 android:textColor="#008c13"
                 android:id="@+id/txtValorTotal"
-                android:gravity="center|left" />
+                android:gravity="center" />
         </LinearLayout>
         <ListView
             android:id="@+id/itemListView"

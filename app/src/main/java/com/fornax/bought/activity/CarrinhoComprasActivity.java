@@ -10,15 +10,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.SyncStateContract;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -54,6 +53,7 @@ public class CarrinhoComprasActivity extends AppCompatActivity implements ItemCo
     @Bind(R.id.txtValorTotal)TextView txtValorTotal;
     @Bind(R.id.fab) FloatingActionButton fab;
     @Bind(R.id.coordinatorLayout) CoordinatorLayout coordinatorLayout;
+    @Bind(R.id.toolbar) Toolbar mToolbar;
 
     private ProgressDialog dialog;
 
@@ -62,6 +62,9 @@ public class CarrinhoComprasActivity extends AppCompatActivity implements ItemCo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carrinho_compras);
         ButterKnife.bind(this);
+
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         Toast.makeText(this, "Bem-vindo ao " + SessionUtils.getCompra().getEstabelecimentoVO().getNome(), Toast.LENGTH_SHORT).show();
 
@@ -116,6 +119,28 @@ public class CarrinhoComprasActivity extends AppCompatActivity implements ItemCo
             }
         });
         atualizaListaProdutos();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_carrinho_compras, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id == R.id.action_concluir_compra){
+            Intent carrinhoCompras = new Intent(this, CarrinhoFinalizadoActivity.class);
+            startActivity(carrinhoCompras);
+            overridePendingTransition(R.anim.trans_up_in, R.anim.trans_up_out);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void abrirTelaScan(){

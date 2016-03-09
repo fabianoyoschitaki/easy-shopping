@@ -6,36 +6,40 @@
 
     <!-- As the main content view, the view below consumes the entire
      space available using match_parent in both dimensions. -->
-    <FrameLayout android:id="@+id/container" android:layout_width="match_parent"
+    <FrameLayout android:id="@+id/container"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white">
 
         <TextView
-            android:layout_width="318dp"
-            android:layout_height="177dp"
-            android:fontFamily="sans-serif-light"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Toque para pegar seu carrinho"
-            android:id="@+id/textView2"
-            android:layout_gravity="center_horizontal|top"
-            android:textSize="35dp"
-            android:gravity="center_vertical|center_horizontal" />
-
-        <ImageButton
+            style="@style/TextAppearance.AppCompat.Display1"
+            android:padding="30dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/btn_iniciar_compra"
-            android:layout_gravity="center_horizontal|bottom"
-            android:src="@mipmap/ic_start"
-            android:layout_marginBottom="10dp"
-            android:background="@null" />
+            android:text="Pegue seu carrinho para iniciar!"
+            android:layout_gravity="center_horizontal|top"
+            android:gravity="center_vertical|center_horizontal"
+            android:textColor="@color/aluminum"/>
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
             android:id="@+id/imageView"
             android:layout_gravity="center"
-            android:src="@mipmap/ic_arrow" />
+            android:src="@mipmap/arrow_down_2" />
+
+        <ImageButton
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:id="@+id/btn_iniciar_compra"
+            android:layout_gravity="center_horizontal|bottom"
+            android:src="@mipmap/shopping_cart_img"
+            android:layout_marginBottom="20dp"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:background="@null" />
+
+
 
     </FrameLayout>
 </android.support.design.widget.CoordinatorLayout>
