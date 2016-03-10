@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/navigation_item_inicio"
+            android:checked="true"
+            android:icon="@drawable/ic_action_search"
+            android:title="Início" />
+        <item
+            android:id="@+id/navigation_item_onde_comprar"
+            android:icon="@drawable/ic_action_search"
+            android:title="Onde Comprar?" />
+        <item
+            android:id="@+id/navigation_item_minhas_compras"
+            android:icon="@drawable/ic_action_search"
+            android:title="Minhas Compras" />
+        <item
+            android:id="@+id/navigation_item_paypal"
+            android:icon="@drawable/ic_action_search"
+            android:title="PayPal" />
+
+    </group>
+
+    <item android:title="Configurações">
+        <menu>
+            <item
+                android:id="@+id/navigation_item_configuracoes"
+                android:icon="@drawable/ic_action_search"
+                android:title="Perfil" />
+        </menu>
+    </item>
+
+</menu>

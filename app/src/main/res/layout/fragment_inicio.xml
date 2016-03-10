@@ -8,8 +8,7 @@
      space available using match_parent in both dimensions. -->
     <FrameLayout android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white">
+        android:layout_height="match_parent">
 
         <TextView
             style="@style/TextAppearance.AppCompat.Display1"
@@ -19,7 +18,7 @@
             android:text="Pegue seu carrinho para iniciar!"
             android:layout_gravity="center_horizontal|top"
             android:gravity="center_vertical|center_horizontal"
-            android:textColor="@color/aluminum"/>
+            android:textColor="@color/textColorTertiary"/>
 
         <ImageView
             android:layout_width="160dp"

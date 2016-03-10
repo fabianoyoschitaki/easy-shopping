@@ -89,7 +89,7 @@
             android:padding="7dp"
             android:text="Entrar"
             android:background="@drawable/button_default"
-            android:textColor="@color/textColorPrimary"
+            android:textColor="@color/default_button_text_color"
             app:rd_style="@style/Material.Drawable.Ripple.Wave"/>
 
         <com.facebook.login.widget.LoginButton
@@ -107,7 +107,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
             android:text="@string/criar_nova_conta"
-            android:textColor="@color/textColorPrimary"
+            android:textColor="@color/default_button_text_color"
             android:gravity="center"
             android:textSize="16sp"/>
     </LinearLayout>

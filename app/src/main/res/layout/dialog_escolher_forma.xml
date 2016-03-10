@@ -16,9 +16,9 @@
         <Button
             android:layout_width="230dp"
             android:layout_height="wrap_content"
-            android:text="SCAN"
+            android:text="LEITOR"
             android:background="@drawable/button_default"
-            android:textColor="@color/white"
+            android:textColor="@color/default_button_text_color"
             android:id="@+id/btnScan"
             android:layout_marginTop="20dp"
             android:layout_weight="0.25"
@@ -28,8 +28,8 @@
         <Button
             android:layout_width="225dp"
             android:layout_height="wrap_content"
-            android:text="DIGITAR CÓDIGO DE BARRAS"
-            android:textColor="@color/white"
+            android:text="DIGITAR CÓDIGO"
+            android:textColor="@color/default_button_text_color"
             android:background="@drawable/button_default"
             android:id="@+id/btnDigitar"
             android:layout_marginTop="10dp"

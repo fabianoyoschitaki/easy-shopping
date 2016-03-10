@@ -3,15 +3,17 @@ package com.fornax.bought.activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.facebook.Profile;
@@ -26,39 +28,39 @@ import com.fornax.bought.utils.SharedPreferencesUtil;
 
 
 
-public class TelaPrincipalActivity extends AppCompatActivity implements FragmentDrawer.FragmentDrawerListener {
+public class TelaPrincipalActivity extends AppCompatActivity {
     private static final String TAG = TelaPrincipalActivity.class.getName();
 
     private Toolbar mToolbar;
-    private FragmentDrawer drawerFragment;
+    private DrawerLayout mDrawerLayout;
 
     private SharedPreferencesUtil sharedPreferencesUtil;
-
-    /** posicao dos itens de fragmento da Tela Principal **/
-    public static final int INICIO_FRAGMENT_POSITION = 0;
-    public static final int ONDE_COMPRAR_FRAGMENT_POSITION = 1;
-    public static final int MINHAS_COMPRAS_FRAGMENT_POSITION = 2;
-    public static final int CONFIGURACOES_FRAGMENT_POSITION = 3;
-    public static final int PAYPAL_FRAGMENT_POSITION = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tela_principal);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         sharedPreferencesUtil = new SharedPreferencesUtil(this);
 
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        drawerFragment = (FragmentDrawer)
-                getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
-        drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), mToolbar);
-        drawerFragment.setDrawerListener(this);
-
-        // display the first navigation drawer view on app launch
-        displayView(INICIO_FRAGMENT_POSITION);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+                menuItem.setChecked(true);
+                mDrawerLayout.closeDrawers();
+                displayView(menuItem.getItemId());
+                return true;
+            }
+        });
+        displayView(R.id.navigation_item_inicio);
     }
 
     @Override
@@ -75,47 +77,46 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Fragment
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+        switch (id){
+            case android.R.id.home:
+                mDrawerLayout.openDrawer(GravityCompat.START);
+                return true;
 
-        if(id == R.id.action_search){
-            Toast.makeText(getApplicationContext(), "Search action is selected!", Toast.LENGTH_SHORT).show();
-            return true;
+            case R.id.action_settings:
+                return true;
+
+            case R.id.action_search:
+                Toast.makeText(getApplicationContext(), "Search action is selected!", Toast.LENGTH_SHORT).show();
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onDrawerItemSelected(View view, int position) {
-        displayView(position);
-    }
-
     /**
      * Diplaying fragment view for selected nav drawer list item
-     * */
-    public void displayView(int position) {
+     ***/
+    public void displayView(int itemId) {
         // update the main content by replacing fragments
         Fragment fragment = null;
         String title = getString(R.string.app_name);
-        switch (position) {
-            case INICIO_FRAGMENT_POSITION:
+        switch (itemId) {
+            case R.id.navigation_item_inicio:
                 fragment = new InicioFragment();
                 break;
-            case ONDE_COMPRAR_FRAGMENT_POSITION:
+            case R.id.navigation_item_onde_comprar:
                 fragment = new OndeComprarFragment();
                 break;
-            case MINHAS_COMPRAS_FRAGMENT_POSITION:
+            case R.id.navigation_item_minhas_compras:
                 fragment = new MinhasComprasFragment();
                 break;
-            case CONFIGURACOES_FRAGMENT_POSITION:
-                fragment = new ConfiguracoesFragment();
-                break;
-            case PAYPAL_FRAGMENT_POSITION:
+            case R.id.navigation_item_paypal:
                 fragment = new PayPalFragment();
                 break;
+            case R.id.navigation_item_configuracoes:
+                fragment = new ConfiguracoesFragment();
+                break;
+
             default:
                 break;
         }
