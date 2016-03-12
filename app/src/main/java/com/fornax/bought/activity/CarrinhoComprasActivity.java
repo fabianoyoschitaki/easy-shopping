@@ -31,6 +31,7 @@ import android.widget.Toast;
 import com.fornax.bought.R;
 import com.fornax.bought.adapter.ItemCompraAdapter;
 import com.fornax.bought.common.ItemCompraVO;
+import com.fornax.bought.mock.IBoughtMock;
 import com.fornax.bought.rest.RestClient;
 import com.fornax.bought.utils.SessionUtils;
 import com.fornax.bought.utils.Utils;
@@ -106,7 +107,11 @@ public class CarrinhoComprasActivity extends AppCompatActivity implements ItemCo
                             @Override
                             public void onClick(View v) {
                                 if (edt.getText() != null) {
-                                    buscarProduto(edt.getText().toString());
+                                    if (IBoughtMock.isMock) {
+                                        onProdutoLoaded(IBoughtMock.getItemCompraMock(), edt.getText().toString());
+                                    } else {
+                                        buscarProduto(edt.getText().toString());
+                                    }
                                 }
                                 dialogInserirCodBarra.dismiss();
                             }
@@ -235,13 +240,8 @@ public class CarrinhoComprasActivity extends AppCompatActivity implements ItemCo
                 new Callback<ItemCompraVO>() {
             @Override
             public void success(ItemCompraVO itemCompraResponse, Response response) {
+                onProdutoLoaded(itemCompraResponse, codigoBarras);
                 dialog.dismiss();
-                if (itemCompraResponse != null) {
-                    SessionUtils.getCompra().getItensCompraVO().add(itemCompraResponse);
-                    atualizaListaProdutos();
-                } else {
-                    Toast.makeText(getApplicationContext(), "Produto " + codigoBarras + " nao encontrado!", Toast.LENGTH_SHORT).show();
-                }
             }
 
             @Override
@@ -251,6 +251,20 @@ public class CarrinhoComprasActivity extends AppCompatActivity implements ItemCo
             }
 
         });
+    }
+
+    /**
+     * Método que é carregado quando o produto é carregado
+     *
+     * @param itemCompraResponse
+     */
+    private void onProdutoLoaded(ItemCompraVO itemCompraResponse, String codigoBarras) {
+        if (itemCompraResponse != null) {
+            SessionUtils.getCompra().getItensCompraVO().add(itemCompraResponse);
+            atualizaListaProdutos();
+        } else {
+            Toast.makeText(getApplicationContext(), "Produto " + codigoBarras + " nao encontrado!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**

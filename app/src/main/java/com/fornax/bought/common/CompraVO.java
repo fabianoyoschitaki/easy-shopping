@@ -4,6 +4,7 @@ import com.fornax.bought.enums.StatusCompra;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -17,6 +18,10 @@ public class CompraVO implements Serializable{
 	private List<ItemCompraVO> itensCompraVO;
 	private StatusCompra statusCompra;
 
+	public CompraVO(){
+		this.itensCompraVO = new ArrayList<ItemCompraVO>();
+		this.valorTotal = BigDecimal.ZERO;
+	}
 	public BigDecimal getValorTotal() {
 		valorTotal = BigDecimal.ZERO;
 		if (itensCompraVO != null && itensCompraVO.size() > 0){

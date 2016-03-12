@@ -2,7 +2,9 @@ package com.fornax.bought.mock;
 
 import com.fornax.bought.common.CompraVO;
 import com.fornax.bought.common.EstabelecimentoVO;
+import com.fornax.bought.common.ItemCompraVO;
 import com.fornax.bought.common.MinhaCompraVO;
+import com.fornax.bought.common.ProdutoVO;
 import com.fornax.bought.common.UsuarioVO;
 
 import java.math.BigDecimal;
@@ -17,6 +19,7 @@ public class IBoughtMock {
 
     private static UsuarioVO usuario;
     public static boolean isMock = false;
+    private static ItemCompraVO retorno;
 
     public static List<MinhaCompraVO> getCompras(){
         List<MinhaCompraVO> retorno = new ArrayList<MinhaCompraVO>();
@@ -40,6 +43,9 @@ public class IBoughtMock {
     public static CompraVO getCompraMock(){
         CompraVO retorno = new CompraVO();
         retorno.setEstabelecimentoVO(getEstabelecimentoMock());
+        retorno.setId(1L);
+        retorno.setNumeroSessao("1");
+        retorno.setUsuarioVO(getUsuarioMock());
         return retorno;
     }
 
@@ -55,6 +61,24 @@ public class IBoughtMock {
         retorno.setTipoLogradouro("Rua");
         retorno.setSiglaEstado("SP");
         retorno.setUrlLogo("https://logodownload.org/wp-content/uploads/2014/12/extra-logo-mercado-1.jpg");
+        return retorno;
+    }
+
+    public static ItemCompraVO getItemCompraMock() {
+        ItemCompraVO retorno = new ItemCompraVO();
+        retorno.setId(1L);
+        retorno.setQuantidade(1);
+        retorno.setValor(new BigDecimal(2.40));
+        retorno.setProdutoVO(getProdutoMock());
+        return retorno;
+    }
+
+    public static ProdutoVO getProdutoMock() {
+        ProdutoVO retorno = new ProdutoVO();
+        retorno.setId(1L);
+        retorno.setCodigoBarra("123");
+        retorno.setNome("Água Minalba");
+        retorno.setUrlImagem("http://www.paodeacucar.com.br/img/uploads/1/227/481227.jpg");
         return retorno;
     }
 
