@@ -20,16 +20,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fornax.bought.R;
-import com.fornax.bought.activity.CarrinhoComprasActivity;
 import com.fornax.bought.adapter.ItemCompraAdapter;
 import com.fornax.bought.common.ItemCompraVO;
 import com.fornax.bought.mock.IBoughtMock;
@@ -214,10 +210,10 @@ public class CarrinhoComprasFragment extends Fragment implements ItemCompraAdapt
     /**
      * Método que atualiza lista com novo produto escaneado
      */
-    private void atualizaListaProdutos() {
+    public void atualizaListaProdutos() {
         txtValorTotal.setText(Utils.getValorFormatado(SessionUtils.getCompra().getValorTotal()));
 
-        itemCompraAdapter = new ItemCompraAdapter(SessionUtils.getCompra().getItensCompraVO());
+        itemCompraAdapter = new ItemCompraAdapter(SessionUtils.getCompra().getItensCompraVO(), this);
         itemCompraAdapter.setCustomButtonListener(this);
 
         itemListView.setLayoutManager(new LinearLayoutManager(getActivity()));
