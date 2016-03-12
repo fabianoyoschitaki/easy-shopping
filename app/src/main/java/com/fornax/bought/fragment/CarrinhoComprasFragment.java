@@ -13,6 +13,8 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +55,7 @@ public class CarrinhoComprasFragment extends Fragment implements ItemCompraAdapt
     private ItemCompraAdapter itemCompraAdapter;
     private ProgressDialog dialog;
 
-    @Bind(R.id.itemListView)ListView itemListView;
+    @Bind(R.id.itemListView)RecyclerView itemListView;
     @Bind(R.id.txtValorTotal)TextView txtValorTotal;
     @Bind(R.id.fab) FloatingActionButton fab;
     @Bind(R.id.coordinatorLayout)CoordinatorLayout coordinatorLayout;
@@ -215,10 +217,14 @@ public class CarrinhoComprasFragment extends Fragment implements ItemCompraAdapt
     private void atualizaListaProdutos() {
         txtValorTotal.setText(Utils.getValorFormatado(SessionUtils.getCompra().getValorTotal()));
 
-        // Getting adapter by passing xml data ArrayList
-        itemCompraAdapter = new ItemCompraAdapter(getActivity(), SessionUtils.getCompra().getItensCompraVO());
+        itemCompraAdapter = new ItemCompraAdapter(SessionUtils.getCompra().getItensCompraVO());
         itemCompraAdapter.setCustomButtonListener(this);
+
+        itemListView.setLayoutManager(new LinearLayoutManager(getActivity()));
         itemListView.setAdapter(itemCompraAdapter);
+
+        // Getting adapter by passing xml data ArrayList
+        /** itemCompraAdapter = new ItemCompraAdapter(getActivity(), SessionUtils.getCompra().getItensCompraVO());
 
         // Click event for single list row
         itemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -266,7 +272,7 @@ public class CarrinhoComprasFragment extends Fragment implements ItemCompraAdapt
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 return false;
             }
-        });
+        }); **/
     }
 
     @Override
@@ -275,20 +281,12 @@ public class CarrinhoComprasFragment extends Fragment implements ItemCompraAdapt
         posicaoUltimoItemRemovido = position;
         atualizaListaProdutos();
         Snackbar snackbar = Snackbar.make(coordinatorLayout, "Item removido.", Snackbar.LENGTH_LONG);
-        //View view = snackbar.getView();
-        //CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) view.getLayoutParams();
-        //params.gravity = Gravity.TOP;
-        //view.setLayoutParams(params);
         snackbar.setAction("DESFAZER", new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 SessionUtils.getCompra().getItensCompraVO().add(posicaoUltimoItemRemovido, ultimoItemRemovido);
                 atualizaListaProdutos();
                 Snackbar snackbar1 = Snackbar.make(coordinatorLayout, "Produto " + ultimoItemRemovido.getProdutoVO().getNome() + " adicionado!", Snackbar.LENGTH_SHORT);
-                //View view1 = snackbar1.getView();
-                //CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) view1.getLayoutParams();
-                //params.gravity = Gravity.TOP;
-                //view1.setLayoutParams(params);
                 snackbar1.show();
             }
         });

@@ -2,6 +2,7 @@ package com.fornax.bought.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,25 +25,26 @@ import java.util.List;
 /**
  * Created by Hallan on 29/11/2015.
  */
-public class ItemCompraAdapter extends BaseAdapter{
+public class ItemCompraAdapter extends RecyclerView.Adapter<ItemCompraAdapter.ItemCompraViewHolder> {
 
-    private Context context;
     private List<ItemCompraVO> itens;
-    private int position;
-    private View convertView;
-    private ViewGroup parent;
+    private CustomButtonListener customListener;
 
-    public List<ItemCompraVO> getProdutos() {
-        return itens;
+    public interface CustomButtonListener{
+        public void onButtonClickListener(int position);
     }
 
-    public void setProdutos(List<ItemCompraVO> itens) {
-        this.itens = itens;
+    public void setCustomButtonListener(CustomButtonListener customListener) {
+        this.customListener = customListener;
     }
 
+    @Override
+    public ItemCompraViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new ItemCompraViewHolder(LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.row_produto, parent, false));
+    }
 
-    public ItemCompraAdapter(Context context, List<ItemCompraVO> itens) {
-        this.context = context;
+    public ItemCompraAdapter(List<ItemCompraVO> itens) {
         this.itens = itens;
     }
 
@@ -58,73 +60,56 @@ public class ItemCompraAdapter extends BaseAdapter{
         return this.itens.indexOf(getItem(position));
     }
 
-
-    CustomButtonListener customListener;
-
-    public interface CustomButtonListener{
-        public void onButtonClickListener(int position);
-    }
-
-    public void setCustomButtonListener(CustomButtonListener customListener) {
-        this.customListener = customListener;
-    }
-    /* private view holder class */
-    private class ViewHolder {
-        ImageView imgViewFoto;
-        TextView txtNome;
-        TextView txtUnidade;
-        TextView txtPreco;
-        ImageButton imgButton;
-    }
-
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
-        this.position = position;
-        this.convertView = convertView;
-        this.parent = parent;
-
-        ViewHolder holder = null;
-
-        LayoutInflater mInflater = (LayoutInflater) context
-                .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-        if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.row_produto, null);
-            holder = new ViewHolder();
-            holder.txtNome = (TextView) convertView.findViewById(R.id.txtNome);
-            holder.imgViewFoto = (ImageView) convertView.findViewById(R.id.imgViewFoto);
-            holder.txtUnidade = (TextView) convertView.findViewById(R.id.txtUnidade);
-            holder.txtPreco = (TextView) convertView.findViewById(R.id.txtPreco);
-            holder.imgButton = (ImageButton) convertView.findViewById(R.id.imgBtnExcluir);
-            convertView.setTag(holder);
-        } else {
-            holder = (ViewHolder) convertView.getTag();
+    public void onBindViewHolder(ItemCompraViewHolder holder, final int position) {
+        Context context = holder.itemView.getContext();
+        if (context instanceof View.OnClickListener) {
+            holder.itemView.setOnClickListener((View.OnClickListener) context);
         }
 
         ItemCompraVO row_pos = itens.get(position);
 
         if(row_pos != null && row_pos.getProdutoVO() != null){
-            Picasso.with(parent.getContext())
-                .load(row_pos.getProdutoVO().getUrlImagem())
-                .placeholder(android.R.drawable.star_big_on) //
-                .error(android.R.drawable.star_big_on)
-                .into(holder.imgViewFoto);
+            Picasso.with(context)
+                    .load(row_pos.getProdutoVO().getUrlImagem())
+                    .placeholder(android.R.drawable.star_big_on) //
+                    .error(android.R.drawable.star_big_on)
+                    .into(holder.imgViewFoto);
             holder.txtNome.setText(row_pos.getProdutoVO().getNome());
-            holder.txtUnidade.setText(row_pos.getQuantidade() + " un");
+            holder.txtUnidade.setText(row_pos.getQuantidade() + " un.");
             holder.txtPreco.setText(Utils.getValorFormatado(row_pos.getValor()));
         }
 
         holder.imgButton.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 if (customListener != null) {
                     customListener.onButtonClickListener(position);
                 }
-
             }
         });
-
-        return convertView;
     }
 
+    @Override
+    public int getItemCount() {
+        return itens.size();
+    }
+
+    class ItemCompraViewHolder extends RecyclerView.ViewHolder {
+        ImageView imgViewFoto;
+        TextView txtNome;
+        TextView txtUnidade;
+        TextView txtPreco;
+        ImageButton imgButton;
+
+        public ItemCompraViewHolder(View itemView) {
+            super(itemView);
+
+            this.txtNome = (TextView) itemView.findViewById(R.id.txtNome);
+            this.imgViewFoto = (ImageView) itemView.findViewById(R.id.imgViewFoto);
+            this.txtUnidade = (TextView) itemView.findViewById(R.id.txtUnidade);
+            this.txtPreco = (TextView) itemView.findViewById(R.id.txtPreco);
+            this.imgButton = (ImageButton) itemView.findViewById(R.id.imgBtnExcluir);
+        }
+    }
 }

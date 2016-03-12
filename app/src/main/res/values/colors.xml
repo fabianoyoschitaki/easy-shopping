@@ -23,4 +23,6 @@
     <color name="windowBackground">#FFFFFF</color>
     <color name="navigationBarColor">#000000</color>
 
+    <!-- efeito promocoes -->
+    <color name="transparent_dark">#8000</color>
 </resources>
