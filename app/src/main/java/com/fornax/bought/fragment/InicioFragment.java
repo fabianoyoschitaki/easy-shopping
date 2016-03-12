@@ -16,6 +16,7 @@ import com.fornax.bought.R;
 import com.fornax.bought.activity.CarrinhoComprasActivity;
 import com.fornax.bought.activity.TelaPrincipalActivity;
 import com.fornax.bought.common.CompraVO;
+import com.fornax.bought.mock.IBoughtMock;
 import com.fornax.bought.rest.RestClient;
 import com.fornax.bought.utils.FragmentIntentIntegrator;
 import com.fornax.bought.utils.SessionUtils;
@@ -49,8 +50,8 @@ public class InicioFragment extends Fragment {
         iniciarCompraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                if (com.fornax.bought.mock.IBoughtMock.isMock){
-                    pegaCarrinho("EXTRA01");
+                if (IBoughtMock.isMock){
+                    onCompraLoaded(IBoughtMock.getCompraMock());
                 } else {
                     FragmentIntentIntegrator integrator = new FragmentIntentIntegrator(InicioFragment.this);
                     integrator.initiateScan();

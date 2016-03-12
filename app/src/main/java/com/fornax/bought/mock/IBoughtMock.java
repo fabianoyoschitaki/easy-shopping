@@ -1,5 +1,7 @@
 package com.fornax.bought.mock;
 
+import com.fornax.bought.common.CompraVO;
+import com.fornax.bought.common.EstabelecimentoVO;
 import com.fornax.bought.common.MinhaCompraVO;
 import com.fornax.bought.common.UsuarioVO;
 
@@ -33,6 +35,27 @@ public class IBoughtMock {
         usuario.setCpf("12345678910");
         usuario.setAtivo(Boolean.FALSE);
         return usuario;
+    }
+
+    public static CompraVO getCompraMock(){
+        CompraVO retorno = new CompraVO();
+        retorno.setEstabelecimentoVO(getEstabelecimentoMock());
+        return retorno;
+    }
+
+    public static EstabelecimentoVO getEstabelecimentoMock() {
+        EstabelecimentoVO retorno = new EstabelecimentoVO();
+        retorno.setNome("Extra");
+        retorno.setCodigoEstabelecimento("EXTRA01");
+        retorno.setDescricao("O mercado a mais");
+        retorno.setId(1L);
+        retorno.setNomeCidade("São Paulo");
+        retorno.setNumeroCep("01226010");
+        retorno.setNumeroLogradouro("100");
+        retorno.setTipoLogradouro("Rua");
+        retorno.setSiglaEstado("SP");
+        retorno.setUrlLogo("https://logodownload.org/wp-content/uploads/2014/12/extra-logo-mercado-1.jpg");
+        return retorno;
     }
 
    /* public static CompraVO getCompraVO(BigDecimal valorTotal) {
