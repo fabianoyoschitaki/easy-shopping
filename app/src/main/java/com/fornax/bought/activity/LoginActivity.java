@@ -316,7 +316,7 @@ public class LoginActivity extends AppCompatActivity{
             SessionUtils.setUsuario(IBoughtMock.getUsuarioMock());
             Intent intent = new Intent(getApplicationContext(), TelaPrincipalActivity.class);
             startActivity(intent);
-            overridePendingTransition(R.anim.trans_up_in, R.anim.trans_up_out);
+            overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
         }
         if (validate()) {
             new LoginTask().execute(emailText.getText().toString(), senhaText.getText().toString());

@@ -116,7 +116,7 @@ public class InicioFragment extends Fragment {
             SessionUtils.setCompra(compraResponse);
             Intent carrinhoCompras = new Intent(getActivity(), CarrinhoComprasActivity.class);
             startActivity(carrinhoCompras);
-            getActivity().overridePendingTransition(R.anim.trans_up_in, R.anim.trans_up_out);
+            getActivity().overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
         }else {
             Toast.makeText(getActivity().getApplicationContext(), "Desculpe, não foi possível pegar o carrinho.", Toast.LENGTH_SHORT).show();
         }

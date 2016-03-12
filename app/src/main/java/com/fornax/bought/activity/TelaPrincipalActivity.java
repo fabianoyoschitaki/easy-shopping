@@ -26,13 +26,16 @@ import com.fornax.bought.fragment.OndeComprarFragment;
 import com.fornax.bought.fragment.PayPalFragment;
 import com.fornax.bought.utils.SharedPreferencesUtil;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 
 public class TelaPrincipalActivity extends AppCompatActivity {
     private static final String TAG = TelaPrincipalActivity.class.getName();
 
-    private Toolbar mToolbar;
-    private DrawerLayout mDrawerLayout;
+    @Bind(R.id.toolbar) Toolbar mToolbar;
+    @Bind(R.id.drawer_layout) DrawerLayout mDrawerLayout;
+    @Bind(R.id.navigation_view) NavigationView navigationView;
 
     private SharedPreferencesUtil sharedPreferencesUtil;
 
@@ -40,17 +43,15 @@ public class TelaPrincipalActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tela_principal);
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        ButterKnife.bind(this);
+
         setSupportActionBar(mToolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-
         sharedPreferencesUtil = new SharedPreferencesUtil(this);
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
@@ -131,6 +132,12 @@ public class TelaPrincipalActivity extends AppCompatActivity {
         }else{
             logout();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
     }
 
     public void logout() {
