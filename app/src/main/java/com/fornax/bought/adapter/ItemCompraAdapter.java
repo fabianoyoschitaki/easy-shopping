@@ -3,17 +3,24 @@ package com.fornax.bought.adapter;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fornax.bought.R;
 import com.fornax.bought.common.ItemCompraVO;
@@ -36,6 +43,7 @@ public class ItemCompraAdapter extends RecyclerView.Adapter<ItemCompraAdapter.It
     private List<ItemCompraVO> itens;
     private CustomButtonListener customListener;
     private Fragment fragment;
+    private NumberPicker np;
 
     public interface CustomButtonListener{
         void onButtonClickListener(int position);
@@ -69,33 +77,32 @@ public class ItemCompraAdapter extends RecyclerView.Adapter<ItemCompraAdapter.It
         Context context = holder.itemView.getContext();
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                final Dialog dialog = new Dialog(v.getContext());
-                dialog.setContentView(R.layout.custom_dialog_editar);
-                dialog.setTitle("Quantidade");
-                dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_box);
+            public void onClick(final View v) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(v.getContext());
+                alert.setTitle("Quantidade");
 
-                NumberPicker number = (NumberPicker) dialog.findViewById(R.id.numberPicker);
-                number.setMaxValue(100);
-                number.setMinValue(1);
+                np = new NumberPicker(v.getContext());
+                np.setMinValue(1);
+                np.setMaxValue(100);
+                np.setWrapSelectorWheel(false);
+                np.setValue(SessionUtils.getCompra().getItensCompraVO().get(position).getQuantidade());
+                alert.setView(np);
 
-                ItemCompraVO itemSelecionado = SessionUtils.getCompra().getItensCompraVO().get(position);
-                if (itemSelecionado != null) {
-                    number.setValue(itemSelecionado.getQuantidade());
-                }
-
-                Button btnPronto = (Button) dialog.findViewById(R.id.btnPronto);
-                btnPronto.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        NumberPicker number = (NumberPicker) dialog.findViewById(R.id.numberPicker);
-                        SessionUtils.getCompra().getItensCompraVO().get(position).setQuantidade(number.getValue());
-
+                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        SessionUtils.getCompra().getItensCompraVO().get(position).setQuantidade(np.getValue());
                         ((CarrinhoComprasFragment)fragment).atualizaListaProdutos();
                         dialog.dismiss();
                     }
                 });
-                dialog.show();
+
+                alert.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Cancel.
+                    }
+                });
+
+                alert.show();
             }
         });
 
