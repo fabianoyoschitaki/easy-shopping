@@ -63,8 +63,52 @@ public class CarrinhoComprasFragment extends Fragment implements ItemCompraAdapt
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final Dialog dialogEscolherForma = new Dialog(getActivity());
-                dialogEscolherForma.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Adicionar novo produto");
+                builder.setItems(new CharSequence[]{"Leitor de Código de Barras", "Digitar Código de Barras"},
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // The 'which' argument contains the index position
+                                // of the selected item
+                                switch (which) {
+                                    case 0:
+                                        abrirTelaScan();
+                                        break;
+                                    case 1:
+                                        final Dialog dialogInserirCodBarra = new Dialog(getActivity());
+                                        dialogInserirCodBarra.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                                        dialogInserirCodBarra.setContentView(R.layout.dialog_inserir_codbarra);
+                                        dialogInserirCodBarra.getWindow().setBackgroundDrawableResource(R.drawable.dialog_box);
+
+                                        final EditText edt = (EditText) dialogInserirCodBarra.findViewById(R.id.edtCodigoBarras);
+                                        if (edt.requestFocus()) {
+                                            dialogInserirCodBarra.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                                        }
+
+                                        Button btnPronto = (Button) dialogInserirCodBarra.findViewById(R.id.btnPronto);
+                                        btnPronto.setOnClickListener(new View.OnClickListener() {
+
+                                            @Override
+                                            public void onClick(View v) {
+                                                if (edt.getText() != null) {
+                                                    if (IBoughtMock.isMock) {
+                                                        onProdutoLoaded(IBoughtMock.getItemCompraMock(), edt.getText().toString());
+                                                    } else {
+                                                        buscarProduto(edt.getText().toString());
+                                                    }
+                                                }
+                                                dialogInserirCodBarra.dismiss();
+                                            }
+                                        });
+                                        dialogInserirCodBarra.show();
+                                        break;
+                                }
+                            }
+                        });
+                builder.create().show();
+
+                /** final Dialog dialogEscolherForma = new Dialog(getActivity());
+                dialogEscolherForma.requestWindowFeature(Window.FEATURE_LEFT_ICON);
                 dialogEscolherForma.setContentView(R.layout.dialog_escolher_forma);
                 dialogEscolherForma.getWindow().setBackgroundDrawableResource(R.drawable.dialog_box);
 
@@ -111,7 +155,7 @@ public class CarrinhoComprasFragment extends Fragment implements ItemCompraAdapt
                         dialogEscolherForma.dismiss();
                     }
                 });
-                dialogEscolherForma.show();
+                dialogEscolherForma.show(); **/
             }
         });
         atualizaListaProdutos();

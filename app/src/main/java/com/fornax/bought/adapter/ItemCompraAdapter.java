@@ -91,7 +91,7 @@ public class ItemCompraAdapter extends RecyclerView.Adapter<ItemCompraAdapter.It
                 alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         SessionUtils.getCompra().getItensCompraVO().get(position).setQuantidade(np.getValue());
-                        ((CarrinhoComprasFragment)fragment).atualizaListaProdutos();
+                            ((CarrinhoComprasFragment)fragment).atualizaListaProdutos();
                         dialog.dismiss();
                     }
                 });
@@ -111,8 +111,8 @@ public class ItemCompraAdapter extends RecyclerView.Adapter<ItemCompraAdapter.It
         if(row_pos != null && row_pos.getProdutoVO() != null){
             Picasso.with(context)
                     .load(row_pos.getProdutoVO().getUrlImagem())
-                    .placeholder(android.R.drawable.star_big_on) //
-                    .error(android.R.drawable.star_big_on)
+                    .placeholder(R.drawable.progress_animation) //
+                    .error(R.drawable.progress_animation)
                     .into(holder.imgViewFoto);
             holder.txtNome.setText(row_pos.getProdutoVO().getNome());
             holder.txtUnidade.setText(row_pos.getQuantidade() + " un.");
