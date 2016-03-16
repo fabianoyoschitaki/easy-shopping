@@ -10,7 +10,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -20,13 +19,13 @@
         android:required="false" />
 
     <application
-        tools:replace="android:icon,android:theme"
         android:name=".IBoughtApplication"
-        android:icon="@mipmap/ic_launcher"
         android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/IBoughtMaterialTheme">
+        android:theme="@style/IBoughtMaterialTheme"
+        tools:replace="android:icon,android:theme" >
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -48,7 +47,7 @@
             android:name="io.card.payment.CardIOActivity"
             android:configChanges="keyboardHidden|orientation" />
         <activity android:name="io.card.payment.DataEntryActivity" />
-        <activity android:name="com.fornax.bought.activity.LoginActivity" >
+        <activity android:name=".activity.LoginActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -60,29 +59,27 @@
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name="com.fornax.bought.activity.CadastroUsuarioActivity" >
+        <activity android:name=".activity.CadastroUsuarioActivity" >
         </activity>
         <activity android:name=".activity.CarrinhoComprasActivity" >
         </activity>
-        <activity android:name="com.fornax.bought.activity.ConfirmacaoCompraActivity" >
+        <activity android:name=".activity.ConfirmacaoCompraActivity" >
         </activity>
-        <activity android:name="com.fornax.bought.activity.ConfirmacaoEmailActivity" >
+        <activity android:name=".activity.ConfirmacaoEmailActivity" >
         </activity>
-        <activity android:name="com.fornax.bought.activity.SucessoActivity" >
+        <activity android:name=".activity.SucessoActivity" >
         </activity>
-        <activity android:name="com.fornax.bought.activity.TelaPrincipalActivity" >
+        <activity android:name=".activity.TelaPrincipalActivity" >
         </activity>
-        <activity android:name="com.fornax.bought.paypal.SampleActivity" >
+        <activity android:name=".activity.SampleActivity" >
         </activity>
-        <activity android:name="com.fornax.bought.activity.CarrinhoFinalizadoActivity" >
+        <activity android:name=".activity.EscolherFormaPagamentoActivity" >
         </activity>
-        <activity android:name="com.fornax.bought.activity.EscolherFormaPagamentoActivity" >
+        <activity android:name=".activity.ExemploCardViewActivity" >
         </activity>
-        <activity android:name="com.fornax.bought.activity.PagamentoEfetuadoActivity" >
+        <activity android:name=".activity.ItensCarrinhoActivity" >
         </activity>
-        <activity android:name="com.fornax.bought.activity.MainActivity" >
-        </activity>
-        <activity android:name="com.fornax.bought.activity.ExemploCardViewActivity" >
+        <activity android:name=".activity.PagamentoEfetuadoActivity" >
         </activity>
     </application>
 
