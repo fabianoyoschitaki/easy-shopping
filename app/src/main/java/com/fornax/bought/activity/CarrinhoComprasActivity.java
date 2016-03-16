@@ -16,6 +16,8 @@ import com.fornax.bought.R;
 import com.fornax.bought.adapter.CarrinhoComprasPagerAdapter;
 import com.fornax.bought.utils.SessionUtils;
 
+import java.math.BigDecimal;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -52,15 +54,20 @@ public class CarrinhoComprasActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_concluir_compra){
-            Intent carrinhoCompras = new Intent(this, CarrinhoFinalizadoActivity.class);
-            startActivity(carrinhoCompras);
-            overridePendingTransition(R.anim.trans_up_in, R.anim.trans_up_out);
+            if(SessionUtils.getCompra() != null && SessionUtils.getCompra().getValorTotal() != null &&
+                    SessionUtils.getCompra().getValorTotal().compareTo(BigDecimal.ZERO) > 0){
+                Intent carrinhoCompras = new Intent(this, ConfirmacaoCompraActivity.class);
+                startActivity(carrinhoCompras);
+                overridePendingTransition(R.anim.trans_up_in, R.anim.trans_up_out);
+            }else{
+                Toast.makeText(this, "Bem-vindo ao " + "É necessário pelo menos um item para concluir a compra.", Toast.LENGTH_SHORT).show();
+            }
             return true;
         } else if (id == android.R.id.home) {
             onBackPressed();

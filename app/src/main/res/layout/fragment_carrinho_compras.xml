@@ -39,6 +39,7 @@
                 android:textSize="16dip"
                 android:gravity="center" />
 
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
