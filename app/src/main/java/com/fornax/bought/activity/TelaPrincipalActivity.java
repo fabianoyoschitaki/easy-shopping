@@ -24,6 +24,7 @@ import com.fornax.bought.fragment.InicioFragment;
 import com.fornax.bought.fragment.MinhasComprasFragment;
 import com.fornax.bought.fragment.OndeComprarFragment;
 import com.fornax.bought.fragment.PayPalFragment;
+import com.fornax.bought.utils.SessionUtils;
 import com.fornax.bought.utils.SharedPreferencesUtil;
 
 import butterknife.Bind;
@@ -66,18 +67,13 @@ public class TelaPrincipalActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         switch (id){
             case android.R.id.home:
                 mDrawerLayout.openDrawer(GravityCompat.START);
@@ -126,8 +122,6 @@ public class TelaPrincipalActivity extends AppCompatActivity {
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.container_body, fragment);
             fragmentTransaction.commit();
-
-            // set the toolbar title
             getSupportActionBar().setTitle(title);
         }else{
             logout();
@@ -153,6 +147,7 @@ public class TelaPrincipalActivity extends AppCompatActivity {
                             //DESLOGA DO FACE
                             LoginManager.getInstance().logOut();
                         }else{
+                            SessionUtils.setUsuario(null);
                             sharedPreferencesUtil.remove("Login");
                             sharedPreferencesUtil.remove("Password");
                         }
