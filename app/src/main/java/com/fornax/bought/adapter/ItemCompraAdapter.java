@@ -91,7 +91,7 @@ public class ItemCompraAdapter extends RecyclerView.Adapter<ItemCompraAdapter.It
                 alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         SessionUtils.getCompra().getItensCompraVO().get(position).setQuantidade(np.getValue());
-                            ((CarrinhoComprasFragment)fragment).atualizaListaProdutos();
+                        ((CarrinhoComprasFragment)fragment).atualizaListaProdutos();
                         dialog.dismiss();
                     }
                 });

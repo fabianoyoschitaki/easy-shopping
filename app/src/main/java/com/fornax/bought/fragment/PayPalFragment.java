@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 
-import com.fornax.bought.paypal.SampleActivity;
+import com.fornax.bought.activity.SampleActivity;
 
 import com.fornax.bought.R;
 

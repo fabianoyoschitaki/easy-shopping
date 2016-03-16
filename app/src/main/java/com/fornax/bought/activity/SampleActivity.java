@@ -1,4 +1,4 @@
-package com.fornax.bought.paypal;
+package com.fornax.bought.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.fornax.bought.R;
 import com.paypal.android.sdk.payments.PayPalAuthorization;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalFuturePaymentActivity;
@@ -27,8 +28,6 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-
-import com.fornax.bought.R;
 
 /**
  * Basic sample using the SDK to make a payment or consent to future payments.
@@ -50,7 +49,7 @@ public class SampleActivity extends Activity {
     private static final String CONFIG_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_NO_NETWORK;
 
     // note that these credentials will differ between live & sandbox environments.
-    private static final String CONFIG_CLIENT_ID = "AaXyCTpasBmuMqYmQcGeaI7kyPpCPNEP3gJD1XHj5qPDHcRjgkNxNfwcXAksZ1fz-9ZMtEenB6JQJGyO";
+    private static final String CONFIG_CLIENT_ID = "credential from developer.paypal.com";
 
     private static final int REQUEST_CODE_PAYMENT = 1;
     private static final int REQUEST_CODE_FUTURE_PAYMENT = 2;
@@ -67,7 +66,7 @@ public class SampleActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_paypal);
 
         Intent intent = new Intent(this, PayPalService.class);
         intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
@@ -101,7 +100,7 @@ public class SampleActivity extends Activity {
     }
     
     private PayPalPayment getThingToBuy(String paymentIntent) {
-        return new PayPalPayment(new BigDecimal("5.75"), "USD", "TESTE HALLAN",
+        return new PayPalPayment(new BigDecimal("1.75"), "USD", "sample item",
                 paymentIntent);
     }
     
@@ -127,7 +126,7 @@ public class SampleActivity extends Activity {
         PayPalPayment payment = new PayPalPayment(amount, "USD", "sample item", paymentIntent);
         payment.items(items).paymentDetails(paymentDetails);
 
-        //--- set other optional fields like invoice_number, dialog_finalizar field, and soft_descriptor
+        //--- set other optional fields like invoice_number, custom field, and soft_descriptor
         payment.custom("This is text that will be associated with the payment that the app can use.");
 
         return payment;
