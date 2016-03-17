@@ -53,7 +53,12 @@ public class InicioFragment extends Fragment {
                 if (IBoughtMock.isMock){
                     onCompraLoaded(IBoughtMock.getCompraMock());
                 } else {
-                    FragmentIntentIntegrator integrator = new FragmentIntentIntegrator(InicioFragment.this);
+                    IntentIntegrator integrator = IntentIntegrator.forSupportFragment(InicioFragment.this);
+                    integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
+                    integrator.setPrompt("Escaneie o QR Code");
+                    integrator.addExtra("SCAN_MODE", "QR_CODE_MODE");
+                    integrator.setBeepEnabled(false);
+                    integrator.setBarcodeImageEnabled(true);
                     integrator.initiateScan();
                 }
             }
