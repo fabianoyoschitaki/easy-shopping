@@ -35,6 +35,8 @@ import com.fornax.bought.utils.Utils;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.math.BigDecimal;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import retrofit.Callback;
@@ -255,7 +257,15 @@ public class CarrinhoComprasFragment extends Fragment implements ItemCompraAdapt
      * Método que atualiza lista com novo produto escaneado
      */
     public void atualizaListaProdutos() {
-        txtValorTotal.setText(Utils.getValorFormatado(SessionUtils.getCompra().getValorTotal()));
+        if(SessionUtils.getCompra() != null
+                && SessionUtils.getCompra().getItensCompraVO() != null){
+            BigDecimal valorTotal = BigDecimal.ZERO;
+            for (ItemCompraVO item : SessionUtils.getCompra().getItensCompraVO()) {
+                valorTotal = valorTotal.add(item.getValor());
+            }
+            SessionUtils.getCompra().setValorTotal(valorTotal);
+            txtValorTotal.setText(Utils.getValorFormatado(valorTotal));
+        }
 
         itemCompraAdapter = new ItemCompraAdapter(SessionUtils.getCompra().getItensCompraVO(), this);
         itemCompraAdapter.setCustomButtonListener(this);

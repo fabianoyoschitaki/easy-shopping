@@ -66,7 +66,7 @@ public class CarrinhoComprasActivity extends AppCompatActivity {
                 startActivity(carrinhoCompras);
                 overridePendingTransition(R.anim.trans_up_in, R.anim.trans_up_out);
             }else{
-                Toast.makeText(this, "Bem-vindo ao " + "É necessário pelo menos um item para concluir a compra.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Não é possível concluir uma compra com o carrinho vazio.", Toast.LENGTH_SHORT).show();
             }
             return true;
         } else if (id == android.R.id.home) {

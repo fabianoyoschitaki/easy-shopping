@@ -1,35 +1,34 @@
 package com.fornax.bought.activity;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Display;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.Button;
+import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.fornax.bought.R;
 import com.fornax.bought.common.CompraVO;
-import com.fornax.bought.mock.IBoughtMock;
+import com.fornax.bought.enums.StatusCompraENUM;
+import com.fornax.bought.rest.RestClient;
+import com.fornax.bought.rest.WSRestService;
+import com.fornax.bought.utils.SessionUtils;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
-import java.math.BigDecimal;
-import java.util.UUID;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class PagamentoEfetuadoActivity extends AppCompatActivity {
 
@@ -43,13 +42,10 @@ public class PagamentoEfetuadoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pagamento_efetuado);
         ButterKnife.bind(this);
-
-        CompraVO compra = new CompraVO();
-        String qrCodePagamentoEfetuado = getQRCodePagamentoEfetuado(compra);
-        if (qrCodePagamentoEfetuado != null){
-            setQRCode(qrCodePagamentoEfetuado, imageViewQRCode);
-        }
+        setQRCode(SessionUtils.getCompra().getId().toString(), imageViewQRCode);
     }
+
+
 
     /**
      * Gera QR Code e taca no ImageView
@@ -79,8 +75,7 @@ public class PagamentoEfetuadoActivity extends AppCompatActivity {
     private String getQRCodePagamentoEfetuado(CompraVO compra){
         String retorno = null;
         if(compra != null){
-            //TODO ACIONAR WS REST PARA OBTER O CODIGO DA COMPRA GERADA NA BASE..
-            retorno = UUID.randomUUID().toString();
+            retorno = compra.getId().toString();
         }
         return retorno;
     }

@@ -26,10 +26,8 @@ public interface RestAPI {
         @Path("codigoEstabelecimento") String codigoEstabelecimento,
         Callback<ItemCompraVO> itemCompraResponse);
 
-    @POST(Constants.REST_COMPRA_FINALIZAR_COMPRA)
-    public void finalizarCompra(
-        @Body CompraVO compraVO,
-        Callback<CompraVO> compraResponse);
+    @POST(Constants.REST_COMPRA_ATUALIZAR_COMPRA)
+    public CompraVO atualizarCompra(@Body CompraVO compraVO);
 
     @GET(Constants.REST_AUTENTICAR_URL)
     public LoginVO autenticar(
@@ -44,4 +42,5 @@ public interface RestAPI {
 
     @POST(Constants.REST_COMPRA_NOVA_COMPRA)
     public void getNovaCompra(@Path("codigoEstabelecimento") String codigoEstabelecimento, @Body UsuarioVO usuarioLogado, Callback<CompraVO> compraResponse);
+
 }

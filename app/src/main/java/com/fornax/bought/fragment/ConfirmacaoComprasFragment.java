@@ -4,7 +4,7 @@ package com.fornax.bought.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
@@ -12,18 +12,22 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fornax.bought.R;
+import com.fornax.bought.activity.CarrinhoComprasActivity;
 import com.fornax.bought.activity.ConfirmacaoCompraActivity;
+import com.fornax.bought.activity.ItensCarrinhoActivity;
 import com.fornax.bought.activity.PagamentoEfetuadoActivity;
-import com.fornax.bought.activity.SampleActivity;
+import com.fornax.bought.common.CompraVO;
+import com.fornax.bought.enums.StatusCompraENUM;
+import com.fornax.bought.rest.WSRestService;
 import com.fornax.bought.utils.PayPalUtil;
 import com.fornax.bought.utils.SessionUtils;
 import com.fornax.bought.utils.Utils;
-import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalPayment;
 import com.paypal.android.sdk.payments.PayPalService;
 import com.paypal.android.sdk.payments.PaymentActivity;
@@ -31,7 +35,6 @@ import com.paypal.android.sdk.payments.PaymentConfirmation;
 
 import org.json.JSONException;
 
-import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -44,6 +47,7 @@ public class ConfirmacaoComprasFragment extends Fragment {
     @Bind(R.id.coordinatorLayout)CoordinatorLayout coordinatorLayout;
     @Bind(R.id.btnPagar)Button btnPagar;
     @Bind(R.id.txtValorConfirmacao)TextView txtValorConfirmacao;
+    @Bind(R.id.btnConferirCarrinho)Button btnConferirCarrinho;
 
     public ConfirmacaoComprasFragment() {
         // Required empty public constructor
@@ -77,14 +81,23 @@ public class ConfirmacaoComprasFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 PayPalPayment thingToBuy = getThingToBuy(PayPalPayment.PAYMENT_INTENT_SALE);
-                if(thingToBuy != null){
+                if (thingToBuy != null) {
                     Intent intent = new Intent(getContext(), PaymentActivity.class);
                     intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, PayPalUtil.config);
                     intent.putExtra(PaymentActivity.EXTRA_PAYMENT, thingToBuy);
                     startActivityForResult(intent, PayPalUtil.REQUEST_CODE_PAYMENT);
-                }else{
+                } else {
                     Toast.makeText(getContext(), "Compra não encontrada.", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        btnConferirCarrinho.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ItensCarrinhoActivity.class);
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
             }
         });
         return rootView;
@@ -102,8 +115,11 @@ public class ConfirmacaoComprasFragment extends Fragment {
                     try {
                         Log.i(TAG, confirm.toJSONObject().toString(4));
                         Log.i(TAG, confirm.getPayment().toJSONObject().toString(4));
-                        Intent intent = new Intent(getContext(), PagamentoEfetuadoActivity.class);
-                        startActivityForResult(intent, PayPalUtil.REQUEST_CODE_PAYMENT);
+
+                        SessionUtils.getCompra().setStatusCompraENUM(StatusCompraENUM.PAGA);
+                        SessionUtils.getCompra().setIdPayPal(confirm.getProofOfPayment().getPaymentId());
+
+                        new AtualizarCompraTask().execute(SessionUtils.getCompra());
                     } catch (JSONException e) {
                         Log.e(TAG, "Um erro ocorreu ", e);
                     }
@@ -118,6 +134,55 @@ public class ConfirmacaoComprasFragment extends Fragment {
                 Log.i(
                         TAG,
                         "Um tipo inválido de pagamento foi informado.");
+            }
+        }
+    }
+
+
+    private class AtualizarCompraTask extends AsyncTask<CompraVO, Void, CompraVO> {
+
+        AlphaAnimation inAnimation;
+        AlphaAnimation outAnimation;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            inAnimation = new AlphaAnimation(0f, 1f);
+            inAnimation.setDuration(200);
+        }
+
+        @Override
+        protected void onPostExecute(CompraVO compra) {
+            super.onPostExecute(compra);
+            outAnimation = new AlphaAnimation(1f, 0f);
+            outAnimation.setDuration(200);
+            onCompraResult(compra);
+        }
+
+        protected CompraVO doInBackground(CompraVO... compra) {
+            CompraVO retorno = null;
+            try {
+                WSRestService restClient = new WSRestService();
+                retorno = restClient.getRestAPI().atualizarCompra(compra[0]);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return retorno;
+        }
+    }
+
+    /**
+     * Após o retorno da compra pela Task
+     *
+     * @param compra
+     */
+    private void onCompraResult(CompraVO compra) {
+        if (compra != null) {
+            if (compra.getStatusCompraENUM() != null && compra.getStatusCompraENUM().equals(StatusCompraENUM.PAGA)) {
+                Intent intent = new Intent(getContext(), PagamentoEfetuadoActivity.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(getContext(), "não deu", Toast.LENGTH_SHORT).show();
             }
         }
     }

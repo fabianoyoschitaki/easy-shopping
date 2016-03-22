@@ -42,7 +42,7 @@
                     android:textColor="#f1ea7724"
                     android:background="#f1faf9f7"
                     android:drawableRight="@drawable/arrowright"
-                    android:id="@+id/btnConfCarrinho"
+                    android:id="@+id/btnConferirCarrinho"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="10dp" />
 

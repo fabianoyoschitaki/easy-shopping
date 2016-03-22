@@ -15,7 +15,7 @@ public class WSRestService {
     public WSRestService() {
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setLogLevel(RestAdapter.LogLevel.FULL)
-                .setEndpoint(Constants.REST_BASE_BOUGHT_URL)
+                .setEndpoint(Constants.REST_BASE_IBOUGHT_URL)
                 .setConverter(new GsonConverter(JSONUtil.getGSONInstance()))
                 .build();
 

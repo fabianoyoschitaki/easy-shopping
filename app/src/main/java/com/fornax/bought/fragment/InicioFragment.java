@@ -74,15 +74,15 @@ public class InicioFragment extends Fragment {
         if (scanResult != null) {
             if (resultCode == Activity.RESULT_OK) {
                 String qrCodeFormat = intent.getStringExtra("SCAN_RESULT_FORMAT");
-                String resultado = intent.getStringExtra("SCAN_RESULT");
+                String codigoEstabelecimento = intent.getStringExtra("SCAN_RESULT");
                 if ("QR_CODE".equals(qrCodeFormat)){
-                    pegaCarrinho(resultado);
+                    pegaCarrinho(codigoEstabelecimento);
                 }
             }
         }
     }
 
-    private void pegaCarrinho(String resultado) {
+    private void pegaCarrinho(String codigoEstabelecimento) {
         final ProgressDialog dialog;
         dialog = new ProgressDialog(getActivity());
         dialog.setMessage("Pegando carrinho...");
@@ -90,7 +90,7 @@ public class InicioFragment extends Fragment {
 
         RestClient restClient = new RestClient();
 
-        restClient.getRestAPI().getNovaCompra(resultado, SessionUtils.getUsuario(), new Callback<CompraVO>() {
+        restClient.getRestAPI().getNovaCompra(codigoEstabelecimento, SessionUtils.getUsuario(), new Callback<CompraVO>() {
             @Override
             public void success(CompraVO compraResponse, Response response) {
                 dialog.dismiss();

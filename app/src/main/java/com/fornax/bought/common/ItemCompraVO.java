@@ -1,13 +1,12 @@
 package com.fornax.bought.common;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 
 
 /**
  * Created by Hallan on 06/12/2015.
  */
-public class ItemCompraVO implements Serializable {
+public class ItemCompraVO {
 
 	private Long id;
     private ProdutoVO produtoVO;

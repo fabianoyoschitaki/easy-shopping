@@ -1,9 +1,7 @@
 package com.fornax.bought.common;
 
 
-import java.io.Serializable;
-
-public class ProdutoVO implements Serializable {
+public class ProdutoVO {
 
 	private Long id;
 	private String nome;

@@ -77,9 +77,12 @@
         </activity>
         <activity android:name=".activity.ExemploCardViewActivity" >
         </activity>
-        <activity android:name=".activity.ItensCarrinhoActivity" >
-        </activity>
         <activity android:name=".activity.PagamentoEfetuadoActivity" >
+        </activity>
+        <activity
+            android:name=".activity.ItensCarrinhoActivity"
+            android:label="@string/title_activity_itens_carrinho"
+            android:theme="@style/IBoughtMaterialTheme" >
         </activity>
     </application>
 
