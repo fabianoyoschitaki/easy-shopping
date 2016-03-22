@@ -45,10 +45,9 @@ dependencies {
 
     // image loading lib
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.journeyapps:zxing-android-embedded:3.0.2@aar'
 
-    // barcode/qrcode lib
-    compile 'com.google.zxing:core:3.2.0'
+    compile 'com.journeyapps:zxing-android-embedded:3.2.0@aar'
+    compile 'com.google.zxing:core:3.2.1'
 
     // material design compat lib
     compile 'com.github.rey5137:material:1.2.2'
