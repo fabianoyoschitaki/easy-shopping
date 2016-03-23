@@ -8,6 +8,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +24,8 @@ import com.fornax.bought.activity.CarrinhoComprasActivity;
 import com.fornax.bought.activity.ConfirmacaoCompraActivity;
 import com.fornax.bought.activity.ItensCarrinhoActivity;
 import com.fornax.bought.activity.PagamentoEfetuadoActivity;
+import com.fornax.bought.adapter.ItemCompraAdapter;
+import com.fornax.bought.adapter.ItemCompraFinalizadaAdapter;
 import com.fornax.bought.common.CompraVO;
 import com.fornax.bought.enums.StatusCompraENUM;
 import com.fornax.bought.rest.WSRestService;
@@ -44,10 +48,18 @@ import butterknife.ButterKnife;
 
 public class ConfirmacaoComprasFragment extends Fragment {
 
+    private static final String TAG = "PAYPAL";
+
+
+    @Bind(R.id.itemListView)RecyclerView itemListView;
     @Bind(R.id.coordinatorLayout)CoordinatorLayout coordinatorLayout;
     @Bind(R.id.btnPagar)Button btnPagar;
     @Bind(R.id.txtValorConfirmacao)TextView txtValorConfirmacao;
-    @Bind(R.id.btnConferirCarrinho)Button btnConferirCarrinho;
+    @Bind(R.id.txtDescricaoEndereco)TextView txtDescricaoEndereco;
+    @Bind(R.id.txtDescricaoEstabelecimento)TextView txtDescricaoEstabelecimento;
+    @Bind(R.id.txtEstabelecimento)TextView txtEstabelecimento;
+
+    private ItemCompraFinalizadaAdapter itemCompraFinalizadaAdapter;
 
     public ConfirmacaoComprasFragment() {
         // Required empty public constructor
@@ -58,15 +70,7 @@ public class ConfirmacaoComprasFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    private PayPalPayment getThingToBuy(String paymentIntent) {
-        PayPalPayment retorno = null;
-        if(SessionUtils.getCompra() != null){
-            String idCompra = SessionUtils.getCompra().getId() + "_" + new SimpleDateFormat("dd-MM-yyyy").format(new Date()) + "_" + SessionUtils.getUsuario().getId();
-            retorno = new PayPalPayment(SessionUtils.getCompra().getValorTotal(), "USD", idCompra,
-                    paymentIntent);
-        }
-        return retorno;
-    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -77,6 +81,12 @@ public class ConfirmacaoComprasFragment extends Fragment {
             txtValorConfirmacao.setText(Utils.getValorFormatado(SessionUtils.getCompra().getValorTotal()));
         }
 
+        itemCompraFinalizadaAdapter = new ItemCompraFinalizadaAdapter(SessionUtils.getCompra().getItensCompraVO(), this);
+        itemListView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        itemListView.setAdapter(itemCompraFinalizadaAdapter);
+
+        txtDescricaoEndereco.setText(getDescricaoEndereco(SessionUtils.getCompra()));
+        txtDescricaoEstabelecimento.setText(getDescricaoEstabelecimento(SessionUtils.getCompra()));
         btnPagar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,18 +102,43 @@ public class ConfirmacaoComprasFragment extends Fragment {
             }
         });
 
-        btnConferirCarrinho.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ItensCarrinhoActivity.class);
-                startActivity(intent);
-                getActivity().overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
-            }
-        });
         return rootView;
     }
 
-    private static final String TAG = "paymentExample";
+
+    private String getDescricaoEstabelecimento(CompraVO compra){
+        StringBuilder sb = new StringBuilder();
+        if(compra != null && compra.getEstabelecimentoVO() != null){
+            sb.append(compra.getEstabelecimentoVO().getNome().toUpperCase());
+            sb.append(" - ");
+            sb.append(compra.getEstabelecimentoVO().getDescricao().toUpperCase());
+        }
+        return sb.toString();
+    }
+
+    private String getDescricaoEndereco(CompraVO compra){
+        StringBuilder sb = new StringBuilder();
+        if(compra != null && compra.getEstabelecimentoVO() != null){
+            sb.append(compra.getEstabelecimentoVO().getNomeLogradouro().toUpperCase());
+            sb.append(", ");
+            sb.append(compra.getEstabelecimentoVO().getNumeroLogradouro());
+            sb.append(" - ");
+            sb.append(compra.getEstabelecimentoVO().getNomeCidade().toUpperCase());
+            sb.append(" - ");
+            sb.append(compra.getEstabelecimentoVO().getSiglaEstado().toUpperCase());
+        }
+        return sb.toString();
+    }
+
+    private PayPalPayment getThingToBuy(String paymentIntent) {
+        PayPalPayment retorno = null;
+        if(SessionUtils.getCompra() != null){
+            String idCompra = SessionUtils.getCompra().getId() + "_" + new SimpleDateFormat("dd-MM-yyyy").format(new Date()) + "_" + SessionUtils.getUsuario().getId();
+            retorno = new PayPalPayment(SessionUtils.getCompra().getValorTotal(), "USD", idCompra,
+                    paymentIntent);
+        }
+        return retorno;
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

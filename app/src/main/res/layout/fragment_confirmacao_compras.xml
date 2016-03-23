@@ -21,42 +21,15 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="bottom"
                 android:layout_weight="1">
 
-                <TextView
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/itemListView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Confira sua compra!"
-                    android:fontFamily="sans-serif-thin"
-                    android:textSize="40dp"
-                    android:id="@+id/txtConfirmarMsg"
-                    android:textAlignment="center"
-                    android:layout_marginBottom="20dp" />
-
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="    Carrinho"
-                    android:textColor="#f1ea7724"
-                    android:background="#f1faf9f7"
-                    android:drawableRight="@drawable/arrowright"
-                    android:id="@+id/btnConferirCarrinho"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:layout_marginBottom="10dp" />
-
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#f1faf9f7"
-                    android:text="    Extra"
-                    android:textColor="#f1ea7724"
-                    android:drawableRight="@drawable/arrowright"
-                    android:id="@+id/btnConfLocal"
-                    android:layout_marginTop="10dp"
-                    android:contextClickable="true" />
-
 
             </LinearLayout>
 
@@ -65,30 +38,91 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
-                android:layout_weight="1">
+                android:background="@drawable/border_carrinho"
+                android:layout_weight="1"
+                android:gravity="bottom">
 
-                <TextView
+                <LinearLayout
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-thin"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="30dp"
-                    android:id="@+id/txtValorConfirmacao"
-                    android:textAlignment="center"
-                    android:layout_marginTop="30dp" />
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1">
 
-                <Button
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="      PAGAR"
-                    android:background="#f1faf9f7"
-                    android:textColor="#f1ea7724"
-                    android:textAlignment="center"
-                    android:id="@+id/btnPagar"
-                    android:layout_marginTop="20dp"
-                    android:contextClickable="true"
-                    android:drawableRight="@drawable/paypal" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Informações do Local"
+                        android:id="@+id/txtEstabelecimento"
+                        android:layout_gravity="center_horizontal"
+                        android:textAlignment="center"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:id="@+id/txtDescricaoEstabelecimento"
+                        android:gravity="center_horizontal|fill_vertical"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:id="@+id/txtDescricaoEndereco"
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center_horizontal|fill_vertical"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/border_carrinho"
+                    android:layout_weight="1"
+                    android:gravity="bottom">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-thin"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textSize="20dp"
+                        android:id="@+id/txtValorConfirmacao"
+                        android:textAlignment="center"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp" />
+
+                    <Button
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="      PAGAR"
+                        android:background="#f1faf9f7"
+                        android:textColor="#f1ea7724"
+                        android:textAlignment="center"
+                        android:id="@+id/btnPagar"
+                        android:contextClickable="true"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1" />
+
+                </LinearLayout>
+
             </LinearLayout>
+
         </LinearLayout>
     </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>
