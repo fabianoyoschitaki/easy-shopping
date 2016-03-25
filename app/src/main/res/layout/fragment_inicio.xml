@@ -6,39 +6,22 @@
 
     <!-- As the main content view, the view below consumes the entire
      space available using match_parent in both dimensions. -->
-    <FrameLayout android:id="@+id/container"
+    <LinearLayout android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="20dp">
 
-        <TextView
-            style="@style/TextAppearance.AppCompat.Display1"
-            android:padding="30dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Pegue seu carrinho para iniciar!"
-            android:layout_gravity="center_horizontal|top"
-            android:gravity="center_vertical|center_horizontal"
-            android:textColor="@color/textColorTertiary"/>
-
-        <ImageView
-            android:layout_width="160dp"
-            android:layout_height="160dp"
-            android:id="@+id/imageView"
-            android:layout_gravity="center"
-            android:src="@mipmap/arrow_down_2" />
 
         <ImageButton
-            android:layout_width="180dp"
-            android:layout_height="180dp"
-            android:id="@+id/btn_iniciar_compra"
-            android:layout_gravity="center_horizontal|bottom"
-            android:src="@mipmap/shopping_cart_img"
-            android:layout_marginBottom="20dp"
-            android:scaleType="fitCenter"
-            android:adjustViewBounds="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgBtnIniciar"
+            android:src="@drawable/shooping"
+            android:layout_gravity="bottom"
             android:background="@null" />
 
-
-
-    </FrameLayout>
+    </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

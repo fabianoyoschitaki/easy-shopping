@@ -51,19 +51,15 @@ public class ConfirmacaoComprasFragment extends Fragment {
     private static final String TAG = "PAYPAL";
 
 
-    @Bind(R.id.itemListView)RecyclerView itemListView;
     @Bind(R.id.coordinatorLayout)CoordinatorLayout coordinatorLayout;
     @Bind(R.id.btnPagar)Button btnPagar;
+    @Bind(R.id.btnConferirCarrinho)Button btnConferirCarrinho;
     @Bind(R.id.txtValorConfirmacao)TextView txtValorConfirmacao;
     @Bind(R.id.txtDescricaoEndereco)TextView txtDescricaoEndereco;
     @Bind(R.id.txtDescricaoEstabelecimento)TextView txtDescricaoEstabelecimento;
     @Bind(R.id.txtEstabelecimento)TextView txtEstabelecimento;
 
     private ItemCompraFinalizadaAdapter itemCompraFinalizadaAdapter;
-
-    public ConfirmacaoComprasFragment() {
-        // Required empty public constructor
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -81,10 +77,6 @@ public class ConfirmacaoComprasFragment extends Fragment {
             txtValorConfirmacao.setText(Utils.getValorFormatado(SessionUtils.getCompra().getValorTotal()));
         }
 
-        itemCompraFinalizadaAdapter = new ItemCompraFinalizadaAdapter(SessionUtils.getCompra().getItensCompraVO(), this);
-        itemListView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        itemListView.setAdapter(itemCompraFinalizadaAdapter);
-
         txtDescricaoEndereco.setText(getDescricaoEndereco(SessionUtils.getCompra()));
         txtDescricaoEstabelecimento.setText(getDescricaoEstabelecimento(SessionUtils.getCompra()));
         btnPagar.setOnClickListener(new View.OnClickListener() {
@@ -99,6 +91,13 @@ public class ConfirmacaoComprasFragment extends Fragment {
                 } else {
                     Toast.makeText(getContext(), "Compra não encontrada.", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        btnConferirCarrinho.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
             }
         });
 

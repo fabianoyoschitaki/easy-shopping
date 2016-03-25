@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
+import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -20,8 +21,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,16 +62,58 @@ public class CarrinhoComprasFragment extends Fragment implements ItemCompraAdapt
     @Bind(R.id.fab) FloatingActionButton fab;
     @Bind(R.id.coordinatorLayout)CoordinatorLayout coordinatorLayout;
 
+    public static class Item{
+        public final String text;
+        public final int icon;
+        public Item(String text, Integer icon) {
+            this.text = text;
+            this.icon = icon;
+        }
+        @Override
+        public String toString() {
+            return text;
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_carrinho_compras, container, false);
         ButterKnife.bind(this, rootView);
+
+        final Item[] items = {
+                new Item("Bipar", R.drawable.scan_barcode),
+                new Item("Digitar", R.drawable.keyboard_ibought),
+        };
+
+        final ListAdapter adapter = new ArrayAdapter<Item>(
+                getActivity(),
+                android.R.layout.select_dialog_item,
+                android.R.id.text1,
+                items){
+
+            public View getView(int position, View convertView, ViewGroup parent) {
+                //Use super class to create the View
+                View v = super.getView(position, convertView, parent);
+                TextView tv = (TextView)v.findViewById(android.R.id.text1);
+
+                //Put the image on the TextView
+                tv.setCompoundDrawablesWithIntrinsicBounds(items[position].icon, 0, 0, 0);
+
+                //Add margin between image and text (support various screen densities)
+                int dp5 = (int) (5 * getResources().getDisplayMetrics().density + 0.5f);
+                tv.setCompoundDrawablePadding(dp5);
+
+                return v;
+            }
+        };
+
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("Adicionar novo produto");
-                builder.setItems(new CharSequence[]{"Leitor de Código de Barras", "Digitar Código de Barras"},
+                builder.setTitle("Adicionar item");
+                builder.setAdapter(adapter,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 // The 'which' argument contains the index position
@@ -80,15 +126,14 @@ public class CarrinhoComprasFragment extends Fragment implements ItemCompraAdapt
                                         final Dialog dialogInserirCodBarra = new Dialog(getActivity());
                                         dialogInserirCodBarra.requestWindowFeature(Window.FEATURE_NO_TITLE);
                                         dialogInserirCodBarra.setContentView(R.layout.dialog_inserir_codbarra);
-                                        dialogInserirCodBarra.getWindow().setBackgroundDrawableResource(R.drawable.dialog_box);
 
                                         final EditText edt = (EditText) dialogInserirCodBarra.findViewById(R.id.edtCodigoBarras);
                                         if (edt.requestFocus()) {
                                             dialogInserirCodBarra.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
                                         }
 
-                                        Button btnPronto = (Button) dialogInserirCodBarra.findViewById(R.id.btnPronto);
-                                        btnPronto.setOnClickListener(new View.OnClickListener() {
+                                        Button bntOk = (Button) dialogInserirCodBarra.findViewById(R.id.bntOk);
+                                        bntOk.setOnClickListener(new View.OnClickListener() {
 
                                             @Override
                                             public void onClick(View v) {
@@ -100,6 +145,15 @@ public class CarrinhoComprasFragment extends Fragment implements ItemCompraAdapt
                                                     }
                                                 }
                                                 dialogInserirCodBarra.dismiss();
+                                            }
+                                        });
+
+                                        Button btnCancelar = (Button) dialogInserirCodBarra.findViewById(R.id.btnCancelar);
+                                        btnCancelar.setOnClickListener(new View.OnClickListener() {
+
+                                            @Override
+                                            public void onClick(View v) {
+                                                dialogInserirCodBarra.cancel();
                                             }
                                         });
                                         dialogInserirCodBarra.show();

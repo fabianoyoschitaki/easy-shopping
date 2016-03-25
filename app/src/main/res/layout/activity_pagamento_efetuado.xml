@@ -26,7 +26,8 @@
                 android:background="@null"
                 android:id="@+id/imageButton2"
                 android:src="@drawable/img_pagamentook"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="10dp"
+                android:layout_weight="1" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -38,7 +39,8 @@
                 android:textColor="#c3404542"
                 android:textAlignment="center"
                 android:id="@+id/textView2"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="10dp"
+                android:layout_weight="1" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -49,12 +51,25 @@
                 android:text="Agora é só ir até o IBought Caixa e apresentar o código abaixo"
                 android:id="@+id/textView3"
                 android:paddingTop="20dp"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:layout_weight="1" />
 
             <ImageView
                 android:id="@+id/imgViewQRCode"
-                android:layout_height="match_parent"
-                android:layout_width="match_parent" />
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_weight="20" />
+
+            <Button
+                android:background="#f1faf9f7"
+                android:textColor="#f1ea7724"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="VOLTAR AO INICIO"
+                android:id="@+id/bntVoltarInicio"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="20dp" />
         </LinearLayout>
     </LinearLayout>
 

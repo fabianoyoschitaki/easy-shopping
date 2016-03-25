@@ -3,12 +3,14 @@ package com.fornax.bought.fragment;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -39,7 +41,8 @@ public class InicioFragment extends Fragment {
 
     private SharedPreferencesUtil sharedPreferencesUtil;
 
-    @Bind(R.id.btn_iniciar_compra) ImageButton iniciarCompraButton;
+    @Bind(R.id.imgBtnIniciar)
+    ImageButton imgBtnIniciar;
     @Bind(R.id.coordinatorLayout) CoordinatorLayout coordinatorLayout;
 
     @Override
@@ -47,7 +50,7 @@ public class InicioFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_inicio, container, false);
         ButterKnife.bind(this, rootView);
 
-        iniciarCompraButton.setOnClickListener(new View.OnClickListener() {
+        imgBtnIniciar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 if (IBoughtMock.isMock){

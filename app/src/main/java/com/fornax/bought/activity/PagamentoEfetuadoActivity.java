@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -37,12 +38,24 @@ public class PagamentoEfetuadoActivity extends AppCompatActivity {
     @Bind(R.id.imgViewQRCode)
     ImageView imageViewQRCode;
 
+    @Bind(R.id.bntVoltarInicio)Button bntVoltarInicio;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pagamento_efetuado);
         ButterKnife.bind(this);
         setQRCode(SessionUtils.getCompra().getId().toString(), imageViewQRCode);
+
+
+        bntVoltarInicio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), TelaPrincipalActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.trans_up_in, R.anim.trans_up_out);
+            }
+        });
     }
 
 

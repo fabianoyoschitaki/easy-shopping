@@ -107,9 +107,6 @@ public class TelaPrincipalActivity extends AppCompatActivity {
             case R.id.navigation_item_minhas_compras:
                 fragment = new MinhasComprasFragment();
                 break;
-            case R.id.navigation_item_paypal:
-                fragment = new PayPalFragment();
-                break;
             case R.id.navigation_item_configuracoes:
                 fragment = new ConfiguracoesFragment();
                 break;

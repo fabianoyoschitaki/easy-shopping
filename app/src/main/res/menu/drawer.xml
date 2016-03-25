@@ -15,11 +15,11 @@
             android:id="@+id/navigation_item_minhas_compras"
             android:icon="@drawable/ic_action_search"
             android:title="Minhas Compras" />
-        <item
-            android:id="@+id/navigation_item_paypal"
-            android:icon="@drawable/ic_action_search"
-            android:title="PayPal" />
 
+        <item
+            android:id="@+id/navigation_item_logout"
+            android:icon="@drawable/ic_action_search"
+            android:title="Sair" />
     </group>
 
     <item android:title="Configurações">
@@ -28,6 +28,10 @@
                 android:id="@+id/navigation_item_configuracoes"
                 android:icon="@drawable/ic_action_search"
                 android:title="Perfil" />
+            <item
+                android:id="@+id/navigation_item_notificacoes"
+                android:icon="@drawable/ic_action_search"
+                android:title="Notificações" />
         </menu>
     </item>
 
