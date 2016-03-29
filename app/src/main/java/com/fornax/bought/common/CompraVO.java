@@ -4,6 +4,7 @@ import com.fornax.bought.enums.StatusCompraENUM;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class CompraVO implements Serializable{
 	private Date data;
 	private UsuarioVO usuarioVO;
 	private EstabelecimentoVO estabelecimentoVO;
-	private List<ItemCompraVO> itensCompraVO;
+	private List<ItemCompraVO> itensCompraVO = new ArrayList<>();
 	private StatusCompraENUM statusCompraENUM;
 	private String idPayPal;
 
