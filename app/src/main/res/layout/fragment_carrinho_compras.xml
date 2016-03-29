@@ -90,4 +90,5 @@
         app:backgroundTint="@color/colorPrimaryDark"
         android:tint="@color/default_button_text_color"
         android:src="@android:drawable/ic_input_add"/>
+    <include layout="@layout/fab_menu_layout" />
 </android.support.design.widget.CoordinatorLayout>

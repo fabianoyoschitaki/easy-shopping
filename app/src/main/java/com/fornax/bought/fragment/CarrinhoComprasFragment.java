@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
-import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -21,10 +20,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
+import android.widget.FrameLayout;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,8 +54,13 @@ public class CarrinhoComprasFragment extends Fragment implements ItemCompraAdapt
     private static ItemCompraVO ultimoItemRemovido;
     private static int posicaoUltimoItemRemovido;
 
+    private static boolean areFabsVisible = false;
+
     private ItemCompraAdapter itemCompraAdapter;
     private ProgressDialog dialog;
+
+    @Bind(R.id.fab_escanear_codigo) FloatingActionButton fabEscanearCodigo;
+    @Bind(R.id.fab_digitar_codigo) FloatingActionButton fabDigitarCodigo;
 
     @Bind(R.id.itemListView)RecyclerView itemListView;
     @Bind(R.id.txtValorTotal)TextView txtValorTotal;
@@ -107,116 +112,93 @@ public class CarrinhoComprasFragment extends Fragment implements ItemCompraAdapt
             }
         };
 
+        fabDigitarCodigo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //showHideFabs();
+                final Dialog dialogInserirCodBarra = new Dialog(getActivity());
+                dialogInserirCodBarra.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialogInserirCodBarra.setContentView(R.layout.dialog_inserir_codbarra);
+
+                final EditText edt = (EditText) dialogInserirCodBarra.findViewById(R.id.edtCodigoBarras);
+                if (edt.requestFocus()) {
+                    dialogInserirCodBarra.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                }
+
+                Button bntOk = (Button) dialogInserirCodBarra.findViewById(R.id.bntOk);
+                bntOk.setOnClickListener(new View.OnClickListener() {
+                    @Override public void onClick(View v) {
+                    if (edt.getText() != null) {
+                        if (IBoughtMock.isMock) {
+                            onProdutoLoaded(IBoughtMock.getItemCompraMock(), edt.getText().toString());
+                        } else {
+                            buscarProduto(edt.getText().toString());
+                        }
+                    }
+                    dialogInserirCodBarra.dismiss();
+                    }
+                });
+
+                Button btnCancelar = (Button) dialogInserirCodBarra.findViewById(R.id.btnCancelar);
+                btnCancelar.setOnClickListener(new View.OnClickListener() {
+                    @Override public void onClick(View v) {
+                        dialogInserirCodBarra.cancel();
+                    }
+                });
+                dialogInserirCodBarra.show();
+            }
+        });
+
+        fabEscanearCodigo.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+                 //showHideFabs();
+                 abrirTelaScan();
+             }
+        });
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("Adicionar item");
-                builder.setAdapter(adapter,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                // The 'which' argument contains the index position
-                                // of the selected item
-                                switch (which) {
-                                    case 0:
-                                        abrirTelaScan();
-                                        break;
-                                    case 1:
-                                        final Dialog dialogInserirCodBarra = new Dialog(getActivity());
-                                        dialogInserirCodBarra.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                                        dialogInserirCodBarra.setContentView(R.layout.dialog_inserir_codbarra);
-
-                                        final EditText edt = (EditText) dialogInserirCodBarra.findViewById(R.id.edtCodigoBarras);
-                                        if (edt.requestFocus()) {
-                                            dialogInserirCodBarra.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-                                        }
-
-                                        Button bntOk = (Button) dialogInserirCodBarra.findViewById(R.id.bntOk);
-                                        bntOk.setOnClickListener(new View.OnClickListener() {
-
-                                            @Override
-                                            public void onClick(View v) {
-                                                if (edt.getText() != null) {
-                                                    if (IBoughtMock.isMock) {
-                                                        onProdutoLoaded(IBoughtMock.getItemCompraMock(), edt.getText().toString());
-                                                    } else {
-                                                        buscarProduto(edt.getText().toString());
-                                                    }
-                                                }
-                                                dialogInserirCodBarra.dismiss();
-                                            }
-                                        });
-
-                                        Button btnCancelar = (Button) dialogInserirCodBarra.findViewById(R.id.btnCancelar);
-                                        btnCancelar.setOnClickListener(new View.OnClickListener() {
-
-                                            @Override
-                                            public void onClick(View v) {
-                                                dialogInserirCodBarra.cancel();
-                                            }
-                                        });
-                                        dialogInserirCodBarra.show();
-                                        break;
-                                }
-                            }
-                        });
-                builder.create().show();
-
-                /** final Dialog dialogEscolherForma = new Dialog(getActivity());
-                dialogEscolherForma.requestWindowFeature(Window.FEATURE_LEFT_ICON);
-                dialogEscolherForma.setContentView(R.layout.dialog_escolher_forma);
-                dialogEscolherForma.getWindow().setBackgroundDrawableResource(R.drawable.dialog_box);
-
-                Button btnScan = (Button) dialogEscolherForma.findViewById(R.id.btnScan);
-                btnScan.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        abrirTelaScan();
-                        dialogEscolherForma.dismiss();
-                    }
-                });
-
-                Button btnDigitar = (Button) dialogEscolherForma.findViewById(R.id.btnDigitar);
-                btnDigitar.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View v) {
-                        final Dialog dialogInserirCodBarra = new Dialog(getActivity());
-                        dialogInserirCodBarra.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                        dialogInserirCodBarra.setContentView(R.layout.dialog_inserir_codbarra);
-                        dialogInserirCodBarra.getWindow().setBackgroundDrawableResource(R.drawable.dialog_box);
-
-                        final EditText edt = (EditText) dialogInserirCodBarra.findViewById(R.id.edtCodigoBarras);
-                        if (edt.requestFocus()) {
-                            dialogInserirCodBarra.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-                        }
-
-                        Button btnPronto = (Button) dialogInserirCodBarra.findViewById(R.id.btnPronto);
-                        btnPronto.setOnClickListener(new View.OnClickListener() {
-
-                            @Override
-                            public void onClick(View v) {
-                                if (edt.getText() != null) {
-                                    if (IBoughtMock.isMock) {
-                                        onProdutoLoaded(IBoughtMock.getItemCompraMock(), edt.getText().toString());
-                                    } else {
-                                        buscarProduto(edt.getText().toString());
-                                    }
-                                }
-                                dialogInserirCodBarra.dismiss();
-                            }
-                        });
-                        dialogInserirCodBarra.show();
-                        dialogEscolherForma.dismiss();
-                    }
-                });
-                dialogEscolherForma.show(); **/
+                showHideFabs();
             }
         });
         atualizaListaProdutos();
 
         return rootView;
+    }
+
+    private void showHideFabs() {
+        FrameLayout.LayoutParams fabDigitarCodigoLayoutParams = (FrameLayout.LayoutParams) fabDigitarCodigo.getLayoutParams();
+        FrameLayout.LayoutParams fabEscanearCodigoLayoutParams = (FrameLayout.LayoutParams) fabEscanearCodigo.getLayoutParams();
+
+        if (!areFabsVisible){
+            areFabsVisible = true;
+            fabDigitarCodigoLayoutParams.rightMargin += (int) (fabDigitarCodigo.getWidth() * 0.75);
+            fabDigitarCodigoLayoutParams.bottomMargin += (int) (fabDigitarCodigo.getHeight() * 0.50);
+            fabDigitarCodigo.setLayoutParams(fabDigitarCodigoLayoutParams);
+            fabDigitarCodigo.startAnimation(AnimationUtils.loadAnimation(getActivity().getApplication(), R.anim.fab_digitar_codigo_show));
+            fabDigitarCodigo.setClickable(true);
+
+            fabEscanearCodigoLayoutParams.rightMargin -= (int) (fabEscanearCodigo.getWidth() * 0.75);
+            fabEscanearCodigoLayoutParams.bottomMargin += (int) (fabEscanearCodigo.getHeight() * 0.50);
+            fabEscanearCodigo.setLayoutParams(fabEscanearCodigoLayoutParams);
+            fabEscanearCodigo.startAnimation(AnimationUtils.loadAnimation(getActivity().getApplication(), R.anim.fab_escanear_codigo_show));
+            fabEscanearCodigo.setClickable(true);
+        } else {
+            areFabsVisible = false;
+            fabDigitarCodigoLayoutParams.rightMargin -= (int) (fabDigitarCodigo.getWidth() * 0.75);
+            fabDigitarCodigoLayoutParams.bottomMargin -= (int) (fabDigitarCodigo.getHeight() * 0.50);
+            fabDigitarCodigo.setLayoutParams(fabDigitarCodigoLayoutParams);
+            fabDigitarCodigo.startAnimation(AnimationUtils.loadAnimation(getActivity().getApplication(), R.anim.fab_digitar_codigo_hide));
+            fabDigitarCodigo.setClickable(false);
+
+            fabEscanearCodigoLayoutParams.rightMargin += (int) (fabEscanearCodigo.getWidth() * 0.75);
+            fabEscanearCodigoLayoutParams.bottomMargin -= (int) (fabEscanearCodigo.getHeight() * 0.50);
+            fabEscanearCodigo.setLayoutParams(fabEscanearCodigoLayoutParams);
+            fabEscanearCodigo.startAnimation(AnimationUtils.loadAnimation(getActivity().getApplication(), R.anim.fab_escanear_codigo_hide));
+            fabEscanearCodigo.setClickable(false);
+        }
     }
 
     public void abrirTelaScan(){
