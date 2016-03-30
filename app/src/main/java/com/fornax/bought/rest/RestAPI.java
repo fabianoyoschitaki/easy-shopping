@@ -43,4 +43,7 @@ public interface RestAPI {
     @POST(Constants.REST_COMPRA_NOVA_COMPRA)
     public void getNovaCompra(@Path("codigoEstabelecimento") String codigoEstabelecimento, @Body UsuarioVO usuarioLogado, Callback<CompraVO> compraResponse);
 
+    @POST(Constants.REST_COMPRA_OBTER_COMPRAS)
+    public List<CompraVO> obterCompras(@Body UsuarioVO usuarioVO);
+
 }

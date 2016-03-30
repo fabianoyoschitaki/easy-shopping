@@ -61,8 +61,8 @@
                 android:layout_weight="20" />
 
             <Button
-                android:background="#f1faf9f7"
-                android:textColor="#f1ea7724"
+                android:background="?attr/colorPrimary"
+                android:textColor="@color/default_button_text_color"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="VOLTAR AO INICIO"

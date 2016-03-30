@@ -24,9 +24,9 @@ public class IBoughtMock {
 
     public static List<MinhaCompraVO> getCompras(){
         List<MinhaCompraVO> retorno = new ArrayList<MinhaCompraVO>();
-        retorno.add(new MinhaCompraVO("6516D5FGXAVASCA", BigDecimal.valueOf(56.35), StatusCompraENUM.PAGA, "http://res.cloudinary.com/networkmi/image/upload/v1449290439/139881916514_fnrky7.jpg"));
-        retorno.add(new MinhaCompraVO("65GA1SXAXAVASCA",BigDecimal.valueOf(53.35), StatusCompraENUM.AGUARDANDO_PAGAMENTO, "http://res.cloudinary.com/networkmi/image/upload/v1449290439/139881916514_fnrky7.jpg"));
-        retorno.add(new MinhaCompraVO("651SDAFSXAVASCA",BigDecimal.valueOf(82.35), StatusCompraENUM.CANCELADO, "http://res.cloudinary.com/networkmi/image/upload/v1449290439/139881916514_fnrky7.jpg"));
+        retorno.add(new MinhaCompraVO("30/12/2010 14:15:50", BigDecimal.valueOf(56.35), StatusCompraENUM.PAGA, "http://res.cloudinary.com/networkmi/image/upload/v1449290439/139881916514_fnrky7.jpg"));
+        retorno.add(new MinhaCompraVO("30/12/2010 14:12:50",BigDecimal.valueOf(53.35), StatusCompraENUM.AGUARDANDO_PAGAMENTO, "http://res.cloudinary.com/networkmi/image/upload/v1449290439/139881916514_fnrky7.jpg"));
+        retorno.add(new MinhaCompraVO("20/12/2010 14:15:50",BigDecimal.valueOf(82.35), StatusCompraENUM.CANCELADO, "http://res.cloudinary.com/networkmi/image/upload/v1449290439/139881916514_fnrky7.jpg"));
         return retorno;
     }
 

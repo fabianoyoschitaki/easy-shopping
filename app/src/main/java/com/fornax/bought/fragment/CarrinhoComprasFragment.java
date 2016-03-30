@@ -309,56 +309,6 @@ public class CarrinhoComprasFragment extends Fragment implements ItemCompraAdapt
         itemListView.setLayoutManager(new LinearLayoutManager(getActivity()));
         itemListView.setAdapter(itemCompraAdapter);
 
-        // Getting adapter by passing xml data ArrayList
-        /** itemCompraAdapter = new ItemCompraAdapter(getActivity(), SessionUtils.getCompra().getItensCompraVO());
-
-        // Click event for single list row
-        itemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-
-
-                final Dialog dialog = new Dialog(getActivity());
-                dialog.setContentView(R.layout.custom_dialog_editar);
-                dialog.setTitle("Quantidade");
-                dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_box);
-
-                NumberPicker number = (NumberPicker) dialog.findViewById(R.id.numberPicker);
-                number.setMaxValue(100);
-                number.setMinValue(1);
-
-                ItemCompraVO itemSelecionado = SessionUtils.getCompra().getItensCompraVO().get(position);
-                if (itemSelecionado != null) {
-                    number.setValue(itemSelecionado.getQuantidade());
-                }
-
-                Button btnPronto = (Button) dialog.findViewById(R.id.btnPronto);
-                btnPronto.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        NumberPicker number = (NumberPicker) dialog.findViewById(R.id.numberPicker);
-                        SessionUtils.getCompra().getItensCompraVO().get(position).setQuantidade(number.getValue());
-
-                        itemCompraAdapter = new ItemCompraAdapter(getActivity(), SessionUtils.getCompra().getItensCompraVO());
-                        itemListView.setAdapter(itemCompraAdapter);
-
-                        txtValorTotal.setText(Utils.getValorFormatado(SessionUtils.getCompra().getValorTotal()));
-                        dialog.dismiss();
-                    }
-                });
-                dialog.show();
-            }
-        });
-
-
-        itemListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                return false;
-            }
-        }); **/
     }
 
     @Override

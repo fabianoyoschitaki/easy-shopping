@@ -9,6 +9,7 @@ public class Constants {
     public static final String REST_COMPRA_OBTER_ITEM_COMPRA_CODIGO_BARRA = "/compra/obterItemCompraPorCodigoBarra/{codigoBarras}/{codigoEstabelecimento}";
     public static final String REST_COMPRA_NOVA_COMPRA = "/compra/novaCompra/{codigoEstabelecimento}";
     public static final String REST_COMPRA_ATUALIZAR_COMPRA = "/compra/atualizarCompra";
+    public static final String REST_COMPRA_OBTER_COMPRAS = "/compra/obterCompras";
 
     //TODO ver com o lixo, remover login e colocar dentro de usuarios
     public static final String REST_USUARIO_CADASTRAR_USUARIO = "/usuarios/cadastrarUsuario";

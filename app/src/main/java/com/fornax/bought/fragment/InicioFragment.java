@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fornax.bought.R;
@@ -41,16 +42,20 @@ public class InicioFragment extends Fragment {
 
     private SharedPreferencesUtil sharedPreferencesUtil;
 
-    @Bind(R.id.imgBtnIniciar)
-    ImageButton imgBtnIniciar;
+    @Bind(R.id.btnIniciar)
+    Button btnIniciar;
     @Bind(R.id.coordinatorLayout) CoordinatorLayout coordinatorLayout;
+
+    @Bind(R.id.txtOla)
+    TextView txtOla;
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_inicio, container, false);
         ButterKnife.bind(this, rootView);
 
-        imgBtnIniciar.setOnClickListener(new View.OnClickListener() {
+        txtOla.setText("Olá " + SessionUtils.getUsuario().getNome());
+        btnIniciar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 if (IBoughtMock.isMock){

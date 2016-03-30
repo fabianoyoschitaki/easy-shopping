@@ -82,9 +82,6 @@ public class TelaPrincipalActivity extends AppCompatActivity {
             case R.id.action_settings:
                 return true;
 
-            case R.id.action_search:
-                Toast.makeText(getApplicationContext(), "Search action is selected!", Toast.LENGTH_SHORT).show();
-                return true;
         }
 
         return super.onOptionsItemSelected(item);

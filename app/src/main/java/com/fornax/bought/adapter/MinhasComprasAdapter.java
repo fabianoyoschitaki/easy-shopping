@@ -2,87 +2,109 @@ package com.fornax.bought.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.fornax.bought.R;
+import com.fornax.bought.common.CompraVO;
+import com.fornax.bought.common.ItemCompraVO;
 import com.fornax.bought.common.MinhaCompraVO;
+import com.fornax.bought.enums.StatusCompraENUM;
+import com.fornax.bought.fragment.CarrinhoComprasFragment;
+import com.fornax.bought.utils.SessionUtils;
+import com.fornax.bought.utils.Utils;
+import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 
 /**
  * Created by Hallan on 04/12/2015.
  */
-public class MinhasComprasAdapter extends BaseAdapter {
+public class MinhasComprasAdapter extends RecyclerView.Adapter<MinhasComprasAdapter.MinhasComprasViewHolder> {
 
-    private Context context;
-    private int position;
-    private View convertView;
-    private ViewGroup parent;
-    private List<MinhaCompraVO> compras;
+    private Fragment fragment;
+    private List<CompraVO> compras;
 
-    /* private view holder class */
-    private class ViewHolder {
-        ImageView imgViewFoto;
-        TextView txtCodigo;
-        TextView txtValorCompra;
+    @Override
+    public MinhasComprasViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new MinhasComprasViewHolder(LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.row_compra, parent, false));
     }
-    public MinhasComprasAdapter(Context context, List<MinhaCompraVO> compras) {
-        this.context = context;
+
+    public MinhasComprasAdapter(List<CompraVO> compras, Fragment fragment) {
         this.compras = compras;
-    }
-    public List<MinhaCompraVO> getCompras() {
-        return compras;
+        this.fragment = fragment;
     }
 
-    public void setCompras(List<MinhaCompraVO> compras) {
-        this.compras = compras;
+    public Object getItem(int position) {
+        return this.compras.get(position);
+    }
+
+    public long getItemId(int position) {
+        return this.compras.indexOf(getItem(position));
     }
 
     @Override
-    public int getCount() {
+    public void onBindViewHolder(MinhasComprasViewHolder holder, final int position) {
+        Context context = holder.itemView.getContext();
+
+        CompraVO row_pos = compras.get(position);
+        if(row_pos != null){
+            Picasso.with(context)
+                    .load(row_pos.getEstabelecimentoVO().getUrlLogo())
+                    .placeholder(R.drawable.progress_animation)
+                    .error(R.drawable.progress_animation)
+                    .into(holder.imgViewFoto);
+            holder.txtDataHora.setText(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(row_pos.getData()));
+            holder.txtValorCompra.setText(Utils.getValorFormatado(row_pos.getValorTotal()));
+
+            if(row_pos.getStatusCompraENUM().equals(StatusCompraENUM.PAGA) ||
+                    row_pos.getStatusCompraENUM().equals(StatusCompraENUM.ENCERRADA)  ){
+                holder.imgViewStatus.setImageResource(R.drawable.dollar_green);
+            }else {
+                holder.imgViewStatus.setImageResource(R.drawable.dollar_yellow);
+            }
+        }
+    }
+
+    @Override
+    public int getItemCount() {
         return compras.size();
     }
 
-    @Override
-    public Object getItem(int position) {
-        return compras.get(position);
-    }
+    class MinhasComprasViewHolder extends RecyclerView.ViewHolder {
+        ImageView imgViewFoto;
+        TextView txtDataHora;
+        TextView txtValorCompra;
+        ImageView imgViewStatus;
 
-    @Override
-    public long getItemId(int position) {
-        return compras.indexOf(getItem(position));
-    }
+        public MinhasComprasViewHolder(View itemView) {
+            super(itemView);
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        this.position = position;
-        this.convertView = convertView;
-        this.parent = parent;
-
-        ViewHolder holder = null;
-
-        LayoutInflater mInflater = (LayoutInflater) context
-                .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-        if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.row_compra, null);
-            holder = new ViewHolder();
-            holder.imgViewFoto = (ImageView) convertView.findViewById(R.id.imgViewFoto);
-            holder.txtCodigo = (TextView) convertView.findViewById(R.id.txtCodigo);
-            holder.txtValorCompra = (TextView) convertView.findViewById(R.id.txtValorCompra);
-            convertView.setTag(holder);
-        } else {
-            holder = (ViewHolder) convertView.getTag();
+            this.imgViewFoto = (ImageView) itemView.findViewById(R.id.imgViewFoto);
+            this.txtDataHora = (TextView) itemView.findViewById(R.id.txtDataHora);
+            this.txtValorCompra = (TextView) itemView.findViewById(R.id.txtValorCompra);
+            this.imgViewStatus = (ImageView) itemView.findViewById(R.id.imgViewStatus);
         }
+    }
 
-        MinhaCompraVO row_pos = compras.get(position);
+    public List<CompraVO> getCompras() {
+        return compras;
+    }
 
-
-        return convertView;
+    public void setCompras(List<CompraVO> compras) {
+        this.compras = compras;
     }
 }
