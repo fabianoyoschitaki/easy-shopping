@@ -44,17 +44,15 @@ public class InicioFragment extends Fragment {
 
     @Bind(R.id.btnIniciar)
     Button btnIniciar;
-    @Bind(R.id.coordinatorLayout) CoordinatorLayout coordinatorLayout;
 
-    @Bind(R.id.txtOla)
-    TextView txtOla;
+    @Bind(R.id.txtNome)
+    TextView txtNome;
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_inicio, container, false);
         ButterKnife.bind(this, rootView);
-
-        txtOla.setText("Olá " + SessionUtils.getUsuario().getNome());
+        txtNome.setText(SessionUtils.getUsuario().getNome());
         btnIniciar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {

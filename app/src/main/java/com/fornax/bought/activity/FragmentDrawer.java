@@ -18,11 +18,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.facebook.Profile;
 import com.fornax.bought.R;
 import com.fornax.bought.adapter.NavigationDrawerAdapter;
 import com.fornax.bought.model.NavDrawerItem;
+import com.fornax.bought.utils.SessionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +42,7 @@ public class FragmentDrawer extends Fragment {
     private static String[] titles = null;
     private FragmentDrawerListener drawerListener;
     private ImageView profileImgView;
+    private TextView txtNome;
 
     public FragmentDrawer() {
 
@@ -96,6 +99,8 @@ public class FragmentDrawer extends Fragment {
             }
         }));
 
+        txtNome = (TextView) layout.findViewById(R.id.txtNome);
+        txtNome.setText(SessionUtils.getUsuario().getNome());
 
         return layout;
     }
